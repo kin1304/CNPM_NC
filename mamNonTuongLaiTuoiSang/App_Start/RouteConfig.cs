@@ -22,17 +22,25 @@ builder.Services.AddSession(options =>
 // Register IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
 var app = builder.Build();
+
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+// Enable session middleware
+app.UseSession();
+
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// Enable session middleware
-app.UseSession();
-
-app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
