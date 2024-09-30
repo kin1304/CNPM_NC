@@ -1,6 +1,7 @@
 using mamNonTuongLaiTuoiSang.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,31 +23,31 @@ builder.Services.AddSession(options =>
 // Register IHttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
 // Enable session middleware
 app.UseSession();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+            Path.Combine(app.Environment.ContentRootPath, "Content")),
+    RequestPath = "/Content" // Đường dẫn đến thư mục Content
+});
+
+app.UseRouting();
 
 app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
+//app.MapRazorPages();
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=NhanVien}/{action=Index}/{id?}");
 
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Account}/{action=Login}/{id?}");
-});
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();
