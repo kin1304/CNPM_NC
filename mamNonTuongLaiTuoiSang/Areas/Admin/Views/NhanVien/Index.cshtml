@@ -18,7 +18,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.HoTen)
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSortParm">HoTen</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MatKhau)
@@ -33,7 +33,7 @@
                 @Html.DisplayNameFor(model => model.GioiTinh)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NamLam)
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.NamLamSortParm">NamLam</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
