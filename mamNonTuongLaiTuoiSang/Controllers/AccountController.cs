@@ -35,7 +35,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                     session.SetString("UserEmail", parent.Email);
                     session.SetString("Password", parent.MatKhau);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("User", "User");
                 }
 
                 var user = db.NhanViens.SingleOrDefault(nv => nv.Email == email && nv.MatKhau == password);
