@@ -4,15 +4,9 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 {
     public class UserController : Controller
     {
-        [HttpPost]
-        public IActionResult Login(string username, string password)
+        public ActionResult User()
         {
-
-            return RedirectToAction("Index", "User"); 
-        }
-        public IActionResult Index()
-        {
-            return View("User");
+            return View();
         }
     }
 }
