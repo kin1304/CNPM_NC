@@ -46,7 +46,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
                     if (user.TenCv == "Admin")
                     {
-                        return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("Index", "NhanVien", new { area = "Admin" });
                     }
                     else
                     {
