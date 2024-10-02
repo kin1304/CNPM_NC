@@ -19,6 +19,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.IdPh)
+            </th>
+            <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["HoTenSortParam"]">
                     @Html.DisplayNameFor(model => model.HoTen)
                 </a>
@@ -52,6 +55,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPh)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.HoTen)
             </td>

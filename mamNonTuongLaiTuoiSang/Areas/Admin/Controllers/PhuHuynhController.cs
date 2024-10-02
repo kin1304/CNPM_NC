@@ -78,6 +78,12 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdPh,HoTen,DiaChi,GioiTinh,NgheNghiep,NamSinh,MatKhau,Email,Sdt")] PhuHuynh phuHuynh)
         {
+            // Kiểm tra xem IdPH đã tồn tại hay chưa
+            if (_context.PhuHuynhs.Any(ph => ph.IdPh == phuHuynh.IdPh))
+            {
+                ModelState.AddModelError("IdPh", "ID Phụ Huynh đã tồn tại. Vui lòng chọn ID khác.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(phuHuynh);
@@ -161,18 +167,30 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.PhuHuynhs == null)
+            try
             {
-                return Problem("Entity set 'QLMamNonContext.PhuHuynhs'  is null.");
-            }
-            var phuHuynh = await _context.PhuHuynhs.FindAsync(id);
-            if (phuHuynh != null)
-            {
+                if (_context.PhuHuynhs == null)
+                {
+                    return Problem("Entity set 'QLMamNonContext.PhuHuynhs' is null.");
+                }
+
+                var phuHuynh = await _context.PhuHuynhs.FindAsync(id);
+                if (phuHuynh == null)
+                {
+                    TempData["ErrorMessage"] = "Phụ huynh không tồn tại.";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 _context.PhuHuynhs.Remove(phuHuynh);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Có lỗi xảy ra khi xóa phụ huynh. Vui lòng thử lại.";
+                return RedirectToAction(nameof(Delete), new { id });
+            }
         }
 
         private bool PhuHuynhExists(string id)

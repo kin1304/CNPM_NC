@@ -91,14 +91,38 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Check if MaSt already exists
+                    bool maStExists = await _context.NhanViens.AnyAsync(nv => nv.MaSt == nhanVien.MaSt);
+
+                    if (maStExists)
+                    {
+                        // If MaSt already exists, return an error message
+                        ModelState.AddModelError("MaSt", "Mã số nhân viên đã tồn tại, vui lòng nhập mã số khác.");
+
+                        // Reload ChucVu dropdowns if validation fails
+                        var chucVuList = await _context.ChucVus
+                            .Select(cv => new
+                            {
+                                cv.TenCv,
+                                cv.ViTri
+                            })
+                            .ToListAsync();
+
+                        ViewBag.ChucVuList = new SelectList(chucVuList, "TenCv", "TenCv");
+                        ViewBag.ViTriList = new SelectList(chucVuList, "ViTri", "ViTri");
+
+                        return View(nhanVien); // Return to the form with the error message
+                    }
+
+                    // If MaSt is unique, proceed to add the employee
                     _context.Add(nhanVien);
                     await _context.SaveChangesAsync();
                     _logger.LogInformation("NhanVien created successfully.");
                     return RedirectToAction(nameof(Index));
                 }
 
-                // Nếu model không hợp lệ, nạp lại danh sách ChucVu
-                var chucVuList = await _context.ChucVus
+                // If model is not valid, reload ChucVu dropdowns
+                var chucVuListInvalid = await _context.ChucVus
                     .Select(cv => new
                     {
                         cv.TenCv,
@@ -106,8 +130,8 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
                     })
                     .ToListAsync();
 
-                ViewBag.ChucVuList = new SelectList(chucVuList, "TenCv", "TenCv");
-                ViewBag.ViTriList = new SelectList(chucVuList, "ViTri", "ViTri");
+                ViewBag.ChucVuList = new SelectList(chucVuListInvalid, "TenCv", "TenCv");
+                ViewBag.ViTriList = new SelectList(chucVuListInvalid, "ViTri", "ViTri");
 
                 return View(nhanVien);
             }
@@ -292,7 +316,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting NhanVien.");
-                ViewBag.ErrorMessage = "An error occurred while deleting the employee.";
+                TempData["ErrorMessage"] = "Có lỗi xảy ra khi xóa nhân viên. Vui lòng thử lại.";
                 return RedirectToAction(nameof(Delete), new { id });
             }
         }

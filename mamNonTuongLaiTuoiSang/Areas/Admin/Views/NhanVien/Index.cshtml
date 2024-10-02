@@ -18,6 +18,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(Model => Model.MaSt)
+            </th>
+            <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSortParm">HoTen</a>
             </th>
             <th>
@@ -50,6 +53,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaSt)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.HoTen)
             </td>
