@@ -259,6 +259,28 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Search(string searchQuery)
+        {
+            ViewBag.Placeholder = "Tìm kiếm theo tên lớp hoặc mã lớp";
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                return RedirectToAction("Index"); // Redirect to list if the query is empty
+            }
+
+            // Search by HoTen or Sdt
+            var lop = await _context.Lops
+                .FirstOrDefaultAsync(nv => nv.IdLop.Contains(searchQuery) || nv.TenLop.Contains(searchQuery));
+
+            if (lop == null)
+            {
+                return NotFound(); // Handle case where no employee is found
+            }
+
+            // Redirect to the details page of the found employee
+            return RedirectToAction("Details", new { id = lop.IdLop });
+        }
+
 
         private bool LopExists(string id)
         {
