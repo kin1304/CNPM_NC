@@ -330,6 +330,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Search(string searchQuery)
         {
+            ViewBag.Placeholder = "Tìm kiếm theo tên hoặc số điện thoại...";
             if (string.IsNullOrEmpty(searchQuery))
             {
                 return RedirectToAction("Index"); // Redirect to list if the query is empty
