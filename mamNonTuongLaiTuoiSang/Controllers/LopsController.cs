@@ -26,7 +26,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
           if (_context.Lops == null)
           {
-              return NotFound();
+              return BadRequest("Dữ liệu không tồn tại.");
           }
             return await _context.Lops.ToListAsync();
         }
@@ -37,13 +37,13 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
           if (_context.Lops == null)
           {
-              return NotFound();
+              return BadRequest("Dữ liệu không tồn tại.");
           }
             var lop = await _context.Lops.FindAsync(id);
 
             if (lop == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             return lop;
@@ -69,7 +69,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 if (!LopExists(id))
                 {
-                    return NotFound();
+                    return BadRequest("Dữ liệu không tồn tại.");
                 }
                 else
                 {
@@ -115,12 +115,12 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
             if (_context.Lops == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
             var lop = await _context.Lops.FindAsync(id);
             if (lop == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             _context.Lops.Remove(lop);

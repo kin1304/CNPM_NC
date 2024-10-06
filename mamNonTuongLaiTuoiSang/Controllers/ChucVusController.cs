@@ -11,55 +11,55 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NgoaiKhoasController : ControllerBase
+    public class ChucVusController : ControllerBase
     {
         private readonly QLMamNonContext _context;
 
-        public NgoaiKhoasController(QLMamNonContext context)
+        public ChucVusController(QLMamNonContext context)
         {
             _context = context;
         }
-        
-        // GET: api/NgoaiKhoas
+
+        // GET: api/ChucVus
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<NgoaiKhoa>>> GetNgoaiKhoas()
+        public async Task<ActionResult<IEnumerable<ChucVu>>> GetChucVus()
         {
-          if (_context.NgoaiKhoas == null)
+          if (_context.ChucVus == null)
           {
               return BadRequest("Dữ liệu không tồn tại.");
           }
-            return await _context.NgoaiKhoas.ToListAsync();
+            return await _context.ChucVus.ToListAsync();
         }
 
-        // GET: api/NgoaiKhoas/5
+        // GET: api/ChucVus/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<NgoaiKhoa>> GetNgoaiKhoa(string id)
+        public async Task<ActionResult<ChucVu>> GetChucVu(string id)
         {
-          if (_context.NgoaiKhoas == null)
+          if (_context.ChucVus == null)
           {
               return BadRequest("Dữ liệu không tồn tại.");
           }
-            var ngoaiKhoa = await _context.NgoaiKhoas.FindAsync(id);
+            var chucVu = await _context.ChucVus.FindAsync(id);
 
-            if (ngoaiKhoa == null)
+            if (chucVu == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
 
-            return ngoaiKhoa;
+            return chucVu;
         }
 
-        // PUT: api/NgoaiKhoas/5
+        // PUT: api/ChucVus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNgoaiKhoa(string id, NgoaiKhoa ngoaiKhoa)
+        public async Task<IActionResult> PutChucVu(string id, ChucVu chucVu)
         {
-            if (id != ngoaiKhoa.IdNk)
+            if (id != chucVu.TenCv)
             {
                 return BadRequest();
             }
 
-            _context.Entry(ngoaiKhoa).State = EntityState.Modified;
+            _context.Entry(chucVu).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!NgoaiKhoaExists(id))
+                if (!ChucVuExists(id))
                 {
                     return BadRequest("Dữ liệu không tồn tại.");
                 }
@@ -80,23 +80,23 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return NoContent();
         }
 
-        // POST: api/NgoaiKhoas
+        // POST: api/ChucVus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<NgoaiKhoa>> PostNgoaiKhoa(NgoaiKhoa ngoaiKhoa)
+        public async Task<ActionResult<ChucVu>> PostChucVu(ChucVu chucVu)
         {
-          if (_context.NgoaiKhoas == null)
+          if (_context.ChucVus == null)
           {
-              return Problem("Entity set 'QLMamNonContext.NgoaiKhoas'  is null.");
+              return Problem("Entity set 'QLMamNonContext.ChucVus'  is null.");
           }
-            _context.NgoaiKhoas.Add(ngoaiKhoa);
+            _context.ChucVus.Add(chucVu);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (NgoaiKhoaExists(ngoaiKhoa.IdNk))
+                if (ChucVuExists(chucVu.TenCv))
                 {
                     return Conflict();
                 }
@@ -106,32 +106,32 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 }
             }
 
-            return CreatedAtAction("GetNgoaiKhoa", new { id = ngoaiKhoa.IdNk }, ngoaiKhoa);
+            return CreatedAtAction("GetChucVu", new { id = chucVu.TenCv }, chucVu);
         }
 
-        // DELETE: api/NgoaiKhoas/5
+        // DELETE: api/ChucVus/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteNgoaiKhoa(string id)
+        public async Task<IActionResult> DeleteChucVu(string id)
         {
-            if (_context.NgoaiKhoas == null)
+            if (_context.ChucVus == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-            var ngoaiKhoa = await _context.NgoaiKhoas.FindAsync(id);
-            if (ngoaiKhoa == null)
+            var chucVu = await _context.ChucVus.FindAsync(id);
+            if (chucVu == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
 
-            _context.NgoaiKhoas.Remove(ngoaiKhoa);
+            _context.ChucVus.Remove(chucVu);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool NgoaiKhoaExists(string id)
+        private bool ChucVuExists(string id)
         {
-            return (_context.NgoaiKhoas?.Any(e => e.IdNk == id)).GetValueOrDefault();
+            return (_context.ChucVus?.Any(e => e.TenCv == id)).GetValueOrDefault();
         }
     }
 }

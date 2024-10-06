@@ -26,7 +26,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
           if (_context.HocSinhLops == null)
           {
-              return NotFound();
+              return BadRequest("Dữ liệu không tồn tại.");
           }
             return await _context.HocSinhLops.ToListAsync();
         }
@@ -37,7 +37,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
             if (_context.HocSinhLops == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             var hocSinhLop = await _context.HocSinhLops
@@ -46,7 +46,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             if (hocSinhLop == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             return hocSinhLop;
@@ -57,7 +57,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
             if (_context.HocSinhLops == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             var hocSinhLop = await _context.HocSinhLops
@@ -66,7 +66,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             if (hocSinhLop == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             return hocSinhLop;
@@ -92,7 +92,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 if (!HocSinhLopExists(id))
                 {
-                    return NotFound();
+                    return BadRequest("Dữ liệu không tồn tại.");
                 }
                 else
                 {
@@ -138,12 +138,12 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
             if (_context.HocSinhLops == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
             var hocSinhLop = await _context.HocSinhLops.FindAsync(id);
             if (hocSinhLop == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             _context.HocSinhLops.Remove(hocSinhLop);
