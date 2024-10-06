@@ -11,76 +11,76 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HocSinhsController : ControllerBase
+    public class TinTucsController : ControllerBase
     {
         private readonly QLMamNonContext _context;
 
-        public HocSinhsController(QLMamNonContext context)
+        public TinTucsController(QLMamNonContext context)
         {
             _context = context;
         }
 
-        // GET: api/HocSinhs
+        // GET: api/TinTucs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<HocSinh>>> GetHocSinhs()
+        public async Task<ActionResult<IEnumerable<TinTuc>>> GetTinTucs()
         {
-          if (_context.HocSinhs == null)
+          if (_context.TinTucs == null)
           {
-              return BadRequest("Dữ liệu không tồn tại.");
+                return BadRequest("Dữ liệu không tồn tại.");
           }
-            return await _context.HocSinhs.ToListAsync();
+            return await _context.TinTucs.ToListAsync();
         }
 
-        // GET: api/HocSinhs/5
+        // GET: api/TinTucs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<HocSinh>> GetHocSinh(string id)
+        public async Task<ActionResult<TinTuc>> GetTinTuc(string id)
         {
-          if (_context.HocSinhs == null)
+          if (_context.TinTucs == null)
           {
               return BadRequest("Dữ liệu không tồn tại.");
           }
-            var hocSinh = await _context.HocSinhs.FindAsync(id);
+            var tinTuc = await _context.TinTucs.FindAsync(id);
 
-            if (hocSinh == null)
+            if (tinTuc == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
 
-            return hocSinh;
+            return tinTuc;
         }
-        // GET: api/HocSinh/ByPhuHuynh/{idPH} ( tìm thông tin học sinh thông qua id phu huynh)
-        [HttpGet("ByPhuHuynh/{idPH}")]
-        public async Task<ActionResult<IEnumerable<HocSinh>>> GetHocSinhByPhuHuynh(string idPH)
+        // GET: api/NhanViens/ByMast/{MaSt} ( tìm thông tin  thông qua MaSt)
+        [HttpGet("ByMast/{MaSt}")]
+        public async Task<ActionResult<IEnumerable<TinTuc>>> GeetTinTucByMaSt(string MaSt)
         {
-            if (_context.HocSinhs == null)
+            if (_context.TinTucs == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
 
-            // Tìm tất cả học sinh có mã phụ huynh tương ứng
-            var hocSinhs = await _context.HocSinhs
-                .Where(hs => hs.IdPh == idPH)
+
+            var TinTucs = await _context.TinTucs
+                .Where(Tt=> Tt.MaSt == MaSt)
                 .ToListAsync();
 
-            if (hocSinhs == null || hocSinhs.Count == 0)
+            if (TinTucs == null || TinTucs.Count == 0)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
 
-            return hocSinhs;
+            return TinTucs;
         }
 
-        // PUT: api/HocSinhs/5
+        // PUT: api/TinTucs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHocSinh(string id, HocSinh hocSinh)
+        public async Task<IActionResult> PutTinTuc(string id, TinTuc tinTuc)
         {
-            if (id != hocSinh.IdHs)
+            if (id != tinTuc.IdTinTuc)
             {
                 return BadRequest();
             }
 
-            _context.Entry(hocSinh).State = EntityState.Modified;
+            _context.Entry(tinTuc).State = EntityState.Modified;
 
             try
             {
@@ -88,7 +88,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HocSinhExists(id))
+                if (!TinTucExists(id))
                 {
                     return BadRequest("Dữ liệu không tồn tại.");
                 }
@@ -101,23 +101,23 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return NoContent();
         }
 
-        // POST: api/HocSinhs
+        // POST: api/TinTucs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<HocSinh>> PostHocSinh(HocSinh hocSinh)
+        public async Task<ActionResult<TinTuc>> PostTinTuc(TinTuc tinTuc)
         {
-          if (_context.HocSinhs == null)
+          if (_context.TinTucs == null)
           {
-              return Problem("Entity set 'QLMamNonContext.HocSinhs'  is null.");
+              return Problem("Entity set 'QLMamNonContext.TinTucs'  is null.");
           }
-            _context.HocSinhs.Add(hocSinh);
+            _context.TinTucs.Add(tinTuc);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (HocSinhExists(hocSinh.IdHs))
+                if (TinTucExists(tinTuc.IdTinTuc))
                 {
                     return Conflict();
                 }
@@ -127,32 +127,32 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 }
             }
 
-            return CreatedAtAction("GetHocSinh", new { id = hocSinh.IdHs }, hocSinh);
+            return CreatedAtAction("GetTinTuc", new { id = tinTuc.IdTinTuc }, tinTuc);
         }
 
-        // DELETE: api/HocSinhs/5
+        // DELETE: api/TinTucs/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHocSinh(string id)
+        public async Task<IActionResult> DeleteTinTuc(string id)
         {
-            if (_context.HocSinhs == null)
+            if (_context.TinTucs == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-            var hocSinh = await _context.HocSinhs.FindAsync(id);
-            if (hocSinh == null)
+            var tinTuc = await _context.TinTucs.FindAsync(id);
+            if (tinTuc == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
 
-            _context.HocSinhs.Remove(hocSinh);
+            _context.TinTucs.Remove(tinTuc);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool HocSinhExists(string id)
+        private bool TinTucExists(string id)
         {
-            return (_context.HocSinhs?.Any(e => e.IdHs == id)).GetValueOrDefault();
+            return (_context.TinTucs?.Any(e => e.IdTinTuc == id)).GetValueOrDefault();
         }
     }
 }
