@@ -91,10 +91,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPhuHuynh(string id, PhuHuynh phuHuynh)
         {
-            if (id != phuHuynh.IdPh)
-            {
-                return BadRequest();
-            }
+            
 
             _context.Entry(phuHuynh).State = EntityState.Modified;
 
