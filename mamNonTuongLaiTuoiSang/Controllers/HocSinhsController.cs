@@ -48,26 +48,26 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return hocSinh;
         }
-        // GET: api/HocSinhs/parent/{parentId}
-        [HttpGet("parent/{parentId}")]
-        public async Task<ActionResult<IEnumerable<HocSinh>>> GetHocSinhsByParentId(string IdPh)
+        // GET: api/HocSinh/ByPhuHuynh/{idPH} ( tìm thông tin học sinh thông qua id phu huynh)
+        [HttpGet("ByPhuHuynh/{idPH}")]
+        public async Task<ActionResult<IEnumerable<HocSinh>>> GetHocSinhByPhuHuynh(string idPH)
         {
             if (_context.HocSinhs == null)
             {
                 return NotFound();
             }
 
-            // Tìm kiếm danh sách học sinh theo mã phụ huynh
+            // Tìm tất cả học sinh có mã phụ huynh tương ứng
             var hocSinhs = await _context.HocSinhs
-                .Where(hs => hs.IdPh == IdPh)
+                .Where(hs => hs.IdPh == idPH)
                 .ToListAsync();
 
-            if (hocSinhs == null || !hocSinhs.Any())
+            if (hocSinhs == null || hocSinhs.Count == 0)
             {
-                return NotFound("Không tìm thấy học sinh nào với mã phụ huynh này.");
+                return NotFound();
             }
 
-            return Ok(hocSinhs);
+            return hocSinhs;
         }
 
         // PUT: api/HocSinhs/5

@@ -11,52 +11,55 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PhuHuynhsController : ControllerBase
+    public class LopsController : ControllerBase
     {
         private readonly QLMamNonContext _context;
 
-        public PhuHuynhsController(QLMamNonContext context)
+        public LopsController(QLMamNonContext context)
         {
             _context = context;
         }
 
-        // GET: api/PhuHuynhs
+        // GET: api/Lops
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PhuHuynh>>> GetPhuHuynhs()
+        public async Task<ActionResult<IEnumerable<Lop>>> GetLops()
         {
-          if (_context.PhuHuynhs == null)
+          if (_context.Lops == null)
           {
               return NotFound();
           }
-            return await _context.PhuHuynhs.ToListAsync();
+            return await _context.Lops.ToListAsync();
         }
 
-        // GET: api/PhuHuynhs/5
+        // GET: api/Lops/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PhuHuynh>> GetPhuHuynh(string id)
+        public async Task<ActionResult<Lop>> GetLop(string id)
         {
-          if (_context.PhuHuynhs == null)
+          if (_context.Lops == null)
           {
               return NotFound();
           }
-            var phuHuynh = await _context.PhuHuynhs.FindAsync(id);
+            var lop = await _context.Lops.FindAsync(id);
 
-            if (phuHuynh == null)
+            if (lop == null)
             {
                 return NotFound();
             }
 
-            return phuHuynh;
+            return lop;
         }
 
-        // PUT: api/PhuHuynhs/5
+        // PUT: api/Lops/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPhuHuynh(string id, PhuHuynh phuHuynh)
+        public async Task<IActionResult> PutLop(string id, Lop lop)
         {
-            
+            if (id != lop.IdLop)
+            {
+                return BadRequest();
+            }
 
-            _context.Entry(phuHuynh).State = EntityState.Modified;
+            _context.Entry(lop).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +67,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PhuHuynhExists(id))
+                if (!LopExists(id))
                 {
                     return NotFound();
                 }
@@ -77,23 +80,23 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return NoContent();
         }
 
-        // POST: api/PhuHuynhs
+        // POST: api/Lops
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PhuHuynh>> PostPhuHuynh(PhuHuynh phuHuynh)
+        public async Task<ActionResult<Lop>> PostLop(Lop lop)
         {
-          if (_context.PhuHuynhs == null)
+          if (_context.Lops == null)
           {
-              return Problem("Entity set 'QLMamNonContext.PhuHuynhs'  is null.");
+              return Problem("Entity set 'QLMamNonContext.Lops'  is null.");
           }
-            _context.PhuHuynhs.Add(phuHuynh);
+            _context.Lops.Add(lop);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (PhuHuynhExists(phuHuynh.IdPh))
+                if (LopExists(lop.IdLop))
                 {
                     return Conflict();
                 }
@@ -103,32 +106,32 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 }
             }
 
-            return CreatedAtAction("GetPhuHuynh", new { id = phuHuynh.IdPh }, phuHuynh);
+            return CreatedAtAction("GetLop", new { id = lop.IdLop }, lop);
         }
 
-        // DELETE: api/PhuHuynhs/5
+        // DELETE: api/Lops/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePhuHuynh(string id)
+        public async Task<IActionResult> DeleteLop(string id)
         {
-            if (_context.PhuHuynhs == null)
+            if (_context.Lops == null)
             {
                 return NotFound();
             }
-            var phuHuynh = await _context.PhuHuynhs.FindAsync(id);
-            if (phuHuynh == null)
+            var lop = await _context.Lops.FindAsync(id);
+            if (lop == null)
             {
                 return NotFound();
             }
 
-            _context.PhuHuynhs.Remove(phuHuynh);
+            _context.Lops.Remove(lop);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool PhuHuynhExists(string id)
+        private bool LopExists(string id)
         {
-            return (_context.PhuHuynhs?.Any(e => e.IdPh == id)).GetValueOrDefault();
+            return (_context.Lops?.Any(e => e.IdLop == id)).GetValueOrDefault();
         }
     }
 }

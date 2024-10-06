@@ -11,52 +11,55 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PhuHuynhsController : ControllerBase
+    public class NgoaiKhoasController : ControllerBase
     {
         private readonly QLMamNonContext _context;
 
-        public PhuHuynhsController(QLMamNonContext context)
+        public NgoaiKhoasController(QLMamNonContext context)
         {
             _context = context;
         }
-
-        // GET: api/PhuHuynhs
+        
+        // GET: api/NgoaiKhoas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PhuHuynh>>> GetPhuHuynhs()
+        public async Task<ActionResult<IEnumerable<NgoaiKhoa>>> GetNgoaiKhoas()
         {
-          if (_context.PhuHuynhs == null)
+          if (_context.NgoaiKhoas == null)
           {
               return NotFound();
           }
-            return await _context.PhuHuynhs.ToListAsync();
+            return await _context.NgoaiKhoas.ToListAsync();
         }
 
-        // GET: api/PhuHuynhs/5
+        // GET: api/NgoaiKhoas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PhuHuynh>> GetPhuHuynh(string id)
+        public async Task<ActionResult<NgoaiKhoa>> GetNgoaiKhoa(string id)
         {
-          if (_context.PhuHuynhs == null)
+          if (_context.NgoaiKhoas == null)
           {
               return NotFound();
           }
-            var phuHuynh = await _context.PhuHuynhs.FindAsync(id);
+            var ngoaiKhoa = await _context.NgoaiKhoas.FindAsync(id);
 
-            if (phuHuynh == null)
+            if (ngoaiKhoa == null)
             {
                 return NotFound();
             }
 
-            return phuHuynh;
+            return ngoaiKhoa;
         }
 
-        // PUT: api/PhuHuynhs/5
+        // PUT: api/NgoaiKhoas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPhuHuynh(string id, PhuHuynh phuHuynh)
+        public async Task<IActionResult> PutNgoaiKhoa(string id, NgoaiKhoa ngoaiKhoa)
         {
-            
+            if (id != ngoaiKhoa.IdNk)
+            {
+                return BadRequest();
+            }
 
-            _context.Entry(phuHuynh).State = EntityState.Modified;
+            _context.Entry(ngoaiKhoa).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +67,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PhuHuynhExists(id))
+                if (!NgoaiKhoaExists(id))
                 {
                     return NotFound();
                 }
@@ -77,23 +80,23 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return NoContent();
         }
 
-        // POST: api/PhuHuynhs
+        // POST: api/NgoaiKhoas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PhuHuynh>> PostPhuHuynh(PhuHuynh phuHuynh)
+        public async Task<ActionResult<NgoaiKhoa>> PostNgoaiKhoa(NgoaiKhoa ngoaiKhoa)
         {
-          if (_context.PhuHuynhs == null)
+          if (_context.NgoaiKhoas == null)
           {
-              return Problem("Entity set 'QLMamNonContext.PhuHuynhs'  is null.");
+              return Problem("Entity set 'QLMamNonContext.NgoaiKhoas'  is null.");
           }
-            _context.PhuHuynhs.Add(phuHuynh);
+            _context.NgoaiKhoas.Add(ngoaiKhoa);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (PhuHuynhExists(phuHuynh.IdPh))
+                if (NgoaiKhoaExists(ngoaiKhoa.IdNk))
                 {
                     return Conflict();
                 }
@@ -103,32 +106,32 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 }
             }
 
-            return CreatedAtAction("GetPhuHuynh", new { id = phuHuynh.IdPh }, phuHuynh);
+            return CreatedAtAction("GetNgoaiKhoa", new { id = ngoaiKhoa.IdNk }, ngoaiKhoa);
         }
 
-        // DELETE: api/PhuHuynhs/5
+        // DELETE: api/NgoaiKhoas/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePhuHuynh(string id)
+        public async Task<IActionResult> DeleteNgoaiKhoa(string id)
         {
-            if (_context.PhuHuynhs == null)
+            if (_context.NgoaiKhoas == null)
             {
                 return NotFound();
             }
-            var phuHuynh = await _context.PhuHuynhs.FindAsync(id);
-            if (phuHuynh == null)
+            var ngoaiKhoa = await _context.NgoaiKhoas.FindAsync(id);
+            if (ngoaiKhoa == null)
             {
                 return NotFound();
             }
 
-            _context.PhuHuynhs.Remove(phuHuynh);
+            _context.NgoaiKhoas.Remove(ngoaiKhoa);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool PhuHuynhExists(string id)
+        private bool NgoaiKhoaExists(string id)
         {
-            return (_context.PhuHuynhs?.Any(e => e.IdPh == id)).GetValueOrDefault();
+            return (_context.NgoaiKhoas?.Any(e => e.IdNk == id)).GetValueOrDefault();
         }
     }
 }
