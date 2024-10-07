@@ -27,7 +27,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
           if (_context.PhuHuynhs == null)
           {
               return NotFound();
-          }
+          } 
             return await _context.PhuHuynhs.ToListAsync();
         }
 
@@ -91,11 +91,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPhuHuynh(string id, PhuHuynh phuHuynh)
         {
-            if (id != phuHuynh.IdPh)
-            {
-                return BadRequest();
-            }
-
+           
             _context.Entry(phuHuynh).State = EntityState.Modified;
 
             try

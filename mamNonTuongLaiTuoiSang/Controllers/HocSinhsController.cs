@@ -75,10 +75,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHocSinh(string id, HocSinh hocSinh)
         {
-            if (id != hocSinh.IdHs)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(hocSinh).State = EntityState.Modified;
 

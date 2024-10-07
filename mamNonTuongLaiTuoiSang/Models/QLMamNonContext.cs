@@ -320,17 +320,7 @@ namespace mamNonTuongLaiTuoiSang.Models
 
                 entity.Property(e => e.DiemChuyenCan).HasColumnType("decimal(18, 0)");
 
-                entity.HasOne(d => d.IdHsNavigation)
-                    .WithMany(p => p.HocSinhLops)
-                    .HasForeignKey(d => d.IdHs)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HocSinh_Lo__IdHS__778AC167");
-
-                entity.HasOne(d => d.IdLopNavigation)
-                    .WithMany(p => p.HocSinhLops)
-                    .HasForeignKey(d => d.IdLop)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HocSinh_L__IdLop__787EE5A0");
+                
             });
 
             modelBuilder.Entity<KhoaHoc>(entity =>

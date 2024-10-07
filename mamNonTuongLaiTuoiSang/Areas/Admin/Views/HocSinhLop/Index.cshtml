@@ -1,0 +1,52 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.HocSinhLop>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+<script>
+    function redirectToCreate() {
+        window.location.href = '@Url.Action("Create", "HocSinhLop", new { area = "Admin" })';
+    }
+</script>
+<p>
+    <button onclick="redirectToCreate()" class="btn btn-primary">Create New</button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DiemChuyenCan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdLop)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiemChuyenCan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdHs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdLop)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IdHs }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.IdHs }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IdHs })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

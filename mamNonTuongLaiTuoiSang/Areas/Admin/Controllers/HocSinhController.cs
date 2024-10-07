@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mamNonTuongLaiTuoiSang.Models;
-using static System.Net.WebRequestMethods;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using mamNonTuongLaiTuoiSang.Areas.Admin.Models.DTO;
 using System.Text;
@@ -14,88 +14,86 @@ using System.Text;
 namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class PhuHuynhController : Controller
+    public class HocSinhController : Controller
     {
-        private const string baseURL = "http://localhost:5005/api/PhuHuynhs";
+        private const string baseURL = "http://localhost:5005/api/HocSinhs";
         private readonly QLMamNonContext _context;
-        private HttpClient client=new HttpClient();
+        private HttpClient client = new HttpClient();
 
-        public PhuHuynhController(QLMamNonContext context)
+        public HocSinhController(QLMamNonContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/PhuHuynh
-        public IActionResult Index(string sortOrder)
+        // GET: Admin/HocSinh
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            ViewData["HoTenSortParam"] = String.IsNullOrEmpty(sortOrder) ? "hoten_desc" : "";
+            ViewData["TenHsSortParam"] = String.IsNullOrEmpty(sortOrder) ? "tenhs_desc" : "";
             ViewData["NamSinhSortParam"] = sortOrder == "namsinh_asc" ? "namsinh_desc" : "namsinh_asc";
 
-            List<PhuHuynh> phuHuynhs = new List<PhuHuynh>();
+            List<HocSinh> hocSinhs = new List<HocSinh>();
             HttpResponseMessage response = client.GetAsync(baseURL).Result;
+            
             if (response.IsSuccessStatusCode)
             {
                 string result = response.Content.ReadAsStringAsync().Result;
-                var data = JsonConvert.DeserializeObject<List<PhuHuynh>>(result);
+                var data = JsonConvert.DeserializeObject<List<HocSinh>>(result);
                 if (data != null)
                 {
-                    phuHuynhs = data;
+                    hocSinhs = data;
                 }
             }
             switch (sortOrder)
             {
-                case "hoten_desc":
-                    phuHuynhs = phuHuynhs.OrderByDescending(ph => ph.HoTen).ToList();
+                case "tenhs_desc":
+                    hocSinhs = hocSinhs.OrderByDescending(Hs => Hs.TenHs).ToList();
                     break;
                 case "namsinh_asc":
-                    phuHuynhs = phuHuynhs.OrderBy(ph => ph.NamSinh).ToList();
+                    hocSinhs = hocSinhs.OrderBy(Hs => Hs.NamSinh).ToList();
                     break;
                 case "namsinh_desc":
-                    phuHuynhs = phuHuynhs.OrderByDescending(ph => ph.NamSinh).ToList();
+                    hocSinhs = hocSinhs.OrderByDescending(Hs => Hs.NamSinh).ToList();
                     break;
                 default:
-                    phuHuynhs = phuHuynhs.OrderBy(ph => ph.HoTen).ToList();
+                    hocSinhs = hocSinhs.OrderBy(Hs => Hs.TenHs).ToList();
                     break;
             }
-
-            return View(phuHuynhs);
+            return View(hocSinhs);
         }
 
-
-        // GET: Admin/PhuHuynh/Details/5
-        [HttpGet]
-        public IActionResult Details(string id)
+        // GET: Admin/HocSinh/Details/5
+        public async Task<IActionResult> Details(string id)
         {
-            PhuHuynh ph=new PhuHuynh();
-            HttpResponseMessage response= client.GetAsync(baseURL+"/"+id).Result;
+            HocSinh hs = new HocSinh();
+            HttpResponseMessage response = client.GetAsync(baseURL + "/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
-                string result =response.Content.ReadAsStringAsync().Result;
-                var data=JsonConvert.DeserializeObject<PhuHuynh>(result);
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<HocSinh>(result);
                 if (data != null)
                 {
-                    ph = data;
+                    hs = data;
                 }
             }
-            return View(ph);
+            return View(hs);
         }
 
-
-        // GET: Admin/PhuHuynh/Create
+        // GET: Admin/HocSinh/Create
         public IActionResult Create()
         {
+            ViewBag.PhuHuynhList = new SelectList(_context.PhuHuynhs, "IdPh", "IdPh");
             return View();
         }
 
-        // POST: Admin/PhuHuynh/Create
+        // POST: Admin/HocSinh/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPh,HoTen,DiaChi,GioiTinh,NgheNghiep,NamSinh,MatKhau,Email,Sdt")] PhuHuynh phuHuynh)
+        public async Task<IActionResult> Create([Bind("IdHs,TenHs,GioiTinh,NamSinh,IdPh,QuanHe")] HocSinh hocSinh)
         {
-            // Kiểm tra xem IdPH đã tồn tại hay chưa
-            string data = JsonConvert.SerializeObject(phuHuynh);
+
+            string data = JsonConvert.SerializeObject(hocSinh);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(baseURL, content).Result;
             if (response.IsSuccessStatusCode)
@@ -103,90 +101,62 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
                 TempData["Insert_message"] = "Add Success...";
                 return RedirectToAction("Index");
             }
-            return View(phuHuynh);
-
+            ViewBag.PhuHuynhList = new SelectList(_context.PhuHuynhs, "IdPh", "IdPh", hocSinh.IdPh);
+            return View(hocSinh);
         }
 
-        // GET: Admin/PhuHuynh/Edit/5
-        public async Task<PhuHuynh> FindPH(string id)
-        {
-            if (id == null)
-            {
-                return null;
-            }
-            using (var phuhuynh = new HttpClient())
-            {
-                string path = baseURL + "/" + id;
-                phuhuynh.DefaultRequestHeaders.Accept.Clear();
-                phuhuynh.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage getData = await phuhuynh.GetAsync(path);
-                if (getData.IsSuccessStatusCode)
-                {
-                    var data = getData.Content.ReadAsStringAsync().Result;
-                    var phuHuynhResponse = JsonConvert.DeserializeObject<PhuHuynh>(data);
-                    if (phuHuynhResponse == null)
-                    {
-                        return null;
-                    }
-                    PhuHuynh phuHuynh = phuHuynhResponse;
-                    return phuHuynh;
-                }
-            }
-            return null;
-
-
-        }
+        // GET: Admin/HocSinh/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            PhuHuynh phuHuynh = await FindPH(id);
-            if (phuHuynh == null)
+            HocSinh hocSinh = await FindHS(id);
+            if (hocSinh == null)
             {
                 return NotFound();
             }
-            return View(phuHuynh);
+            ViewBag.PhuHuynhList = new SelectList(_context.PhuHuynhs, "IdPh", "IdPh", hocSinh.IdPh);
+            return View(hocSinh);
         }
 
-        // POST: Admin/PhuHuynh/Edit/5
+        // POST: Admin/HocSinh/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("IdPh,HoTen,DiaChi,GioiTinh,NgheNghiep,NamSinh,MatKhau,Email,Sdt")] PhuHuynh phuHuynh)
+        public async Task<IActionResult> Edit(string id, [Bind("IdHs,TenHs,GioiTinh,NamSinh,IdPh,QuanHe")] HocSinh hocSinh)
         {
-            string data = JsonConvert.SerializeObject(phuHuynh);
+            string data = JsonConvert.SerializeObject(hocSinh);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.PutAsync(baseURL+"/" + id, content).Result;
+            HttpResponseMessage response = client.PutAsync(baseURL + "/" + id, content).Result;
             if (response.IsSuccessStatusCode)
             {
                 TempData["update_message"] = "Edit Success...";
                 return RedirectToAction("Index");
             }
-            return View(phuHuynh);
+            return View(hocSinh);
         }
 
-        // GET: Admin/PhuHuynh/Delete/5
+        // GET: Admin/HocSinh/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            PhuHuynh ph = new PhuHuynh();
+            HocSinh hs = new HocSinh();
             HttpResponseMessage response = client.GetAsync(baseURL + "/" + id).Result;
             if (response.IsSuccessStatusCode)
             {
                 string result = response.Content.ReadAsStringAsync().Result;
-                var data = JsonConvert.DeserializeObject<PhuHuynh>(result);
+                var data = JsonConvert.DeserializeObject<HocSinh>(result);
                 if (data != null)
                 {
-                    ph = data;
+                    hs = data;
                 }
             }
-            return View(ph);
+            return View(hs);
         }
 
-        // POST: Admin/PhuHuynh/Delete/5
+        // POST: Admin/HocSinh/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -202,12 +172,33 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             }
             return View();
         }
-
-        private bool PhuHuynhExists(string id)
+        public async Task<HocSinh> FindHS(string id)
         {
-            return (_context.PhuHuynhs?.Any(e => e.IdPh == id)).GetValueOrDefault();
-        }
+            if (id == null)
+            {
+                return null;
+            }
+            using (var hocsinh = new HttpClient())
+            {
+                string path = baseURL + "/" + id;
+                hocsinh.DefaultRequestHeaders.Accept.Clear();
+                hocsinh.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
+                HttpResponseMessage getData = await hocsinh.GetAsync(path);
+                if (getData.IsSuccessStatusCode)
+                {
+                    var data = getData.Content.ReadAsStringAsync().Result;
+                    var HocSinhResponse = JsonConvert.DeserializeObject<HocSinh>(data);
+                    if (HocSinhResponse == null)
+                    {
+                        return null;
+                    }
+                    HocSinh hocSinh = HocSinhResponse;
+                    return hocSinh;
+                }
+            }
+            return null;
+        }
         [HttpGet]
         public async Task<IActionResult> Search(string searchQuery)
         {
@@ -217,17 +208,20 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             }
 
             // Search by HoTen or Sdt
-            var phuHuynh = await _context.PhuHuynhs
-                .FirstOrDefaultAsync(ph => ph.HoTen.Contains(searchQuery) || ph.Sdt.Contains(searchQuery));
+            var hocSinh = await _context.HocSinhs
+                .FirstOrDefaultAsync(hs => hs.TenHs.Contains(searchQuery) || hs.IdPh.Contains(searchQuery));
 
-            if (phuHuynh == null)
+            if (hocSinh == null)
             {
                 return NotFound(); // Handle case where no parent is found
             }
 
             // Redirect to the details page of the found parent
-            return RedirectToAction("Details", new { id = phuHuynh.IdPh });
+            return RedirectToAction("Details", new { id = hocSinh.IdHs });
         }
-
+        private bool HocSinhExists(string id)
+        {
+          return (_context.HocSinhs?.Any(e => e.IdHs == id)).GetValueOrDefault();
+        }
     }
 }
