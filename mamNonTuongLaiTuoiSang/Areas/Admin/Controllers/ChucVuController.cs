@@ -69,19 +69,42 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             return View(chucVu);
         }
 
-        // POST: Admin/ChucVu/Edit/a/a
-        [HttpPost]
-        public IActionResult Edit(ChucVu cv)
+        // POST: Admin/ChucVu/Edit/{TenCv}/{ViTri}
+        [HttpPost("Admin/ChucVu/Edit/{TenCv}/{ViTri}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string TenCv, string ViTri, ChucVu cv)
         {
-            string data = JsonConvert.SerializeObject(cv);
-            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.PutAsync($"{url}+{cv.TenCv}/{cv.ViTri}", content).Result;
-            if (response.IsSuccessStatusCode)
+            if (TenCv != cv.TenCv || ViTri != cv.ViTri)
             {
-                return RedirectToAction("Index");
+                return NotFound();
             }
-            return View();
+
+            if (ModelState.IsValid)
+            {
+                string data = JsonConvert.SerializeObject(cv);
+                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+
+                // Xây dựng URL đúng cách (loại bỏ dấu +)
+                string apiUrl = $"{url}{cv.TenCv}/{cv.ViTri}";
+
+                // Sử dụng async/await để tránh deadlock
+                HttpResponseMessage response = await client.PutAsync(apiUrl, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    // Thêm thông báo lỗi vào ModelState để hiển thị cho người dùng
+                    ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi cập nhật chức vụ.");
+                }
+            }
+
+            // Nếu ModelState không hợp lệ, trả về View cùng với dữ liệu hiện tại
+            return View(cv);
         }
+
 
         // GET: Admin/ChucVu/Details/a/a
         [HttpGet("Admin/ChucVu/Details/{TenCv}/{ViTri}")]
