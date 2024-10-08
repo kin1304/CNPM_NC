@@ -1,15 +1,14 @@
 ﻿@model mamNonTuongLaiTuoiSang.Models.ChucVu
 
 @{
-    ViewData["Title"] = "Delete Chức vụ";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Delete";
 }
 
-<h1>Delete Chức vụ</h1>
+<h1>Delete</h1>
 
-<h3>Bạn có chắc chắn muốn xóa Chức vụ này?</h3>
+<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Chức vụ</h4>
+    <h4>Chức Vụ</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -38,10 +37,7 @@
         </dd>
     </dl>
 
-    <form asp-action="DeleteConfirmed" method="post">
-        <!-- Hidden fields để giữ giá trị khóa chính -->
-        <input type="hidden" asp-for="TenCv" />
-        <input type="hidden" asp-for="ViTri" />
+    <form asp-action="Delete" asp-route-TenCv="@Model.TenCv" asp-route-ViTri="@Model.ViTri" method="post">
         <div class="form-group">
             <input type="submit" value="Delete" class="btn btn-danger" /> |
             <a asp-action="Index" class="btn btn-secondary">Back to List</a>

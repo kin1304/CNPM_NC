@@ -5,51 +5,50 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Quản lý Chức vụ</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Tạo mới Chức vụ</a>
+    <a asp-action="Create">Create New</a>
 </p>
-<table class="table table-bordered">
+<table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.First().TenCv)
+                @Html.DisplayNameFor(model => model.TenCv)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().ViTri)
+                @Html.DisplayNameFor(model => model.ViTri)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().LuongCoBan)
+                @Html.DisplayNameFor(model => model.LuongCoBan)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().HeSoLuong)
+                @Html.DisplayNameFor(model => model.HeSoLuong)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
+@foreach (var item in Model) {
+        <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.TenCv)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ViTri)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LuongCoBan)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HeSoLuong)
-                </td>
-                <td>
-                    <a asp-action="Delete"
-                       asp-route-TenCV="@item.TenCv"
-                       asp-route-ViTri="@item.ViTri">Delete</a>
-                </td>
-            </tr>
-        }
+            <td>
+                @Html.DisplayFor(modelItem => item.LuongCoBan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HeSoLuong)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new { TenCv = item.TenCv, ViTri = item.ViTri })|
+                    @Html.ActionLink("Details", "Details", new { TenCv = item.TenCv, ViTri = item.ViTri })|
+                    @Html.ActionLink("Delete", "Delete", new { TenCv = item.TenCv, ViTri = item.ViTri })
+            </td>
+        </tr>
+}
     </tbody>
 </table>

@@ -6,285 +6,301 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using mamNonTuongLaiTuoiSang.Models;
+using Newtonsoft.Json;
+using System.Security.Policy;
+using System.Text;
 
 namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class LopController : Controller
     {
+        private const string url = "http://localhost:5005/api/Lops/";
+        private const string urlNhanVien = "http://localhost:5005/api/nhanviens/";
+        private HttpClient client = new HttpClient();
         private readonly QLMamNonContext _context;
-
-        public LopController(QLMamNonContext context)
+        private readonly IHttpClientFactory _httpClientFactory;
+        public LopController(QLMamNonContext context, IHttpClientFactory httpClientFactory)
         {
             _context = context;
+            _httpClientFactory = httpClientFactory;
         }
 
         // GET: Admin/Lop
-        public async Task<IActionResult> Index(string sortOrder, string searchQuery, string siSoFilter)
+        [HttpGet]
+        public async Task<IActionResult> Index(string sortOrder, string filterOption, string searchQuery)
         {
-            // Thiết lập các tham số sắp xếp
-            ViewData["TenLopSortParm"] = String.IsNullOrEmpty(sortOrder) ? "tenlop_desc" : "";
+            // Truyền sortOrder, filterOption và searchQuery qua ViewBag để sử dụng trong View
+            ViewBag.IdSortParm = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.SiSoSortParm = sortOrder == "siso_asc" ? "siso_desc" : "siso_asc";
+            ViewBag.TenLopSortParm = sortOrder == "tenlop_asc" ? "tenlop_desc" : "tenlop_asc";
+            ViewBag.FilterOption = filterOption;
+            ViewBag.SearchQuery = searchQuery;
 
-            // Lấy danh sách lớp
-            var lops = from l in _context.Lops.Include(l => l.MaStNavigation)
-                       select l;
-
-            // Kiểm tra nếu có từ khóa tìm kiếm
-            if (!String.IsNullOrEmpty(searchQuery))
+            // Tạo danh sách các tùy chọn lọc
+            ViewBag.FilterOptions = new SelectList(new[]
             {
-                lops = lops.Where(l =>
-                    l.IdLop.ToLower().Contains(searchQuery.ToLower().Trim()) ||
-                    l.TenLop.ToLower().Contains(searchQuery.ToLower().Trim()) ||
-                    l.SiSo.ToString().Contains(searchQuery.Trim()) ||
-                    l.MaStNavigation.MaSt.ToLower().Contains(searchQuery.ToLower().Trim()));
-            }
+                new { Value = "All", Text = "All" },
+                new { Value = "<10", Text = "<10" },
+                new { Value = "10-30", Text = "10-30" },
+                new { Value = ">30", Text = ">30" }
+            }, "Value", "Text", filterOption);
 
-            // Lọc theo sĩ số nếu không phải "All"
-            if (!string.IsNullOrEmpty(siSoFilter))
+            List<Lop> lops = new List<Lop>();
+            var client = _httpClientFactory.CreateClient();
+
+            try
             {
-                string sqlQuery = "SELECT * FROM Lop WHERE 1=1";
-
-                switch (siSoFilter)
+                if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    case "lt10":
-                        sqlQuery += " AND SiSo < 10";
+                    HttpResponseMessage responseById = await client.GetAsync($"{url}{Uri.EscapeDataString(searchQuery)}");
+
+                    if (responseById.IsSuccessStatusCode)
+                    {
+                        string result = await responseById.Content.ReadAsStringAsync();
+                        var lop = JsonConvert.DeserializeObject<Lop>(result);
+
+                        if (lop != null)
+                        {
+                            return RedirectToAction("Details", new { id = lop.IdLop });
+                        }
+                    }
+                    HttpResponseMessage responseAll = await client.GetAsync(url);
+
+                    if (responseAll.IsSuccessStatusCode)
+                    {
+                        string result = await responseAll.Content.ReadAsStringAsync();
+                        var data = JsonConvert.DeserializeObject<List<Lop>>(result);
+
+                        if (data != null)
+                        {
+                            lops = data
+                                .Where(l => !string.IsNullOrEmpty(l.TenLop) &&
+                                           l.TenLop.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+                                .ToList();
+                        }
+                    }
+                }
+                else
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string result = await response.Content.ReadAsStringAsync();
+                        var data = JsonConvert.DeserializeObject<List<Lop>>(result);
+
+                        if (data != null)
+                        {
+                            lops = data;
+                        }
+                    }
+                }
+
+                // Lấy danh sách NhanVien để map MaStNavigation
+                HttpResponseMessage responseNhanVien = await client.GetAsync(urlNhanVien);
+                if (responseNhanVien.IsSuccessStatusCode)
+                {
+                    string resultNhanVien = await responseNhanVien.Content.ReadAsStringAsync();
+                    var nhanViens = JsonConvert.DeserializeObject<List<NhanVien>>(resultNhanVien);
+                    if (nhanViens != null)
+                    {
+                        foreach (var lop in lops)
+                        {
+                            lop.MaStNavigation = nhanViens.FirstOrDefault(nv => nv.MaSt == lop.MaSt);
+                        }
+                    }
+                }
+                // Áp dụng bộ lọc dựa trên filterOption
+                if (!string.IsNullOrEmpty(filterOption) && filterOption != "All")
+                {
+                    switch (filterOption)
+                    {
+                        case "<10":
+                            lops = lops.Where(l => l.SiSo < 10).ToList();
+                            break;
+                        case "10-30":
+                            lops = lops.Where(l => l.SiSo >= 10 && l.SiSo <= 30).ToList();
+                            break;
+                        case ">30":
+                            lops = lops.Where(l => l.SiSo > 30).ToList();
+                            break;
+                        default:
+                            // Không áp dụng bộ lọc nếu filterOption không hợp lệ
+                            break;
+                    }
+                }
+                switch (sortOrder)
+                {
+                    case "id_desc":
+                        lops = lops.OrderByDescending(l => l.IdLop).ToList();
                         break;
-                    case "10-30":
-                        sqlQuery += " AND SiSo >= 10 AND SiSo <= 30";
+                    case "siso_asc":
+                        lops = lops.OrderBy(l => l.SiSo).ToList();
                         break;
-                    case "gt30":
-                        sqlQuery += " AND SiSo > 30";
+                    case "siso_desc":
+                        lops = lops.OrderByDescending(l => l.SiSo).ToList();
+                        break;
+                    case "tenlop_asc":
+                        lops = lops.OrderBy(l => l.TenLop).ToList();
+                        break;
+                    case "tenlop_desc":
+                        lops = lops.OrderByDescending(l => l.TenLop).ToList();
+                        break;
+                    default:
+                        // Mặc định là sắp xếp tăng dần theo IdLop
+                        lops = lops.OrderBy(l => l.IdLop).ToList();
                         break;
                 }
-                var filteredLops = await _context.Lops.FromSqlRaw(sqlQuery).ToListAsync();
-
-                lops = lops.Where(l => filteredLops.Select(fl => fl.IdLop).Contains(l.IdLop));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.";
             }
 
-            // Sắp xếp theo TenLop
-            switch (sortOrder)
-            {
-                case "tenlop_desc":
-                    lops = lops.OrderByDescending(l => l.TenLop);
-                    break;
-                default:
-                    lops = lops.OrderBy(l => l.TenLop);
-                    break;
-            }
-
-            // Chuẩn bị danh sách các tùy chọn lọc sĩ số
-            var siSoOptions = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "", Text = "Sĩ số: All" },
-                new SelectListItem { Value = "lt10", Text = "Sĩ số: <10" },
-                new SelectListItem { Value = "10-30", Text = "Sĩ số: 10-30" },
-                new SelectListItem { Value = "gt30", Text = "Sĩ số: >30" },
-            };
-            ViewBag.SiSoFilter = new SelectList(siSoOptions, "Value", "Text", siSoFilter);
-            return View(await lops.ToListAsync());
+            return View(lops);
         }
 
-
-
         // GET: Admin/Lop/Details/5
-        public async Task<IActionResult> Details(string id)
+        [HttpGet]
+        public IActionResult Details(string id)
         {
-            if (id == null || _context.Lops == null)
+            Lop lop = new Lop();
+            HttpResponseMessage response = client.GetAsync(url+id).Result;
+            if (response.IsSuccessStatusCode) 
             {
-                return NotFound();
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<Lop>(result);
+                if(data!= null) 
+                {
+                    lop = data;
+                }
             }
-
-            var lop = await _context.Lops
-                .Include(l => l.MaStNavigation)
-                .FirstOrDefaultAsync(m => m.IdLop == id);
-            if (lop == null)
+            // Lấy thông tin nhân viên từ API
+            if (!string.IsNullOrEmpty(lop.MaSt))
             {
-                return NotFound();
+                HttpResponseMessage nvResponse = client.GetAsync(urlNhanVien + lop.MaSt).Result;
+                if (nvResponse.IsSuccessStatusCode)
+                {
+                    string nvResult = nvResponse.Content.ReadAsStringAsync().Result;
+                    lop.MaStNavigation = JsonConvert.DeserializeObject<NhanVien>(nvResult);
+                }
             }
-
             return View(lop);
         }
 
         // GET: Admin/Lop/Create
+        [HttpGet]
         public IActionResult Create()
         {
-            ViewData["MaSt"] = new SelectList(_context.NhanViens, "MaSt", "MaSt");
+            ViewBag.MaSt = GetMaStSelectList();
             return View();
         }
 
         // POST: Admin/Lop/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdLop,TenLop,SiSo,MaSt")] Lop lop)
+        public IActionResult Create(Lop lop)
         {
-            // Kiểm tra nếu IdLop đã tồn tại
-            var existingLop = await _context.Lops
-                .FirstOrDefaultAsync(l => l.IdLop == lop.IdLop);
-
-            if (existingLop != null)
+            string data = JsonConvert.SerializeObject(lop);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                // Thêm thông báo lỗi vào ModelState
-                ModelState.AddModelError("IdLop", "Id lớp đã tồn tại.");
+                return RedirectToAction("Index");
             }
-
-            if (ModelState.IsValid)
-            {
-                _context.Add(lop);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewData["MaSt"] = new SelectList(_context.NhanViens, "MaSt", "MaSt", lop.MaSt);
-            return View(lop);
+            return View();
         }
-
 
         // GET: Admin/Lop/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        [HttpGet]
+        public IActionResult Edit(string id)
         {
-            if (id == null || _context.Lops == null)
+            Lop lop = new Lop();
+            HttpResponseMessage response = client.GetAsync(url + id).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<Lop>(result);
+                if (data != null)
+                {
+                    lop = data;
+                }
             }
-
-            var lop = await _context.Lops.FindAsync(id);
-            if (lop == null)
-            {
-                return NotFound();
-            }
-            ViewData["MaSt"] = new SelectList(_context.NhanViens, "MaSt", "MaSt", lop.MaSt);
+            ViewBag.MaSt = GetMaStSelectList();
             return View(lop);
         }
 
-        // POST: Admin/Lop/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("IdLop,TenLop,SiSo,MaSt")] Lop lop)
+        public IActionResult Edit(Lop lop)
         {
-            if (id != lop.IdLop)
+            string data = JsonConvert.SerializeObject(lop);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PutAsync(url+lop.IdLop, content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(lop);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LopExists(lop.IdLop))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MaSt"] = new SelectList(_context.NhanViens, "MaSt", "MaSt", lop.MaSt);
-            return View(lop);
+            return View();
         }
 
         // GET: Admin/Lop/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        [HttpGet]
+        public IActionResult Delete(string id)
         {
-            if (id == null || _context.Lops == null)
+            Lop lop = new Lop();
+            HttpResponseMessage response = client.GetAsync(url + id).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<Lop>(result);
+                if (data != null)
+                {
+                    lop = data;
+                }
             }
-
-            var lop = await _context.Lops
-                .Include(l => l.MaStNavigation)
-                .FirstOrDefaultAsync(m => m.IdLop == id);
-            if (lop == null)
+            // Lấy thông tin nhân viên từ API
+            if (!string.IsNullOrEmpty(lop.MaSt))
             {
-                return NotFound();
+                HttpResponseMessage nvResponse = client.GetAsync(urlNhanVien + lop.MaSt).Result;
+                if (nvResponse.IsSuccessStatusCode)
+                {
+                    string nvResult = nvResponse.Content.ReadAsStringAsync().Result;
+                    lop.MaStNavigation = JsonConvert.DeserializeObject<NhanVien>(nvResult);
+                }
             }
-
             return View(lop);
         }
 
         // POST: Admin/Lop/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(string id)
         {
-            if (id == null)
+            HttpResponseMessage response = client.DeleteAsync(url + id).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
-
-            var lop = await _context.Lops.FindAsync(id);
-            if (lop == null)
-            {
-                return NotFound();
-            }
-
-            // Kiểm tra xem IdLop có được sử dụng trong Tkb hoặc HocSinhLop hay không
-            bool hasTkb = await _context.Tkbs.AnyAsync(t => t.IdLop == id);
-            bool hasHocSinhLop = await _context.HocSinhLops.AnyAsync(h => h.IdLop == id);
-
-            if (hasTkb || hasHocSinhLop)
-            {
-                // Tạo thông báo lỗi cụ thể
-                string errorMessage = "Không thể xóa lớp này vì nó đang tồn tại trong ";
-                var tables = new List<string>();
-                if (hasTkb) tables.Add("bảng Tkb");
-                if (hasHocSinhLop) tables.Add("bảng HocSinhLop");
-                errorMessage += string.Join(" hoặc ", tables) + ".";
-
-                // Thêm thông báo lỗi vào ModelState
-                ModelState.AddModelError(string.Empty, errorMessage);
-
-                // Bao gồm navigation property để hiển thị thông tin lớp trong view
-                lop = await _context.Lops
-                    .Include(l => l.MaStNavigation)
-                    .FirstOrDefaultAsync(m => m.IdLop == id);
-
-                return View(lop);
-            }
-
-            // Nếu không có liên kết, thực hiện xóa
-            _context.Lops.Remove(lop);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Search(string searchQuery)
+        private IEnumerable<SelectListItem> GetMaStSelectList()
         {
-            ViewBag.Placeholder = "Tìm kiếm theo tên lớp hoặc mã lớp";
-            if (string.IsNullOrEmpty(searchQuery))
+            List<NhanVien> nhanViens = new List<NhanVien>();
+            HttpResponseMessage response = client.GetAsync(urlNhanVien).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index"); // Redirect to list if the query is empty
+                string result = response.Content.ReadAsStringAsync().Result;
+                nhanViens = JsonConvert.DeserializeObject<List<NhanVien>>(result);
             }
 
-            // Search by HoTen or Sdt
-            var lop = await _context.Lops
-                .FirstOrDefaultAsync(nv => nv.IdLop.Contains(searchQuery) || nv.TenLop.Contains(searchQuery));
-
-            if (lop == null)
+            // Chuyển đổi danh sách NhanVien thành danh sách SelectListItem
+            var selectListItems = nhanViens.Select(nv => new SelectListItem
             {
-                return NotFound(); // Handle case where no employee is found
-            }
+                Value = nv.MaSt, // Giá trị bạn muốn gửi về
+                Text = $" ({nv.MaSt})" + nv.HoTen// Hiển thị tên nhân viên
+            }).ToList();
 
-            // Redirect to the details page of the found employee
-            return RedirectToAction("Details", new { id = lop.IdLop });
-        }
-
-
-        private bool LopExists(string id)
-        {
-          return (_context.Lops?.Any(e => e.IdLop == id)).GetValueOrDefault();
+            return selectListItems;
         }
     }
 }

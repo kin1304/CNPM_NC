@@ -1,76 +1,67 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mamNonTuongLaiTuoiSang.Models;
+using Newtonsoft.Json;
+using System.Text;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class ChucVuController : Controller
     {
-        private readonly QLMamNonContext _context;
-        private readonly ILogger<ChucVuController> _logger;
-
-        public ChucVuController(QLMamNonContext context, ILogger<ChucVuController> logger)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        }
+        private string url = "http://localhost:5005/api/chucvus/";
+        private HttpClient client = new HttpClient();
 
         // GET: Admin/ChucVu
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult Index()
         {
-            return View(await _context.ChucVus.ToListAsync());
+            List<ChucVu> chucvus = new List<ChucVu>();
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<List<ChucVu>>(result);
+                if (data != null)
+                {
+                    chucvus = data;
+                }
+            }
+            return View(chucvus);
         }
 
-        // GET: Admin/ChucVu/Details/a/a
-        public async Task<IActionResult> Details(string TenCV, string ViTri)
-        {
-            if (string.IsNullOrEmpty(TenCV) || string.IsNullOrEmpty(ViTri))
-            {
-                return NotFound();
-            }
-
-            var chucVu = await _context.ChucVus
-                .FirstOrDefaultAsync(m => m.TenCv == TenCV && m.ViTri == ViTri);
-            if (chucVu == null)
-            {
-                return NotFound();
-            }
-
-            return View(chucVu);
-        }
-
-        // GET: Admin/ChucVu/Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Create() 
         {
             return View();
         }
 
         // POST: Admin/ChucVu/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TenCv,ViTri,LuongCoBan,HeSoLuong")] ChucVu chucVu)
+        public IActionResult Create(ChucVu cv)
         {
-            if (ModelState.IsValid)
+            string data = JsonConvert.SerializeObject(cv);
+            StringContent content = new StringContent(data,Encoding.UTF8,"application/json");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            if (response.IsSuccessStatusCode) 
             {
-                _context.Add(chucVu);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("Chức vụ mới đã được tạo.");
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            return View(chucVu);
+            return View();
         }
 
         // GET: Admin/ChucVu/Edit/a/a
-        public async Task<IActionResult> Edit(string TenCV, string ViTri)
+        // GET: Admin/ChucVu/Edit/{TenCv}/{ViTri}
+        [HttpGet("Admin/ChucVu/Edit/{TenCv}/{ViTri}")]
+        public async Task<IActionResult> Edit(string TenCv, string ViTri)
         {
-            if (string.IsNullOrEmpty(TenCV) || string.IsNullOrEmpty(ViTri))
+            if (string.IsNullOrEmpty(TenCv) || string.IsNullOrEmpty(ViTri))
             {
                 return NotFound();
             }
 
-            var chucVu = await _context.ChucVus
-                .FirstOrDefaultAsync(m => m.TenCv == TenCV && m.ViTri == ViTri);
+            ChucVu chucVu = await FindHSL(TenCv, ViTri);
             if (chucVu == null)
             {
                 return NotFound();
@@ -80,78 +71,95 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 
         // POST: Admin/ChucVu/Edit/a/a
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string TenCV, string ViTri, [Bind("TenCv,ViTri,LuongCoBan,HeSoLuong")] ChucVu chucVu)
+        public IActionResult Edit(ChucVu cv)
         {
-            if (TenCV != chucVu.TenCv || ViTri != chucVu.ViTri)
+            string data = JsonConvert.SerializeObject(cv);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PutAsync($"{url}+{cv.TenCv}/{cv.ViTri}", content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(chucVu);
-                    await _context.SaveChangesAsync();
-                    _logger.LogInformation("Chức vụ đã được cập nhật.");
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ChucVuExists(chucVu.TenCv, chucVu.ViTri))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(chucVu);
+            return View();
         }
 
-        // GET: Admin/ChucVu/Delete/a/a
-        [HttpGet("Admin/ChucVu/Delete/{TenCv}/{ViTri}")]
-        public async Task<IActionResult> Delete(string TenCV, string ViTri)
+        // GET: Admin/ChucVu/Details/a/a
+        [HttpGet("Admin/ChucVu/Details/{TenCv}/{ViTri}")]
+        public async Task<IActionResult> Details(string TenCv, string ViTri)
         {
-            if (string.IsNullOrEmpty(TenCV) || string.IsNullOrEmpty(ViTri))
+            if (string.IsNullOrEmpty(TenCv) || string.IsNullOrEmpty(ViTri))
             {
                 return NotFound();
             }
 
-            var chucVu = await _context.ChucVus
-                .FirstOrDefaultAsync(m => m.TenCv == TenCV && m.ViTri == ViTri);
+            ChucVu chucVu = await FindHSL(TenCv, ViTri);
             if (chucVu == null)
             {
                 return NotFound();
             }
-
             return View(chucVu);
         }
 
-        // POST: Admin/ChucVu/DeleteConfirmed
-        [HttpPost("Admin/ChucVu/DeleteConfirmed")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed([Bind("TenCv,ViTri")] ChucVu chucVu)
+        // GET: Admin/ChucVu/Delete/{TenCv}/{ViTri}
+        [HttpGet("Admin/ChucVu/Delete/{TenCv}/{ViTri}")]
+        public async Task<IActionResult> Delete(string TenCv, string ViTri)
         {
-            var existingChucVu = await _context.ChucVus
-                .FirstOrDefaultAsync(m => m.TenCv == chucVu.TenCv && m.ViTri == chucVu.ViTri);
-            if (existingChucVu == null)
+            if (string.IsNullOrEmpty(TenCv) || string.IsNullOrEmpty(ViTri))
             {
                 return NotFound();
             }
 
-            _context.ChucVus.Remove(existingChucVu);
-            await _context.SaveChangesAsync();
-            _logger.LogInformation("Chức vụ đã được xóa.");
-            return RedirectToAction(nameof(Index));
+            ChucVu chucVu = await FindHSL(TenCv, ViTri);
+            if (chucVu == null)
+            {
+                return NotFound();
+            }
+            return View(chucVu);
         }
 
-        private bool ChucVuExists(string TenCV, string ViTri)
+        // POST: Admin/ChucVu/Delete/{TenCv}/{ViTri}
+        [HttpPost("Admin/ChucVu/Delete/{TenCv}/{ViTri}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string TenCv, string ViTri)
         {
-            return _context.ChucVus.Any(e => e.TenCv == TenCV && e.ViTri == ViTri);
+            // Xây dựng URL API để xóa ChucVu
+            string apiUrl = $"{url}{TenCv}/{ViTri}";
+
+            // Gửi yêu cầu DELETE đến API
+            HttpResponseMessage response = await client.DeleteAsync(apiUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+
+            // Nếu có lỗi, thêm thông báo lỗi vào ModelState và trả về View
+            ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi xóa chức vụ.");
+            ChucVu chucVu = await FindHSL(TenCv, ViTri);
+            return View(chucVu);
+        }
+
+        public async Task<ChucVu> FindHSL(string TenCv, string ViTri)
+        {
+            if (string.IsNullOrEmpty(TenCv) || string.IsNullOrEmpty(ViTri))
+            {
+                return null;
+            }
+
+            using (var chucvu = new HttpClient())
+            {
+                string path = $"{url}{TenCv}/{ViTri}";
+                chucvu.DefaultRequestHeaders.Accept.Clear();
+                chucvu.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage getData = await chucvu.GetAsync(path);
+                if (getData.IsSuccessStatusCode)
+                {
+                    var data = await getData.Content.ReadAsStringAsync();
+                    var response = JsonConvert.DeserializeObject<ChucVu>(data);
+                    return response;
+                }
+            }
+            return null;
         }
     }
 }

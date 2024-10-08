@@ -1,40 +1,65 @@
 ﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.Lop>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách Lớp";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Danh sách Lớp</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
-
-    <!-- Dropdown để lọc sĩ số -->
-    <form method="get" asp-action="Index" class="d-inline-block ml-3">
-        <div class="form-group mb-0">
-            @Html.DropDownList("siSoFilter", (SelectList)ViewBag.SiSoFilter, new { @class = "form-control d-inline-block w-auto", @style = "display:inline-block; width:auto;" })
-            <button type="submit" class="btn btn-primary">Lọc</button>
-        </div>
-    </form>
+    <a asp-action="Create" class="btn btn-success">Tạo mới Lớp</a>
 </p>
 
-<table class="table">
+<!-- Form Tìm Kiếm và Lọc -->
+<form asp-action="Index" method="get" class="form-inline mb-3">
+    <!-- Tìm Kiếm -->
+    <div class="form-group mr-2">
+        <input type="text" name="searchQuery" class="form-control" placeholder="Tìm kiếm bằng ID hoặc Tên Lớp..." value="@ViewBag.SearchQuery" />
+    </div>
+
+    <!-- Lọc -->
+    <div class="form-group mr-2">
+        @Html.DropDownList("filterOption", (SelectList)ViewBag.FilterOptions, new { @class = "form-control", @id = "filterOption" })
+    </div>
+
+    <!-- Nút Tìm và Lọc -->
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i> Tìm &amp; Lọc
+    </button>
+</form>
+
+<!-- Thông Báo Lỗi (nếu có) -->
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<!-- Thông Báo Không Có Kết Quả -->
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Không tìm thấy kết quả nào cho tìm kiếm và lọc của bạn.
+    </div>
+}
+
+<!-- Bảng Danh Sách Lớp -->
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdLop)
+                @Html.ActionLink("ID Lớp", "Index", new { sortOrder = ViewBag.IdSortParm, filterOption = ViewBag.FilterOption, searchQuery = ViewBag.SearchQuery })
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["TenLopSortParm"]">
-                    @Html.DisplayNameFor(model => model.TenLop)
-                </a>
+                @Html.ActionLink("Tên Lớp", "Index", new { sortOrder = ViewBag.TenLopSortParm, filterOption = ViewBag.FilterOption, searchQuery = ViewBag.SearchQuery })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SiSo)
+                @Html.ActionLink("SiSo", "Index", new { sortOrder = ViewBag.SiSoSortParm, filterOption = ViewBag.FilterOption, searchQuery = ViewBag.SearchQuery })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaStNavigation.MaSt)
+                Tên Nhân Viên
             </th>
             <th></th>
         </tr>
@@ -53,12 +78,18 @@
                     @Html.DisplayFor(modelItem => item.SiSo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MaStNavigation.MaSt)
-                </td>
+                    @if (item.MaStNavigation != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.MaStNavigation.HoTen)
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdLop">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.IdLop">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdLop">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdLop" class="btn btn-sm btn-warning">Sửa</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdLop" class="btn btn-sm btn-info">Chi Tiết</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdLop" class="btn btn-sm btn-danger">Xóa</a>
                 </td>
             </tr>
         }
