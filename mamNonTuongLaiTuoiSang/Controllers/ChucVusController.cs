@@ -24,30 +24,29 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChucVu>>> GetChucVus()
         {
-          if (_context.ChucVus == null)
-          {
-              return BadRequest("Dữ liệu không tồn tại.");
-          }
+            if (_context.ChucVus == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
             return await _context.ChucVus.ToListAsync();
         }
 
         // GET: api/ChucVus/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ChucVu>> GetChucVu(string id)
+        // GET: api/ChucVus/{TenCv}/{ViTri}
+        [HttpGet("{TenCv}/{ViTri}")]
+        public async Task<ActionResult<ChucVu>> GetChucVu(string TenCv, string ViTri)
         {
-          if (_context.ChucVus == null)
-          {
-              return BadRequest("Dữ liệu không tồn tại.");
-          }
-            var chucVu = await _context.ChucVus.FindAsync(id);
+            var chucVu = await _context.ChucVus
+                .FirstOrDefaultAsync(c => c.TenCv == TenCv && c.ViTri == ViTri);
 
             if (chucVu == null)
             {
-                return BadRequest("Dữ liệu không tồn tại.");
+                return NotFound();
             }
 
             return chucVu;
         }
+
         // GET: api/ChucVus/Vitri/{Vitri} 
         [HttpGet("Vitri/{Vitri}")]
         public async Task<ActionResult<ChucVu>> GetChucVuVitri(string Vitri)
@@ -71,10 +70,11 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
         // PUT: api/ChucVus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutChucVu(string id, ChucVu chucVu)
+        // PUT: api/ChucVus/{TenCv}/{ViTri}
+        [HttpPut("{TenCv}/{ViTri}")]
+        public async Task<IActionResult> PutChucVu(string TenCv, string ViTri, ChucVu chucVu)
         {
-            if (id != chucVu.TenCv)
+            if (TenCv != chucVu.TenCv || ViTri != chucVu.ViTri)
             {
                 return BadRequest();
             }
@@ -87,9 +87,9 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ChucVuExists(id))
+                if (!ChucVuExists(TenCv, ViTri))
                 {
-                    return BadRequest("Dữ liệu không tồn tại.");
+                    return NotFound();
                 }
                 else
                 {
@@ -105,10 +105,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<ChucVu>> PostChucVu(ChucVu chucVu)
         {
-          if (_context.ChucVus == null)
-          {
-              return Problem("Entity set 'QLMamNonContext.ChucVus'  is null.");
-          }
+            if (_context.ChucVus == null)
+            {
+                return Problem("Entity set 'QLMamNonContext.ChucVus'  is null.");
+            }
             _context.ChucVus.Add(chucVu);
             try
             {
@@ -116,7 +116,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ChucVuExists(chucVu.TenCv))
+                if (ChucVuExists(chucVu.TenCv, chucVu.ViTri))
                 {
                     return Conflict();
                 }
@@ -129,18 +129,22 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return CreatedAtAction("GetChucVu", new { id = chucVu.TenCv }, chucVu);
         }
 
-        // DELETE: api/ChucVus/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteChucVu(string TenCV)
+        // DELETE: api/ChucVus/TenCv/ViTri
+        [HttpDelete("{TenCv}/{ViTri}")]
+        public async Task<IActionResult> DeleteChucVu(string TenCv, string ViTri)
         {
             if (_context.ChucVus == null)
             {
-                return BadRequest("Dữ liệu không tồn tại.");
+                return Problem("Entity set 'QLMamNonContext.ChucVus' is null.");
             }
-            var chucVu = await _context.ChucVus.FirstOrDefaultAsync(cv => cv.TenCv == TenCV);
+
+            // Tìm kiếm chức vụ theo TenCv và ViTri
+            var chucVu = await _context.ChucVus
+                .FirstOrDefaultAsync(cv => cv.TenCv == TenCv && cv.ViTri == ViTri);
+
             if (chucVu == null)
             {
-                return BadRequest("Dữ liệu không tồn tại.");
+                return NotFound("Không tìm thấy chức vụ với tên và vị trí này.");
             }
 
             _context.ChucVus.Remove(chucVu);
@@ -149,9 +153,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return NoContent();
         }
 
-        private bool ChucVuExists(string id)
+        private bool ChucVuExists(string TenCv, string ViTri)
         {
-            return (_context.ChucVus?.Any(e => e.TenCv == id)).GetValueOrDefault();
+            return _context.ChucVus.Any(e => e.TenCv == TenCv && e.ViTri == ViTri);
         }
+
     }
 }
