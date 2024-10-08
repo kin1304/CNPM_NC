@@ -25,9 +25,20 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         }
 
         // GET: Admin/HocSinhLop
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string diemChuyenCanFilter)
         {
             ViewData["DiemChuyenCanSortParam"] = sortOrder == "diemchuyencan_asc" ? "diemchuyencan_desc" : "diemchuyencan_asc";
+            ViewBag.DiemChuyenCanSortParm = sortOrder == "diemchuyencan_asc" ? "diemchuyencan_desc" : "diemchuyencan_asc";
+            ViewBag.FilterOption = diemChuyenCanFilter;
+
+            ViewBag.DiemChuyenCanFilterOptions = new SelectList(new[]
+            {
+                new { Value = "All", Text = "All" },
+                new { Value = "below5", Text = "Dưới 5" },
+                new { Value = "between5and8", Text = "Từ 5 đến dưới 8" },
+                new { Value = "between8and10", Text = "Từ 8 đến 10" }
+            }, "Value", "Text", diemChuyenCanFilter);
+
             List<HocSinhLop> hocSinhLops = new List<HocSinhLop>();
             HttpResponseMessage response = client.GetAsync(baseURL).Result;
 
@@ -40,16 +51,41 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
                     hocSinhLops = data;
                 }
             }
+            if (!string.IsNullOrEmpty(diemChuyenCanFilter) && diemChuyenCanFilter != "All")
+            {
+                switch (diemChuyenCanFilter)
+                {
+                    case "below5":
+                        hocSinhLops = hocSinhLops.Where(hs => hs.DiemChuyenCan < 5).ToList();
+                        break;
+                    case "between5and8":
+                        hocSinhLops = hocSinhLops.Where(hs => hs.DiemChuyenCan >= 5 && hs.DiemChuyenCan < 8).ToList();
+                        break;
+                    case "between8and10":
+                        hocSinhLops = hocSinhLops.Where(hs => hs.DiemChuyenCan >= 8 && hs.DiemChuyenCan <= 10).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            // Sắp xếp kết quả
             switch (sortOrder)
             {
-                case "diemchuyencan_desc":
-                    hocSinhLops = hocSinhLops.OrderByDescending(Hs => Hs.DiemChuyenCan).ToList();
+                case "id_desc":
+                    hocSinhLops = hocSinhLops.OrderByDescending(hs => hs.IdHs).ToList();
                     break;
                 case "diemchuyencan_asc":
+                    hocSinhLops = hocSinhLops.OrderBy(hs => hs.DiemChuyenCan).ToList();
+                    break;
+                case "diemchuyencan_desc":
+                    hocSinhLops = hocSinhLops.OrderByDescending(hs => hs.DiemChuyenCan).ToList();
+                    break;
                 default:
-                    hocSinhLops = hocSinhLops.OrderBy(Hs => Hs.DiemChuyenCan).ToList();
+                    hocSinhLops = hocSinhLops.OrderBy(hs => hs.IdHs).ToList();
                     break;
             }
+        
             return View(hocSinhLops);
         }
 
