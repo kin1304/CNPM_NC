@@ -48,6 +48,26 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return chucVu;
         }
+        // GET: api/ChucVus/Vitri/{Vitri} 
+        [HttpGet("Vitri/{Vitri}")]
+        public async Task<ActionResult<ChucVu>> GetChucVuVitri(string Vitri)
+        {
+            if (_context.ChucVus == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            var Chucvuvitri = await _context.ChucVus
+                .Where(cvvt => cvvt.ViTri == Vitri)
+                .FirstOrDefaultAsync();
+
+            if (Chucvuvitri == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            return Chucvuvitri;
+        }
 
         // PUT: api/ChucVus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -111,13 +131,13 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
         // DELETE: api/ChucVus/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteChucVu(string id)
+        public async Task<IActionResult> DeleteChucVu(string TenCV)
         {
             if (_context.ChucVus == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-            var chucVu = await _context.ChucVus.FindAsync(id);
+            var chucVu = await _context.ChucVus.FirstOrDefaultAsync(cv => cv.TenCv == TenCV);
             if (chucVu == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
