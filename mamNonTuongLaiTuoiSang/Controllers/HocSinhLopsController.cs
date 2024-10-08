@@ -130,8 +130,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHocSinhLop(string id)
         {
-            
-            var hocSinhLop = await _context.HocSinhLops.FindAsync(id);
+
+            var hocSinhLop = await _context.HocSinhLops.FirstOrDefaultAsync(h => h.IdHs == id);
             if (hocSinhLop == null)
             {
                 return NotFound();

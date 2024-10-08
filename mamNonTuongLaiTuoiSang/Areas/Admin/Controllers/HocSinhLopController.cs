@@ -25,8 +25,9 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         }
 
         // GET: Admin/HocSinhLop
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
+            ViewData["DiemChuyenCanSortParam"] = sortOrder == "diemchuyencan_asc" ? "diemchuyencan_desc" : "diemchuyencan_asc";
             List<HocSinhLop> hocSinhLops = new List<HocSinhLop>();
             HttpResponseMessage response = client.GetAsync(baseURL).Result;
 
@@ -38,6 +39,16 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
                 {
                     hocSinhLops = data;
                 }
+            }
+            switch (sortOrder)
+            {
+                case "diemchuyencan_desc":
+                    hocSinhLops = hocSinhLops.OrderByDescending(Hs => Hs.DiemChuyenCan).ToList();
+                    break;
+                case "diemchuyencan_asc":
+                default:
+                    hocSinhLops = hocSinhLops.OrderBy(Hs => Hs.DiemChuyenCan).ToList();
+                    break;
             }
             return View(hocSinhLops);
         }
