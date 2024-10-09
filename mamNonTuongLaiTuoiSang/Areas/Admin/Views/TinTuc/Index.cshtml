@@ -55,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.TieuDe)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NoiDung)
+                    @Html.Raw(item.NoiDung.Length > 100 ? item.NoiDung.Substring(0, 100) + "..." : item.NoiDung)
             </td>
             <td>
                     @if (!string.IsNullOrEmpty(item.Anh))

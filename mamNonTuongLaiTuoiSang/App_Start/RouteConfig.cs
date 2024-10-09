@@ -34,8 +34,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-            Path.Combine(app.Environment.ContentRootPath, "Content")),
-    RequestPath = "/Content" // Đường dẫn đến thư mục Content
+            Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+    RequestPath = "/Content"
 });
 
 app.UseRouting();
@@ -50,6 +50,6 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{area=Admin}/{controller=TinTuc}/{action=Index}/{id?}");
 
 app.Run();
