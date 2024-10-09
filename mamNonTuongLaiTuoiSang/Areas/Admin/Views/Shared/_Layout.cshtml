@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,12 +67,7 @@
                     <span>Quản lý Phụ huynh</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-area="Admin" asp-controller="HocSinh" asp-action="Index">
-                    <span>Quản lý Học sinh</span>
-                </a>
-            </li>
-            
+
             <hr class="sidebar-divider">
 
             <div class="sidebar-heading">
@@ -80,9 +75,7 @@
             </div>
 
             <!-- Heading -->
-
             <!-- Nav Item - Pages Collapse Menu -->
-            
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" asp-area="Admin" asp-controller="ChucVu" asp-action="Index">
@@ -96,11 +89,21 @@
                     <span>Quản lý lớp</span>
                 </a>
             </li>
+
+            <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" asp-area="Admin" asp-controller="HocSinhLop" asp-action="Index">
-                    <span>Quản lý danh sách lớp</span>
+                <a class="nav-link" asp-area="Admin" asp-controller="NgoaiKhoa" asp-action="Index">
+                    <span>Quản lý ngoại khóa</span>
                 </a>
             </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Admin" asp-controller="TinTuc" asp-action="Index">
+                    <span>Quản lý bản tin</span>
+                </a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
             <li class="nav-item">
@@ -143,7 +146,7 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-        @RenderBody()
+                    @RenderBody()
                 </div>
                 <!-- /.container-fluid -->
 
@@ -184,7 +187,7 @@
     <!-- Page level custom scripts -->
     <script src="/Content/admin/js/demo/chart-area-demo.js"></script>
     <script src="/Content/admin/js/demo/chart-pie-demo.js"></script>
-    @await RenderSectionAsync("Scripts",required:false)
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
