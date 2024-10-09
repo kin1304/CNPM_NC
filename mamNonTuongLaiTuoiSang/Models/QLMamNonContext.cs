@@ -18,6 +18,7 @@ namespace mamNonTuongLaiTuoiSang.Models
 
         public virtual DbSet<ChucVu> ChucVus { get; set; } = null!;
         public virtual DbSet<DichVu> DichVus { get; set; } = null!;
+        public virtual DbSet<DiemDanh> DiemDanhs { get; set; } = null!;
         public virtual DbSet<Dkxe> Dkxes { get; set; } = null!;
         public virtual DbSet<GiaoVien> GiaoViens { get; set; } = null!;
         public virtual DbSet<HoaDon> HoaDons { get; set; } = null!;
@@ -44,7 +45,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-0VMUFS8\\MSSQL_SERVER;Database=QLMamNon;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=NHA\\SQLEXPRESS;Initial Catalog=QLMamNon;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             }
         }
 
@@ -53,7 +54,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<ChucVu>(entity =>
             {
                 entity.HasKey(e => new { e.TenCv, e.ViTri })
-                    .HasName("PK__ChucVu__0025B481141FDD24");
+                    .HasName("PK__ChucVu__0025B48122057C78");
 
                 entity.ToTable("ChucVu");
 
@@ -69,7 +70,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<DichVu>(entity =>
             {
                 entity.HasKey(e => e.IdDv)
-                    .HasName("PK__DichVu__B77398B459EC16DC");
+                    .HasName("PK__DichVu__B77398B489F9558D");
 
                 entity.ToTable("DichVu");
 
@@ -88,10 +89,42 @@ namespace mamNonTuongLaiTuoiSang.Models
                 entity.Property(e => e.ThoiHan).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<DiemDanh>(entity =>
+            {
+                entity.HasKey(e => e.IdDd)
+                    .HasName("PK__DiemDanh__B77398A6FD69E830");
+
+                entity.ToTable("DiemDanh");
+
+                entity.Property(e => e.IdDd)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("IdDD")
+                    .IsFixedLength();
+
+                entity.Property(e => e.IdHs)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("IdHS")
+                    .IsFixedLength();
+
+                entity.Property(e => e.IdLop)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Ngay).HasColumnType("date");
+
+                entity.HasOne(d => d.Id)
+                    .WithMany(p => p.DiemDanhs)
+                    .HasForeignKey(d => new { d.IdHs, d.IdLop })
+                    .HasConstraintName("FK__DiemDanh__06CD04F7");
+            });
+
             modelBuilder.Entity<Dkxe>(entity =>
             {
                 entity.HasKey(e => new { e.IdHs, e.IdXeBus })
-                    .HasName("PK__DKXe__D704D72CA5C57EB1");
+                    .HasName("PK__DKXe__D704D72C839BA317");
 
                 entity.ToTable("DKXe");
 
@@ -124,7 +157,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<GiaoVien>(entity =>
             {
                 entity.HasKey(e => e.MaSt)
-                    .HasName("PK__GiaoVien__2725081817F7E9ED");
+                    .HasName("PK__GiaoVien__2725081828AAA3C1");
 
                 entity.ToTable("GiaoVien");
 
@@ -148,7 +181,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<HoaDon>(entity =>
             {
                 entity.HasKey(e => e.IdHd)
-                    .HasName("PK__HoaDon__B773FA2938E334FE");
+                    .HasName("PK__HoaDon__B773FA29CA7430BA");
 
                 entity.ToTable("HoaDon");
 
@@ -192,7 +225,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<HoaDonDichVu>(entity =>
             {
                 entity.HasKey(e => new { e.IdHd, e.IdDv })
-                    .HasName("PK__HoaDon_D__EC04C3A2F88E0C32");
+                    .HasName("PK__HoaDon_D__EC04C3A23F8DA051");
 
                 entity.ToTable("HoaDon_DichVu");
 
@@ -230,7 +263,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<HoaDonKhoaHoc>(entity =>
             {
                 entity.HasKey(e => new { e.IdKh, e.IdHd })
-                    .HasName("PK__HoaDon_K__3C04EE23986D9687");
+                    .HasName("PK__HoaDon_K__3C04EE23FE969D59");
 
                 entity.ToTable("HoaDon_KhoaHoc");
 
@@ -270,7 +303,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<HocSinh>(entity =>
             {
                 entity.HasKey(e => e.IdHs)
-                    .HasName("PK__HocSinh__B773FA3805BF99A0");
+                    .HasName("PK__HocSinh__B773FA38D933436F");
 
                 entity.ToTable("HocSinh");
 
@@ -303,7 +336,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<HocSinhLop>(entity =>
             {
                 entity.HasKey(e => new { e.IdHs, e.IdLop })
-                    .HasName("PK__HocSinh___77B6B7875247FF28");
+                    .HasName("PK__HocSinh___77B6B7871C6A8BC0");
 
                 entity.ToTable("HocSinh_Lop");
 
@@ -336,7 +369,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<KhoaHoc>(entity =>
             {
                 entity.HasKey(e => e.IdKh)
-                    .HasName("PK__KhoaHoc__B773D1815F05EEC3");
+                    .HasName("PK__KhoaHoc__B773D1812C3EF6A5");
 
                 entity.ToTable("KhoaHoc");
 
@@ -358,7 +391,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<Lop>(entity =>
             {
                 entity.HasKey(e => e.IdLop)
-                    .HasName("PK__Lop__0C54DBFDA099E760");
+                    .HasName("PK__Lop__0C54DBFDA2E6C652");
 
                 entity.ToTable("Lop");
 
@@ -384,7 +417,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<MonHoc>(entity =>
             {
                 entity.HasKey(e => e.IdMh)
-                    .HasName("PK__MonHoc__B773C14323082987");
+                    .HasName("PK__MonHoc__B773C1433E4F4AB9");
 
                 entity.ToTable("MonHoc");
 
@@ -402,7 +435,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<NgoaiKhoa>(entity =>
             {
                 entity.HasKey(e => e.IdNk)
-                    .HasName("PK__NgoaiKho__B773C965CB999AF0");
+                    .HasName("PK__NgoaiKho__B773C965EA66F81B");
 
                 entity.ToTable("NgoaiKhoa");
 
@@ -428,7 +461,7 @@ namespace mamNonTuongLaiTuoiSang.Models
                         r => r.HasOne<NgoaiKhoa>().WithMany().HasForeignKey("IdNk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__NgoaiKhoa___IdNK__6FE99F9F"),
                         j =>
                         {
-                            j.HasKey("IdNk", "MaSt").HasName("PK__NgoaiKho__250199E4FCDE9781");
+                            j.HasKey("IdNk", "MaSt").HasName("PK__NgoaiKho__250199E40CF5A751");
 
                             j.ToTable("NgoaiKhoa_GiaoVien");
 
@@ -441,7 +474,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<NhanVien>(entity =>
             {
                 entity.HasKey(e => e.MaSt)
-                    .HasName("PK__NhanVien__27250818211A0336");
+                    .HasName("PK__NhanVien__272508185B30D5E7");
 
                 entity.ToTable("NhanVien");
 
@@ -483,7 +516,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<PhuHuynh>(entity =>
             {
                 entity.HasKey(e => e.IdPh)
-                    .HasName("PK__PhuHuynh__B7703B3BE64B9250");
+                    .HasName("PK__PhuHuynh__B7703B3BC0677421");
 
                 entity.ToTable("PhuHuynh");
 
@@ -499,7 +532,7 @@ namespace mamNonTuongLaiTuoiSang.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.HoTen).HasMaxLength(30);
+                entity.Property(e => e.Hovaten).HasMaxLength(30);
 
                 entity.Property(e => e.MatKhau)
                     .HasMaxLength(50)
@@ -517,7 +550,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<TiemChung>(entity =>
             {
                 entity.HasKey(e => new { e.IdVacXin, e.IdHs })
-                    .HasName("PK__TiemChun__C2684C409E99BCC5");
+                    .HasName("PK__TiemChun__C2684C40360D3849");
 
                 entity.ToTable("TiemChung");
 
@@ -550,7 +583,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<TinTuc>(entity =>
             {
                 entity.HasKey(e => e.IdTinTuc)
-                    .HasName("PK__TinTuc__B7829676020BF2FE");
+                    .HasName("PK__TinTuc__B782967680B54D17");
 
                 entity.ToTable("TinTuc");
 
@@ -574,7 +607,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<Tkb>(entity =>
             {
                 entity.HasKey(e => new { e.IdLop, e.Ngay, e.CaHoc })
-                    .HasName("PK__TKB__3F89372EE3A0C50D");
+                    .HasName("PK__TKB__3F89372EB653714F");
 
                 entity.ToTable("TKB");
 
@@ -608,7 +641,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<VacXin>(entity =>
             {
                 entity.HasKey(e => e.IdVacXin)
-                    .HasName("PK__VacXin__591F73E3A4FF9FBF");
+                    .HasName("PK__VacXin__591F73E39AA73117");
 
                 entity.ToTable("VacXin");
 
@@ -627,7 +660,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<Voucher>(entity =>
             {
                 entity.HasKey(e => e.IdVoucher)
-                    .HasName("PK__Voucher__329D557E49EC5619");
+                    .HasName("PK__Voucher__329D557EB10A3292");
 
                 entity.ToTable("Voucher");
 
@@ -657,7 +690,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<VoucherCuaPh>(entity =>
             {
                 entity.HasKey(e => new { e.IdPh, e.IdVoucher })
-                    .HasName("PK__VoucherC__4459EE6CFC592E60");
+                    .HasName("PK__VoucherC__4459EE6C6E193682");
 
                 entity.ToTable("VoucherCuaPH");
 
@@ -688,7 +721,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             modelBuilder.Entity<XeBu>(entity =>
             {
                 entity.HasKey(e => e.IdXeBus)
-                    .HasName("PK__XeBus__0772D147A22D0A7E");
+                    .HasName("PK__XeBus__0772D14722855D22");
 
                 entity.Property(e => e.IdXeBus)
                     .HasMaxLength(10)
