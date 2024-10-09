@@ -74,10 +74,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{TenCv}/{ViTri}")]
         public async Task<IActionResult> PutChucVu(string TenCv, string ViTri, ChucVu chucVu)
         {
-            if (TenCv != chucVu.TenCv || ViTri != chucVu.ViTri)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(chucVu).State = EntityState.Modified;
 

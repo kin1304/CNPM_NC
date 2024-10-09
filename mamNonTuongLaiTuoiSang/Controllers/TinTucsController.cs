@@ -50,7 +50,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
         // GET: api/NhanViens/ByMast/{MaSt} ( tìm thông tin  thông qua MaSt)
         [HttpGet("ByMast/{MaSt}")]
-        public async Task<ActionResult<IEnumerable<TinTuc>>> GeetTinTucByMaSt(string MaSt)
+        public async Task<ActionResult<IEnumerable<TinTuc>>> GetTinTucByMaSt(string MaSt)
         {
             if (_context.TinTucs == null)
             {
@@ -75,10 +75,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTinTuc(string id, TinTuc tinTuc)
         {
-            if (id != tinTuc.IdTinTuc)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(tinTuc).State = EntityState.Modified;
 

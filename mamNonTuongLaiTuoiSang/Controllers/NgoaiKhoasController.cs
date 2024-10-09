@@ -54,11 +54,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNgoaiKhoa(string id, NgoaiKhoa ngoaiKhoa)
         {
-            if (id != ngoaiKhoa.IdNk)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(ngoaiKhoa).State = EntityState.Modified;
 
             try

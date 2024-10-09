@@ -24,10 +24,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HocSinh>>> GetHocSinhs()
         {
-          if (_context.HocSinhs == null)
-          {
-              return BadRequest("Dữ liệu không tồn tại.");
-          }
+            if (_context.HocSinhs == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
             return await _context.HocSinhs.ToListAsync();
         }
 
@@ -35,10 +35,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<HocSinh>> GetHocSinh(string id)
         {
-          if (_context.HocSinhs == null)
-          {
-              return BadRequest("Dữ liệu không tồn tại.");
-          }
+            if (_context.HocSinhs == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
             var hocSinh = await _context.HocSinhs.FindAsync(id);
 
             if (hocSinh == null)
@@ -102,10 +102,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<HocSinh>> PostHocSinh(HocSinh hocSinh)
         {
-          if (_context.HocSinhs == null)
-          {
-              return Problem("Entity set 'QLMamNonContext.HocSinhs'  is null.");
-          }
+            if (_context.HocSinhs == null)
+            {
+                return Problem("Entity set 'QLMamNonContext.HocSinhs'  is null.");
+            }
             _context.HocSinhs.Add(hocSinh);
             try
             {
