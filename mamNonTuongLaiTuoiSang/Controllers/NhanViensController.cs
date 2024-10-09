@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +28,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
           {
               return BadRequest("Dữ liệu không tồn tại.");
           }
+
             return await _context.NhanViens.ToListAsync();
         }
 
@@ -39,6 +40,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
           {
               return BadRequest("Dữ liệu không tồn tại.");
           }
+
             var nhanVien = await _context.NhanViens.FindAsync(id);
 
             if (nhanVien == null)
@@ -57,7 +59,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 return BadRequest("Dữ liệu không tồn tại.");
             }
 
-            
             var NhanViens = await _context.NhanViens
                 .Where(Nv => Nv.TenCv == TenCv)
                 .ToListAsync();
@@ -79,7 +80,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 return BadRequest("Dữ liệu không tồn tại.");
             }
 
-            
             var NhanViens = await _context.NhanViens
                 .Where(Nv => Nv.ViTri == vitri)
                 .ToListAsync();
@@ -97,11 +97,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNhanVien(string id, NhanVien nhanVien)
         {
-            if (id != nhanVien.MaSt)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(nhanVien).State = EntityState.Modified;
 
             try
@@ -128,10 +123,12 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<NhanVien>> PostNhanVien(NhanVien nhanVien)
         {
+
           if (_context.NhanViens == null)
           {
               return Problem("Entity set 'QLMamNonContext.NhanViens'  is null.");
           }
+
             _context.NhanViens.Add(nhanVien);
             try
             {
@@ -178,3 +175,4 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
     }
 }
+

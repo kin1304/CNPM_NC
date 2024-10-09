@@ -54,7 +54,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPhuHuynh(string id, PhuHuynh phuHuynh)
         {
-            
 
             _context.Entry(phuHuynh).State = EntityState.Modified;
 

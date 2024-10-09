@@ -4,14 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class NhanVienController : Controller
     {
+        private const string baseURL = "http://localhost:5005/api/NhanViens";
         private readonly QLMamNonContext _context;
         private readonly ILogger<NhanVienController> _logger;
+        private HttpClient client = new HttpClient();
 
         public NhanVienController(QLMamNonContext context, ILogger<NhanVienController> logger)
         {
@@ -24,135 +28,59 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.NamLamSortParm = sortOrder == "namlam_asc" ? "namlam_desc" : "namlam_asc";
 
-            try
+            List<NhanVien> nhanViens = new List<NhanVien>();
+            HttpResponseMessage response = client.GetAsync(baseURL).Result;
+            if (response.IsSuccessStatusCode)
             {
-                var nhanViens = from nv in _context.NhanViens.Include(nv => nv.ChucVu) select nv;
-
-                switch (sortOrder)
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<List<NhanVien>>(result);
+                if (data != null)
+                {
+                    nhanViens = data;
+                }
+            }
+            switch (sortOrder)
                 {
                     case "name_desc":
-                        nhanViens = nhanViens.OrderByDescending(nv => nv.HoTen);
+                        nhanViens = nhanViens.OrderByDescending(nv => nv.HoTen).ToList();
                         break;
                     case "namlam_asc":
-                        nhanViens = nhanViens.OrderBy(nv => nv.NamLam);
+                        nhanViens = nhanViens.OrderBy(nv => nv.NamLam).ToList();
                         break;
                     case "namlam_desc":
-                        nhanViens = nhanViens.OrderByDescending(nv => nv.NamLam);
+                        nhanViens = nhanViens.OrderByDescending(nv => nv.NamLam).ToList();
                         break;
                     default:
-                        nhanViens = nhanViens.OrderBy(nv => nv.HoTen);
+                        nhanViens = nhanViens.OrderBy(nv => nv.HoTen).ToList();
                         break;
                 }
-
-                return View(await nhanViens.ToListAsync());
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error fetching NhanViens.");
-                ViewBag.ErrorMessage = "An error occurred while fetching data.";
-                return View(new List<NhanVien>());
-            }
+                return View(nhanViens);
         }
 
         // GET: Admin/NhanVien/Create
         public async Task<IActionResult> Create()
         {
-            try
-            {
-                // Lấy danh sách ChucVu để hiển thị trong dropdown
-                var chucVuList = await _context.ChucVus
-                    .Select(cv => new
-                    {
-                        cv.TenCv,
-                        cv.ViTri
-                    })
-                    .ToListAsync();
-
-                // Tạo danh sách SelectList cho dropdown
-                ViewBag.ChucVuList = new SelectList(chucVuList, "TenCv", "TenCv");
-                ViewBag.ViTriList = new SelectList(chucVuList, "ViTri", "ViTri");
-
+                ViewBag.ChucVuList = new SelectList(_context.ChucVus, "TenCv", "TenCv");
+                ViewBag.ViTriList = new SelectList(_context.ChucVus, "ViTri", "ViTri");
                 return View();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error loading Create view.");
-                ViewBag.ErrorMessage = "An error occurred while preparing the Create view.";
-                return RedirectToAction(nameof(Index));
-            }
         }
 
         // POST: Admin/NhanVien/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(NhanVien nhanVien)
-        {
-            try
             {
-                if (ModelState.IsValid)
-                {
-                    // Check if MaSt already exists
-                    bool maStExists = await _context.NhanViens.AnyAsync(nv => nv.MaSt == nhanVien.MaSt);
-
-                    if (maStExists)
-                    {
-                        // If MaSt already exists, return an error message
-                        ModelState.AddModelError("MaSt", "Mã số nhân viên đã tồn tại, vui lòng nhập mã số khác.");
-
-                        // Reload ChucVu dropdowns if validation fails
-                        var chucVuList = await _context.ChucVus
-                            .Select(cv => new
-                            {
-                                cv.TenCv,
-                                cv.ViTri
-                            })
-                            .ToListAsync();
-
-                        ViewBag.ChucVuList = new SelectList(chucVuList, "TenCv", "TenCv");
-                        ViewBag.ViTriList = new SelectList(chucVuList, "ViTri", "ViTri");
-
-                        return View(nhanVien); // Return to the form with the error message
-                    }
-
-                    // If MaSt is unique, proceed to add the employee
-                    _context.Add(nhanVien);
-                    await _context.SaveChangesAsync();
-                    _logger.LogInformation("NhanVien created successfully.");
-                    return RedirectToAction(nameof(Index));
-                }
-
-                // If model is not valid, reload ChucVu dropdowns
-                var chucVuListInvalid = await _context.ChucVus
-                    .Select(cv => new
-                    {
-                        cv.TenCv,
-                        cv.ViTri
-                    })
-                    .ToListAsync();
-
-                ViewBag.ChucVuList = new SelectList(chucVuListInvalid, "TenCv", "TenCv");
-                ViewBag.ViTriList = new SelectList(chucVuListInvalid, "ViTri", "ViTri");
-
-                return View(nhanVien);
-            }
-            catch (Exception ex)
+                string data = JsonConvert.SerializeObject(nhanVien);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PostAsync(baseURL, content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                _logger.LogError(ex, "Error creating NhanVien.");
-                ViewBag.ErrorMessage = "An error occurred while creating the employee.";
-
-                var chucVuList = await _context.ChucVus
-                    .Select(cv => new
-                    {
-                        cv.TenCv,
-                        cv.ViTri
-                    })
-                    .ToListAsync();
-
-                ViewBag.ChucVuList = new SelectList(chucVuList, "TenCv", "TenCv");
-                ViewBag.ViTriList = new SelectList(chucVuList, "ViTri", "ViTri");
-
-                return View(nhanVien);
+                TempData["Insert_message"] = "Add Success...";
+                return RedirectToAction("Index");
             }
+            ViewBag.ChucVuList = new SelectList(_context.ChucVus, "TenCv", "TenCv");
+            ViewBag.ViTriList = new SelectList(_context.ChucVus, "ViTri", "ViTri");
+            return View(nhanVien);
         }
         public async Task<IActionResult> Edit(String? id)
         {
@@ -160,37 +88,15 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            try
+            NhanVien nhanVien = await FindNV(id);
+            if (nhanVien == null)
             {
-                // Find the NhanVien by ID
-                var nhanVien = await _context.NhanViens.FindAsync(id);
-                if (nhanVien == null)
-                {
-                    return NotFound();
-                }
-
-                // Fetch ChucVu data for dropdowns
-                var chucVuList = await _context.ChucVus
-                                    .Select(cv => new
-                                    {
-                                        cv.TenCv,
-                                        cv.ViTri
-                                    })
-                                    .ToListAsync();
-
-                // Tạo danh sách SelectList cho dropdown
-                ViewBag.ChucVuList = new SelectList(chucVuList, "TenCv", "TenCv");
-                ViewBag.ViTriList = new SelectList(chucVuList, "ViTri", "ViTri");
-
-                return View(nhanVien);
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error loading edit form for NhanVien ID {NhanVienId}", id);
-                ViewBag.ErrorMessage = "An error occurred while loading the edit form.";
-                return RedirectToAction(nameof(Index));
-            }
+            ViewBag.ChucVuList = new SelectList(_context.ChucVus, "TenCv", "TenCv");
+            ViewBag.ViTriList = new SelectList(_context.ChucVus, "ViTri", "ViTri");
+
+            return View(nhanVien);
         }
 
         // POST: Admin/NhanVien/Edit/5
@@ -198,133 +104,97 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(String id, NhanVien nhanVien)
         {
-            if (id != nhanVien.MaSt)
+            string data = JsonConvert.SerializeObject(nhanVien);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PutAsync(baseURL + "/" + id, content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                TempData["update_message"] = "Edit Success...";
+                return RedirectToAction("Index");
             }
-
-            if (!ModelState.IsValid)
-            {
-                // Reload ChucVu dropdowns if validation fails
-                var chucVuList = await _context.ChucVus
-                    .Select(cv => new
-                    {
-                        cv.TenCv,
-                        cv.ViTri
-                    })
-                    .ToListAsync();
-
-                ViewBag.ChucVuList = new SelectList(chucVuList, "TenCv", "TenCv", nhanVien.TenCv);
-                ViewBag.ViTriList = new SelectList(chucVuList, "ViTri", "ViTri", nhanVien.ViTri);
-
-                return View(nhanVien);
-            }
-
-            try
-            {
-                // Update the entity in the context and save changes
-                _context.Update(nhanVien);
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("NhanVien ID {NhanVienId} updated successfully.", id);
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                if (!NhanVienExists(nhanVien.MaSt))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    _logger.LogError(ex, "Concurrency error updating NhanVien ID {NhanVienId}", id);
-                    throw;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating NhanVien ID {NhanVienId}", id);
-                ViewBag.ErrorMessage = "An error occurred while updating the employee.";
-                return View(nhanVien);
-            }
+            return View(nhanVien);
         }
         public async Task<IActionResult> Details(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            NhanVien nv = new NhanVien();
+            HttpResponseMessage response = client.GetAsync(baseURL + "/" + id).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<NhanVien>(result);
+                if (data != null)
+                {
+                    nv = data;
+                }
             }
-
-            var nhanVien = await _context.NhanViens
-                .Include(nv => nv.ChucVu) // Nạp ChucVu cùng với NhanVien
-                .FirstOrDefaultAsync(nv => nv.MaSt == id);
-
-            if (nhanVien == null)
-            {
-                return NotFound();
-            }
-
-            return View(nhanVien);
+            return View(nv);
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            NhanVien nv = new NhanVien();
+            HttpResponseMessage response = client.GetAsync(baseURL + "/" + id).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return NotFound();
-            }
-
-            try
-            {
-                var nhanVien = await _context.NhanViens
-                    .Include(nv => nv.ChucVu) // Load the ChucVu navigation property
-                    .FirstOrDefaultAsync(nv => nv.MaSt == id);
-
-                if (nhanVien == null)
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<NhanVien>(result);
+                if (data != null)
                 {
-                    return NotFound();
+                    nv = data;
                 }
-
-                return View(nhanVien);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error loading delete view.");
-                ViewBag.ErrorMessage = "An error occurred while loading the employee details for deletion.";
-                return RedirectToAction(nameof(Index));
-            }
+            return View(nv);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            try
+            HttpResponseMessage response = client.DeleteAsync(baseURL + "/" + id).Result;
+            if (response.IsSuccessStatusCode)
             {
-                var nhanVien = await _context.NhanViens.FindAsync(id);
-                if (nhanVien == null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return NotFound();
+                    TempData["delete_message"] = "Deleted...";
+                    return RedirectToAction("Index");
                 }
-
-                _context.NhanViens.Remove(nhanVien);
-                await _context.SaveChangesAsync();
-
-                _logger.LogInformation("NhanVien deleted successfully.");
-                return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error deleting NhanVien.");
-                TempData["ErrorMessage"] = "Có lỗi xảy ra khi xóa nhân viên. Vui lòng thử lại.";
-                return RedirectToAction(nameof(Delete), new { id });
-            }
+            return View();
         }
 
         // Helper method to check if a NhanVien exists by ID
         private bool NhanVienExists(String id)
         {
             return _context.NhanViens.Any(e => e.MaSt == id);
+        }
+        public async Task<NhanVien> FindNV(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+            using (var nhanvien = new HttpClient())
+            {
+                string path = baseURL + "/" + id;
+                nhanvien.DefaultRequestHeaders.Accept.Clear();
+                nhanvien.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage getData = await nhanvien.GetAsync(path);
+                if (getData.IsSuccessStatusCode)
+                {
+                    var data = getData.Content.ReadAsStringAsync().Result;
+                    var nhanVienResponse = JsonConvert.DeserializeObject<NhanVien>(data);
+                    if (nhanVienResponse == null)
+                    {
+                        return null;
+                    }
+                    NhanVien nhanVien = nhanVienResponse;
+                    return nhanVien;
+                }
+            }
+            return null;
+
+
         }
 
         [HttpGet]

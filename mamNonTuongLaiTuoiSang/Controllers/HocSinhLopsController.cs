@@ -28,6 +28,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
           {
               return BadRequest("Dữ liệu không tồn tại.");
           }
+
             return await _context.HocSinhLops.ToListAsync();
         }
 
@@ -67,6 +68,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             if (hocSinhLop == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
+
             }
 
             return hocSinhLop;
@@ -77,10 +79,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHocSinhLop(string id, HocSinhLop hocSinhLop)
         {
-            if (id != hocSinhLop.IdHs)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(hocSinhLop).State = EntityState.Modified;
 
@@ -93,6 +91,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 if (!HocSinhLopExists(id))
                 {
                     return BadRequest("Dữ liệu không tồn tại.");
+
                 }
                 else
                 {
@@ -108,10 +107,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<HocSinhLop>> PostHocSinhLop(HocSinhLop hocSinhLop)
         {
-          if (_context.HocSinhLops == null)
-          {
-              return Problem("Entity set 'QLMamNonContext.HocSinhLops'  is null.");
-          }
             _context.HocSinhLops.Add(hocSinhLop);
             try
             {
@@ -136,6 +131,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHocSinhLop(string id)
         {
+
             if (_context.HocSinhLops == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
@@ -158,3 +154,4 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
     }
 }
+
