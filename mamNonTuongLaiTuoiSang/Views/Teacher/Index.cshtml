@@ -1,0 +1,94 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.TeacherInfo
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/Content/teacherinfo.css"/>
+</head>
+
+<div>
+    <h1>THÔNG TIN CHI TIẾT</h1>
+    <h4>GIÁO VIÊN</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+           Mã số thuế
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaSt)
+        </dd>
+        <dt class="col-sm-2">
+            Trình độ chuyên môn
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TrinhDoChuyenMon)
+        </dd>
+        <dt class="col-sm-2">
+            Đánh giá
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SaoDanhGia)
+        </dd>
+        <dt class="col-sm-2">
+            Họ và tên
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HoTen)
+        </dd>
+        <dt class="col-sm-2">
+            Địa chỉ
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DiaChi)
+        </dd>
+        <dt class="col-sm-2">
+            Năm sinh
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NamSinh)
+        </dd>
+        <dt class="col-sm-2">
+            Giới tính
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GioiTinh)
+        </dd>
+        <dt class="col-sm-2">
+            Thời gian bắt đầu công tác
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NamLam)
+        </dd>
+        <dt class="col-sm-2">
+            Email
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            Số điện thoại
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sdt)
+        </dd>
+        <dt class="col-sm-2">
+            Tên công việc
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TenCv)
+        </dd>
+        <dt class="col-sm-2">
+            Vị trí
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ViTri)
+        </dd>
+    </dl>
+
+    <div class="back_and_edit" style="margin-top:20px;">
+        @Html.ActionLink("Chỉnh sửa", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="Index">Quay lại</a>
+    </div>
+</div>
+

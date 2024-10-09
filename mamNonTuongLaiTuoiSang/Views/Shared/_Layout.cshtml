@@ -53,25 +53,39 @@
         <div class="w-4/5">
             <!-- Header -->
             <div class="bg-purple-400 p-8 text-white">
-                <div class="flex justify-between items-center">
-                    <div class="text-2xl">Hello....</div>
-                    <div class="flex items-center space-x-4">
-                        <div class="relative">
-                            <input type="text" placeholder="Search" class="bg-white text-gray-700 rounded-full px-4 py-2 focus:outline-none">
-                            <i class="fas fa-search absolute right-3 top-2 text-gray-500"></i>
-                        </div>
-                    </div>
+                <h3 style="font: 20px;">Xin chào</h3>
+
+                @* <div class="flex items-center space-x-4">
+                <div class="relative">
+                <input type="text" placeholder="Search" class="bg-white text-gray-700 rounded-full px-4 py-2 focus:outline-none">
+                <i class="fas fa-search absolute right-3 top-2 text-gray-500"></i>
+                </div>
+                </div> *@
+                <div class="relative">
+                    <input type="text" placeholder="Search" class="bg-white text-gray-700 rounded-full px-4 py-2 focus:outline-none">
+                    <i class="fas fa-search absolute right-3 top-2 text-gray-500"></i>
                 </div>
             </div>
             <!-- Account Information (Dynamic content here) -->
-            <div class="p-8">
+
+            <!-- Vì bị tạo nhiều layer đè nhau nên sẽ thử xóa class p-8 với id mainContent -->
+            @* <div class="p-8">
                 <div id="mainContent" class="bg-white p-6 rounded-lg shadow-md">
                     <!-- Nội dung động sẽ hiển thị ở đây -->
                     <div class="text-gray-700 text-lg">
                         @RenderBody()
                     </div>
                 </div>
-            </div>
+            </div> *@
+
+            <!-- xóa nốt text gray 700 -->
+            <!-- Nội dung động sẽ hiển thị ở đây -->
+           @*  <div class="text-gray-700 text-lg">
+                @RenderBody()
+            </div> *@
+
+            <!-- Nội dung động sẽ hiển thị ở đây -->
+            @RenderBody()
         </div>
     </div>
 
