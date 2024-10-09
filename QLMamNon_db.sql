@@ -43,7 +43,7 @@ create table NhanVien
 create table PhuHuynh
 (
 	IdPH char(10) primary key,
-        Hovaten nvarchar(30),
+        HoTen nvarchar(30),
 	DiaChi nvarchar (100),
 	GioiTinh bit, 
 	NgheNghiep nvarchar (100),
@@ -250,7 +250,17 @@ create table HocSinh_Lop
 	foreign key (IdHS) references HocSinh(IdHS),
 	foreign key (IdLop) references Lop(IdLop)
 )
-
+CREATE TABLE DiemDanh
+(
+    IdDD char(10) PRIMARY KEY,  
+    IdHS char(10),
+    IdLop char(10),
+    Ngay DATE,
+    Thang INT,
+    TrangThai TINYINT,          
+    TrangThaiNghi TINYINT,      
+    FOREIGN KEY (IdHS, IdLop) REFERENCES HocSinh_Lop(IdHS, IdLop)
+);
 INSERT INTO ChucVu (TenCV, ViTri, LuongCoBan, HeSoLuong)
 VALUES 
 (N'Giám đốc', N'Quản lý cấp cao', 50000000, 2.5),
@@ -457,3 +467,15 @@ VALUES
 ('HS000004', 10,'L00004'),
 ('HS000005', 9.5,'L00005');
 select * from HocSinh_Lop
+INSERT INTO DiemDanh (IdDD, IdHS, IdLop, Ngay, TrangThai, TrangThaiNghi)
+VALUES 
+('DD001', 'HS000001', 'L00001', '2024-10-01', 1, 0),
+('DD002', 'HS000002', 'L00002', '2024-10-01', 0, 1),
+('DD003', 'HS000003', 'L00003', '2024-10-01', 1, 0),
+('DD004', 'HS000004', 'L00004', '2024-10-01', 1, 0),
+('DD005', 'HS000005', 'L00005', '2024-10-01', 1, 1),
+('DD006', 'HS000001', 'L00001', '2024-10-02', 0, 0),
+('DD007', 'HS000002', 'L00002', '2024-10-02', 1, 0),
+('DD008', 'HS000003', 'L00003', '2024-10-02', 1, 1),
+('DD009', 'HS000004', 'L00004', '2024-10-02', 1, 0),
+('DD010', 'HS000005', 'L00005', '2024-10-02', 0, 1);
