@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
+using Ganss.XSS;
 
 namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 {
@@ -122,6 +123,10 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
                 tt.Anh = anhFile.FileName;
             }
 
+            // Làm sạch nội dung HTML
+            var sanitizer = new HtmlSanitizer();
+            tt.NoiDung = sanitizer.Sanitize(tt.NoiDung);
+
             string data = JsonConvert.SerializeObject(tt);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(url, content);
@@ -190,7 +195,6 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [HttpPost]
         public async Task<IActionResult> Edit(TinTuc tt, IFormFile? anhFile)
         {
             if (anhFile != null && anhFile.Length > 0)
@@ -207,6 +211,10 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
                 // Cập nhật tên file vào thuộc tính Anh
                 tt.Anh = anhFile.FileName;
             }
+
+            // Làm sạch nội dung HTML
+            var sanitizer = new HtmlSanitizer();
+            tt.NoiDung = sanitizer.Sanitize(tt.NoiDung);
 
             string data = JsonConvert.SerializeObject(tt);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
@@ -316,6 +324,52 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             }
 
             return Problem("Lỗi khi tìm kiếm thông tin.");
+        }
+
+        // Action UploadImage
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadImage(IFormFile upload)
+        {
+            if (upload != null && upload.Length > 0)
+            {
+                // Kiểm tra loại file
+                var permittedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                var extension = Path.GetExtension(upload.FileName).ToLowerInvariant();
+                if (string.IsNullOrEmpty(extension) || !permittedExtensions.Contains(extension))
+                {
+                    return Json(new { uploaded = 0, error = new { message = "Chỉ cho phép upload các định dạng hình ảnh (.jpg, .jpeg, .png, .gif)." } });
+                }
+
+                // Kiểm tra kích thước file (ví dụ: tối đa 2MB)
+                if (upload.Length > 2 * 1024 * 1024)
+                {
+                    return Json(new { uploaded = 0, error = new { message = "Kích thước hình ảnh không được vượt quá 2MB." } });
+                }
+
+                // Tạo đường dẫn lưu hình ảnh
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Content", "images");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                // Tạo tên file duy nhất
+                var uniqueFileName = Guid.NewGuid().ToString() + extension;
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                // Lưu file vào thư mục
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await upload.CopyToAsync(fileStream);
+                }
+
+                // Trả về đường dẫn hình ảnh cho CKEditor
+                var imageUrl = Url.Content($"~/Content/images/{uniqueFileName}");
+                return Json(new { uploaded = 1, fileName = uniqueFileName, url = imageUrl });
+            }
+
+            return Json(new { uploaded = 0, error = new { message = "Không thể tải hình ảnh lên." } });
         }
 
     }
