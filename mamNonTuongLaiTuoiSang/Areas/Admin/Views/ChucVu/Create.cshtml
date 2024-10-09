@@ -1,5 +1,4 @@
 ﻿@model mamNonTuongLaiTuoiSang.Models.ChucVu
-
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -44,3 +43,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

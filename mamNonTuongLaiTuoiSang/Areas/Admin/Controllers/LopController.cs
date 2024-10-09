@@ -39,13 +39,14 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             ViewBag.SearchQuery = searchQuery;
 
             // Tạo danh sách các tùy chọn lọc
-            ViewBag.FilterOptions = new SelectList(new[]
+            ViewBag.siSoFilter = new SelectList(new[]
             {
                 new { Value = "All", Text = "All" },
                 new { Value = "<10", Text = "<10" },
                 new { Value = "10-30", Text = "10-30" },
                 new { Value = ">30", Text = ">30" }
             }, "Value", "Text", filterOption);
+            
 
             List<Lop> lops = new List<Lop>();
             var client = _httpClientFactory.CreateClient();

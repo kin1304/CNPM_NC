@@ -54,11 +54,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNgoaiKhoa(string id, NgoaiKhoa ngoaiKhoa)
         {
-            if (id != ngoaiKhoa.IdNk)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(ngoaiKhoa).State = EntityState.Modified;
 
             try
@@ -85,10 +80,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<NgoaiKhoa>> PostNgoaiKhoa(NgoaiKhoa ngoaiKhoa)
         {
-          if (_context.NgoaiKhoas == null)
-          {
-              return Problem("Entity set 'QLMamNonContext.NgoaiKhoas'  is null.");
-          }
+          
             _context.NgoaiKhoas.Add(ngoaiKhoa);
             try
             {
@@ -113,10 +105,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNgoaiKhoa(string id)
         {
-            if (_context.NgoaiKhoas == null)
-            {
-                return BadRequest("Dữ liệu không tồn tại.");
-            }
             var ngoaiKhoa = await _context.NgoaiKhoas.FindAsync(id);
             if (ngoaiKhoa == null)
             {

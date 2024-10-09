@@ -54,11 +54,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLop(string id, Lop lop)
         {
-            if (id != lop.IdLop)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(lop).State = EntityState.Modified;
 
             try

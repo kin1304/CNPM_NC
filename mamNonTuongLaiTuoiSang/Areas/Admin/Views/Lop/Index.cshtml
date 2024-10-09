@@ -13,7 +13,7 @@
     <!-- Dropdown để lọc sĩ số -->
     <form method="get" asp-action="Index" class="d-inline-block ml-3">
         <div class="form-group mb-0">
-            @Html.DropDownList("siSoFilter", (SelectList)ViewBag.SiSoFilter, new { @class = "form-control d-inline-block w-auto", @style = "display:inline-block; width:auto;" })
+            @Html.DropDownList("siSoFilter", (SelectList)ViewBag.siSoFilter, new { @class = "form-control d-inline-block w-auto", @style = "display:inline-block; width:auto;" })
             <button type="submit" class="btn btn-primary">Lọc</button>
         </div>
     </form>
