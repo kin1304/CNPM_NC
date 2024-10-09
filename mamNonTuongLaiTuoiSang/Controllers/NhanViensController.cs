@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,10 +24,11 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NhanVien>>> GetNhanViens()
         {
-            if (_context.NhanViens == null)
-            {
-                return BadRequest("Dữ liệu không tồn tại.");
-            }
+          if (_context.NhanViens == null)
+          {
+              return BadRequest("Dữ liệu không tồn tại.");
+          }
+
             return await _context.NhanViens.ToListAsync();
         }
 
@@ -35,10 +36,11 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<NhanVien>> GetNhanVien(string id)
         {
-            if (_context.NhanViens == null)
-            {
-                return BadRequest("Dữ liệu không tồn tại.");
-            }
+          if (_context.NhanViens == null)
+          {
+              return BadRequest("Dữ liệu không tồn tại.");
+          }
+
             var nhanVien = await _context.NhanViens.FindAsync(id);
 
             if (nhanVien == null)
@@ -56,7 +58,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-
 
             var NhanViens = await _context.NhanViens
                 .Where(Nv => Nv.TenCv == TenCv)
@@ -78,7 +79,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-
 
             var NhanViens = await _context.NhanViens
                 .Where(Nv => Nv.ViTri == vitri)
@@ -123,10 +123,12 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<NhanVien>> PostNhanVien(NhanVien nhanVien)
         {
-            if (_context.NhanViens == null)
-            {
-                return Problem("Entity set 'QLMamNonContext.NhanViens'  is null.");
-            }
+
+          if (_context.NhanViens == null)
+          {
+              return Problem("Entity set 'QLMamNonContext.NhanViens'  is null.");
+          }
+
             _context.NhanViens.Add(nhanVien);
             try
             {
@@ -173,3 +175,4 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
     }
 }
+

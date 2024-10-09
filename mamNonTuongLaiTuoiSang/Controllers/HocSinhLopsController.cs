@@ -24,10 +24,11 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HocSinhLop>>> GetHocSinhLops()
         {
-            if (_context.HocSinhLops == null)
-            {
-                return NotFound();
-            }
+          if (_context.HocSinhLops == null)
+          {
+              return BadRequest("Dữ liệu không tồn tại.");
+          }
+
             return await _context.HocSinhLops.ToListAsync();
         }
 
@@ -37,7 +38,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
             if (_context.HocSinhLops == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             var hocSinhLop = await _context.HocSinhLops
@@ -46,7 +47,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             if (hocSinhLop == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             return hocSinhLop;
@@ -57,7 +58,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
             if (_context.HocSinhLops == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             var hocSinhLop = await _context.HocSinhLops
@@ -66,7 +67,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             if (hocSinhLop == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
+
             }
 
             return hocSinhLop;
@@ -77,7 +79,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHocSinhLop(string id, HocSinhLop hocSinhLop)
         {
-            
 
             _context.Entry(hocSinhLop).State = EntityState.Modified;
 
@@ -89,7 +90,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 if (!HocSinhLopExists(id))
                 {
-                    return NotFound();
+                    return BadRequest("Dữ liệu không tồn tại.");
+
                 }
                 else
                 {
@@ -105,7 +107,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<HocSinhLop>> PostHocSinhLop(HocSinhLop hocSinhLop)
         {
-            
             _context.HocSinhLops.Add(hocSinhLop);
             try
             {
@@ -131,10 +132,14 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         public async Task<IActionResult> DeleteHocSinhLop(string id)
         {
 
+            if (_context.HocSinhLops == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
             var hocSinhLop = await _context.HocSinhLops.FirstOrDefaultAsync(h => h.IdHs == id);
             if (hocSinhLop == null)
             {
-                return NotFound();
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             _context.HocSinhLops.Remove(hocSinhLop);
@@ -149,3 +154,4 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
     }
 }
+
