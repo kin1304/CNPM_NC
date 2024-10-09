@@ -12,7 +12,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         }
 
         public string IdPh { get; set; } = null!;
-        public string? Hovaten { get; set; }
+        public string? HoTen { get; set; }
         public string? DiaChi { get; set; }
         public bool? GioiTinh { get; set; }
         public string? NgheNghiep { get; set; }
