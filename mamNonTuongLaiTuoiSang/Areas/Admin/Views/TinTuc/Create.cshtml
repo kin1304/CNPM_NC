@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="IdTinTuc" class="control-label"></label>
@@ -25,17 +25,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="NoiDung" class="control-label"></label>
-                <input asp-for="NoiDung" class="form-control" />
+                <textarea asp-for="NoiDung" class="form-control" id="NoiDung"></textarea>
                 <span asp-validation-for="NoiDung" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Anh" class="control-label"></label>
-                <input asp-for="Anh" type="file"/>
+                <label>Hình ảnh (nếu có):</label><br />
+                <input type="file" name="anhFile" />
                 <span asp-validation-for="Anh" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MaSt" class="control-label"></label>
-                <select asp-for="MaSt" class ="form-control" asp-items="ViewBag.MaSt"></select>
+                <select asp-for="MaSt" class="form-control" asp-items="ViewBag.MaSt"></select>
+                <span asp-validation-for="MaSt" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -49,5 +50,13 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        CKEDITOR.replace('NoiDung', {
+            filebrowserUploadUrl: '@Url.Action("UploadImage", "TinTuc", new { area = "Admin" })',
+            filebrowserUploadMethod: 'form'
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
