@@ -140,7 +140,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-            var hocSinhLop = await _context.HocSinhLops.FindAsync(id);
+            var hocSinhLop = await _context.HocSinhLops.FirstOrDefaultAsync(h => h.IdHs == id);
             if (hocSinhLop == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
