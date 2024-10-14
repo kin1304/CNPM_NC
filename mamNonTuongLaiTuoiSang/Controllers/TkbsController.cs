@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using mamNonTuongLaiTuoiSang.Models;
+
+namespace mamNonTuongLaiTuoiSang.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TkbsController : ControllerBase
+    {
+        private readonly QLMamNonContext _context;
+
+        public TkbsController(QLMamNonContext context)
+        {
+            _context = context;
+        }
+
+        // GET: api/Tkbs
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Tkb>>> GetTkbs()
+        {
+            if (_context.Tkbs == null)
+            {
+                return BadRequest();
+            }
+
+            var tkbs = await _context.Tkbs.ToListAsync();
+
+            if (tkbs == null || !tkbs.Any()) // Kiểm tra nếu không có dữ liệu
+            {
+                return NotFound("No data found");
+            }
+
+            return Ok(tkbs); // Trả về mã 200 OK với dữ liệu
+        }
+
+        // GET: api/Tkbs/IdLop/Ngay
+        [HttpGet("{Ngay}/{IdLop}")]
+        public async Task<ActionResult<Tkb>> GetTkb(string IdLop, string Ngay)
+        {
+            var tkb = await _context.Tkbs
+                .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay);
+
+            if (tkb == null)
+            {
+                return NotFound("Tkb not found");
+            }
+
+            return Ok(tkb); // Trả về mã 200 OK với dữ liệu
+        }
+
+        // PUT: api/Tkbs/IdLop/Ngay
+        [HttpPut("{IdLop}/{Ngay}")]
+        public async Task<IActionResult> PutTkb(string IdLop, string Ngay, Tkb tkb)
+        {
+            // Kiểm tra nếu IdLop và Ngay trong đối tượng không khớp với tham số
+            if (IdLop != tkb.IdLop || Ngay != tkb.Ngay)
+            {
+                return BadRequest("Thông tin IdLop hoặc Ngay không khớp.");
+            }
+
+            // Đánh dấu trạng thái modified cho đối tượng Tkb
+            _context.Entry(tkb).State = EntityState.Modified;
+
+            try
+            {
+                // Lưu thay đổi vào cơ sở dữ liệu
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Kiểm tra xem bản ghi Tkb có tồn tại hay không
+                if (!TkbExists(IdLop, Ngay))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw; // Ném lại ngoại lệ nếu có xung đột
+                }
+            }
+
+            return NoContent(); // Trả về mã 204 nếu cập nhật thành công
+        }
+
+        // POST: api/Tkbs
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Tkb>> PostTkb(Tkb tkb)
+        {
+            if (_context.Tkbs == null)
+            {
+                return Problem("Entity set 'QLMamNonContext.Tkbs' is null.");
+            }
+
+            // Kiểm tra sự tồn tại của bản ghi với IdLop và Ngay
+            if (TkbExists(tkb.IdLop, tkb.Ngay))
+            {
+                return Conflict();
+            }
+
+            // Thêm bản ghi mới vào DbSet
+            _context.Tkbs.Add(tkb);
+            try
+            {
+                // Lưu thay đổi vào cơ sở dữ liệu
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw; // Ném lại ngoại lệ nếu có lỗi
+            }
+
+            // Trả về kết quả 201 Created cùng với thông tin bản ghi vừa thêm
+            return CreatedAtAction("GetTkb", new { IdLop = tkb.IdLop, Ngay = tkb.Ngay }, tkb);
+        }
+
+        // DELETE: api/Tkbs/IdLop/Ngay
+        [HttpDelete("{IdLop}/{Ngay}")]
+        public async Task<IActionResult> DeleteTkb(string IdLop, string Ngay)
+        {
+            if (_context.Tkbs == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            // Tìm bản ghi Tkb theo IdLop và Ngay
+            var tkb = await _context.Tkbs
+                .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay);
+
+            if (tkb == null)
+            {
+                return BadRequest("Không tìm thấy thời khóa biểu với IdLop và Ngày được cung cấp.");
+            }
+
+            // Xóa bản ghi Tkb
+            _context.Tkbs.Remove(tkb);
+            await _context.SaveChangesAsync();
+
+            return NoContent(); // Trả về mã 204 nếu xóa thành công
+        }
+
+        private bool TkbExists(string IdLop, string Ngay)
+        {
+            // Kiểm tra xem có tồn tại bản ghi Tkb nào với IdLop và Ngay đã cho hay không
+            return _context.Tkbs.Any(t => t.IdLop == IdLop && t.Ngay == Ngay);
+        }
+    }
+}
