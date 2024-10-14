@@ -52,21 +52,34 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
 
             return Ok(tkb); // Trả về mã 200 OK với dữ liệu
+            return await _context.Tkbs.ToListAsync();
         }
-
+        
         // PUT: api/Tkbs/IdLop/Ngay
         [HttpPut("{IdLop}/{Ngay}")]
         public async Task<IActionResult> PutTkb(string IdLop, string Ngay, Tkb tkb)
         {
-            // Kiểm tra nếu IdLop và Ngay trong đối tượng không khớp với tham số
+            // Kiểm tra nếu dữ liệu không khớp với khóa chính được cung cấp
             if (IdLop != tkb.IdLop || Ngay != tkb.Ngay)
             {
                 return BadRequest("Thông tin IdLop hoặc Ngay không khớp.");
             }
+            // Tìm bản ghi Tkb theo IdLop và Ngay
+            var existingTkb = await _context.Tkbs
+                .Include(t => t.IdMhNavigation)  // Bao gồm thông tin từ MonHoc
+                .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay);
 
-            // Đánh dấu trạng thái modified cho đối tượng Tkb
-            _context.Entry(tkb).State = EntityState.Modified;
+            if (existingTkb == null)
+            {
+                return BadRequest("Không tìm thấy thời khóa biểu với IdLop và Ngày được cung cấp.");
+            }
 
+            // Cập nhật thông tin của bản ghi Tkb với dữ liệu mới
+            existingTkb.CaHoc = tkb.CaHoc;
+            existingTkb.IdMh = tkb.IdMh;
+
+            // Đánh dấu trạng thái modified cho bản ghi Tkb
+            _context.Entry(existingTkb).State = EntityState.Modified;
             try
             {
                 // Lưu thay đổi vào cơ sở dữ liệu
@@ -74,6 +87,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
+
                 // Kiểm tra xem bản ghi Tkb có tồn tại hay không
                 if (!TkbExists(IdLop, Ngay))
                 {
@@ -96,12 +110,13 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             if (_context.Tkbs == null)
             {
                 return Problem("Entity set 'QLMamNonContext.Tkbs' is null.");
+
             }
 
             // Kiểm tra sự tồn tại của bản ghi với IdLop và Ngay
             if (TkbExists(tkb.IdLop, tkb.Ngay))
             {
-                return Conflict();
+                return Conflict("Thời khóa biểu đã tồn tại với IdLop và Ngày đã cho.");
             }
 
             // Thêm bản ghi mới vào DbSet
@@ -113,7 +128,9 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateException)
             {
-                throw; // Ném lại ngoại lệ nếu có lỗi
+                // Xử lý lỗi nếu có xung đột trong việc thêm bản ghi
+                throw;
+
             }
 
             // Trả về kết quả 201 Created cùng với thông tin bản ghi vừa thêm
@@ -152,3 +169,4 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
     }
 }
+

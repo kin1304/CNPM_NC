@@ -24,10 +24,11 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MonHoc>>> GetMonHocs()
         {
-            if (_context.MonHocs == null)
-            {
-                return BadRequest();
-            }
+
+          if (_context.MonHocs == null)
+          {
+              return BadRequest();
+          }
             return await _context.MonHocs.ToListAsync();
         }
 
@@ -35,10 +36,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<MonHoc>> GetMonHoc(string id)
         {
-            if (_context.MonHocs == null)
-            {
-                return BadRequest();
-            }
+          if (_context.MonHocs == null)
+          {
+              return BadRequest();
+          }
             var monHoc = await _context.MonHocs.FindAsync(id);
 
             if (monHoc == null)
@@ -54,7 +55,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMonHoc(string id, MonHoc monHoc)
         {
-            
 
             _context.Entry(monHoc).State = EntityState.Modified;
 
@@ -82,10 +82,11 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<MonHoc>> PostMonHoc(MonHoc monHoc)
         {
-            if (_context.MonHocs == null)
-            {
-                return Problem("Entity set 'QLMamNonContext.MonHocs'  is null.");
-            }
+          if (_context.MonHocs == null)
+          {
+              return Problem("Entity set 'QLMamNonContext.MonHocs'  is null.");
+          }
+
             _context.MonHocs.Add(monHoc);
             try
             {
@@ -131,4 +132,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return (_context.MonHocs?.Any(e => e.IdMh == id)).GetValueOrDefault();
         }
     }
+
 }
+
