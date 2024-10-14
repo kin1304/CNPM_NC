@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using mamNonTuongLaiTuoiSang.Models;
 
 namespace mamNonTuongLaiTuoiSang.Controllers
 {
     public class PhuhuynhController : Controller
     {
-        public IActionResult Phuhuynh()
+        [HttpGet]
+        public IActionResult PhuHuynh(PhuHuynh ph)
         {
-            return View("PhuHuynh");
+            return View(ph);
         }
     }
 }
