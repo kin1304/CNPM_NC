@@ -1,0 +1,55 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.Tkb>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ngay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CaHoc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdLop)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.IdMh)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ngay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaHoc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdLop)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMh)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.IdLop }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.IdLop }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IdLop })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
