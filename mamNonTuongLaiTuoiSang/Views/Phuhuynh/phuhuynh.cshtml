@@ -1,98 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model mamNonTuongLaiTuoiSang.Models.PhuHuynh
 @{
+    ViewBag.title = "User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="~/Content/phuhuynh.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
-    <title>User</title>
-</head>
-<body class="bg-gray-100">
-    <div class="flex">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="text-gray-500 text-sm mb-4">Trang phụ huynh</div>
-            <ul class="space-y-4">
-                <li>
-                    <button id="btnProfile" class="sidebar-button">
-                        <i class="fas fa-user mr-2"></i> Thông tin phụ huynh
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo1" class="sidebar-button">
-                        </i> No1
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo2" class="sidebar-button">
-                        </i> No2
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo3" class="sidebar-button">
-                        </i> No3
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo4" class="sidebar-button">
-                        </i> No4
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo5" class="sidebar-button">
-                        </i> No5
-                    </button>
-                </li>
-                <li>
-                    <button id="btnLogout" class="sidebar-button">
-                        </i> Đăng xuất
-                    </button>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Main Content -->
-        <div class="w-4/5">
-            <!-- Header -->
-            <div class="header">
-                <div class="flex justify-between items-center">
-                    <div class="text-2xl">Hello....</div>
-                    <div class="flex items-center space-x-4">
-                        <div class="relative">
-                            <input type="text" placeholder="Search" class="search-input">
-                            <i class="fas fa-search absolute right-3 top-2 text-gray-500"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Account Information (Dynamic content here) -->
-            <div class="p-8">
-                <div id="mainContent" class="main-content">
-                    <!-- Nội dung động sẽ hiển thị ở đây -->
-                    <div id="contentArea" class="text-gray-700 text-lg">
-                        Mầm non tương lai tươi sáng xin chào !
-                    </div>
-                </div>
-            </div>
+<!-- Main Content -->
+<div class="p-8">
+    <div id="mainContent" class="main-content">
+        <div id="contentArea" class="text-gray-700 text-lg">
+            Mầm non tương lai tươi sáng xin chào !
         </div>
     </div>
-
-    <!-- Modal Logout -->
-    <div id="logoutModal" class="modal hidden justify-center items-center">
-        <div class="modal-content">
-            <h2 class="text-2xl font-bold mb-4">Bạn có chắc chắn muốn đăng xuất không?</h2>
-            <div class="flex justify-end space-x-4">
-                <button id="cancelLogout" class="modal-button-cancel">Hủy</button>
-                <button id="confirmLogout" class="modal-button-confirm">Đăng xuất</button>
-            </div>
-        </div>
-    </div>
-
-</body>
-</html>
+</div>
