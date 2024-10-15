@@ -50,7 +50,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "GiaoVien");
+                        return RedirectToAction("Index", "Teacher");
                     }
                 }
 

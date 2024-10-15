@@ -12,18 +12,21 @@
             <div class="text-gray-500 text-sm mb-4">Trang người dùng</div>
             <ul class="space-y-4">
                 <li>
-                    <button id="btnProfile" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
+                    <button id="btnProfile" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                            onclick="navigateTo('/Teacher/Index')">
                         <i class="fas fa-user mr-2"></i> Thông tin người dùng
                     </button>
                 </li>
                 <li>
-                    <button id="btnNo1" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
-                        <i class="fas fa-tachometer-alt mr-2"></i> No1
+                    <button id="btnNo1" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                            onclick="navigateTo('/DiemDanh/Index')">
+                        <i class="fas fa-tachometer-alt mr-2"></i> Điểm danh
                     </button>
                 </li>
                 <li>
-                    <button id="btnNo2" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
-                        <i class="fas fa-icons mr-2"></i> No2
+                    <button id="btnNo2" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                            onclick="navigateTo('/LopHoc/Index')">
+                        <i class="fas fa-icons mr-2"></i> Chiều cao, cân nặng
                     </button>
                 </li>
                 <li>
@@ -86,6 +89,7 @@
 
             <!-- Nội dung động sẽ hiển thị ở đây -->
             @RenderBody()
+            @RenderSection("Scripts", required: false)
         </div>
     </div>
 
@@ -99,4 +103,9 @@
             </div>
         </div>
     </div>
+    <script>
+        function navigateTo(url) {
+            window.location.href = url; // Điều hướng đến URL được truyền vào
+        }
+    </script>
 </body>
