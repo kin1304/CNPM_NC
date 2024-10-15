@@ -61,17 +61,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             
             return Ok(tkbDto);
         }
-
         // PUT: api/Tkbs/IdLop/Ngay
         [HttpPut("{IdLop}/{Ngay}")]
         public async Task<IActionResult> PutTkb(string IdLop, string Ngay, Tkb tkb)
         {
-            // Kiểm tra nếu dữ liệu không khớp với khóa chính được cung cấp
-            if (IdLop != tkb.IdLop || Ngay != tkb.Ngay)
-            {
-                return BadRequest("Thông tin IdLop hoặc Ngay không khớp.");
-            }
-
             // Tìm bản ghi Tkb theo IdLop và Ngay
             var existingTkb = await _context.Tkbs
                 .Include(t => t.IdMhNavigation)  // Bao gồm thông tin từ MonHoc
@@ -88,7 +81,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             // Đánh dấu trạng thái modified cho bản ghi Tkb
             _context.Entry(existingTkb).State = EntityState.Modified;
-
             try
             {
                 // Lưu thay đổi vào cơ sở dữ liệu
@@ -96,6 +88,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
+
                 // Xử lý lỗi đồng bộ hóa nếu có xung đột
                 if (!TkbExists(IdLop, Ngay))
                 {

@@ -69,6 +69,25 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return hocSinhs;
         }
+        [HttpGet("ChieuCao/CanNang/{id}")]
+        public async Task<ActionResult<HocSinh>> GetHocSinhChieuCaoCanNang(string id)
+        {
+            if (_context.HocSinhs == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+            var hocSinh = await _context.HocSinhs
+          .Where(hs => hs.IdHs == id)
+          .Select(hs => new { hs.IdHs, hs.TenHs, hs.ChieuCao, hs.CanNang })
+          .FirstOrDefaultAsync();
+            if (hocSinh == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+
+            return Ok(hocSinh);
+        }
 
         // PUT: api/HocSinhs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
