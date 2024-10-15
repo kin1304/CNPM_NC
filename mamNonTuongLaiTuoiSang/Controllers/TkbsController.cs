@@ -24,46 +24,47 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tkb>>> GetTkbs()
         {
+          if (_context.Tkbs == null)
+          {
+                return BadRequest();
+            }
+            return await _context.Tkbs.ToListAsync();
+        }
+
+        // GET: api/Tkbs/IdLop/Ngay
+        [HttpGet("{IdLop}/{Ngay}")]
+        public async Task<ActionResult<Tkb>> GetTkb(string IdLop, string Ngay)
+        {
             if (_context.Tkbs == null)
             {
                 return BadRequest();
             }
 
-            var tkbs = await _context.Tkbs.ToListAsync();
-
-            if (tkbs == null || !tkbs.Any()) // Kiểm tra nếu không có dữ liệu
-            {
-                return NotFound("No data found");
-            }
-
-            return Ok(tkbs); // Trả về mã 200 OK với dữ liệu
-        }
-
-        // GET: api/Tkbs/IdLop/Ngay
-        [HttpGet("{Ngay}/{IdLop}")]
-        public async Task<ActionResult<Tkb>> GetTkb(string IdLop, string Ngay)
-        {
+            // Truy vấn dữ liệu từ bảng Tkb theo hai khóa chính
             var tkb = await _context.Tkbs
+                .Include(t => t.IdMhNavigation )   
                 .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay);
-
             if (tkb == null)
             {
-                return NotFound("Tkb not found");
+                return BadRequest("Không tìm thấy thời khóa biểu với IdLop và Ngày được cung cấp.");
             }
 
-            return Ok(tkb); // Trả về mã 200 OK với dữ liệu
-            return await _context.Tkbs.ToListAsync();
+            // Chuyển đổi sang TkbDto để trả về dữ liệu hợp lý
+            var tkbDto = new Tkb
+            {
+                IdLop = tkb.IdLop,
+                Ngay = tkb.Ngay,
+                CaHoc = tkb.CaHoc,
+                IdMh = tkb.IdMh,
+                 
+            };
+            
+            return Ok(tkbDto);
         }
-        
         // PUT: api/Tkbs/IdLop/Ngay
         [HttpPut("{IdLop}/{Ngay}")]
         public async Task<IActionResult> PutTkb(string IdLop, string Ngay, Tkb tkb)
         {
-            // Kiểm tra nếu dữ liệu không khớp với khóa chính được cung cấp
-            if (IdLop != tkb.IdLop || Ngay != tkb.Ngay)
-            {
-                return BadRequest("Thông tin IdLop hoặc Ngay không khớp.");
-            }
             // Tìm bản ghi Tkb theo IdLop và Ngay
             var existingTkb = await _context.Tkbs
                 .Include(t => t.IdMhNavigation)  // Bao gồm thông tin từ MonHoc
@@ -88,14 +89,14 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             catch (DbUpdateConcurrencyException)
             {
 
-                // Kiểm tra xem bản ghi Tkb có tồn tại hay không
+                // Xử lý lỗi đồng bộ hóa nếu có xung đột
                 if (!TkbExists(IdLop, Ngay))
                 {
-                    return NotFound();
+                    return BadRequest ("Thời khóa biểu không tồn tại.");
                 }
                 else
                 {
-                    throw; // Ném lại ngoại lệ nếu có xung đột
+                    throw;
                 }
             }
 
@@ -109,8 +110,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
             if (_context.Tkbs == null)
             {
-                return Problem("Entity set 'QLMamNonContext.Tkbs' is null.");
-
+                return BadRequest("Entity set 'QLMamNonContext.Tkbs' is null.");
             }
 
             // Kiểm tra sự tồn tại của bản ghi với IdLop và Ngay
@@ -130,7 +130,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 // Xử lý lỗi nếu có xung đột trong việc thêm bản ghi
                 throw;
-
             }
 
             // Trả về kết quả 201 Created cùng với thông tin bản ghi vừa thêm
@@ -169,4 +168,3 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
     }
 }
-

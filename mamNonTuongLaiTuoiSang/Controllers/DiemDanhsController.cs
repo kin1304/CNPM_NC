@@ -90,11 +90,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDiemDanh(string id, DiemDanh diemDanh)
         {
-            if (id != diemDanh.IdDd)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(diemDanh).State = EntityState.Modified;
 
             try

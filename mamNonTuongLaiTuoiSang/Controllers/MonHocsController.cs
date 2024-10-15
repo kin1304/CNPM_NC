@@ -86,7 +86,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
           {
               return Problem("Entity set 'QLMamNonContext.MonHocs'  is null.");
           }
-
             _context.MonHocs.Add(monHoc);
             try
             {

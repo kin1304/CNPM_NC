@@ -1,0 +1,70 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.HocSinh>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Thông tin chiều cao, cân nặng</h1>
+
+@* <p>
+    <a asp-action="Create">Create New</a>
+</p> *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Họ và tên
+            </th>
+            <th>
+                Giới tính
+            </th>
+            <th>
+                Năm sinh
+            </th>
+            <th>
+                Chiều cao (m)
+            </th>
+            <th>
+                Cân nặng (kg)
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.QuanHe)
+            </th> *@
+            @* <th>
+                @Html.DisplayNameFor(model => model.IdPhNavigation)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenHs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GioiTinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NamSinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChieuCao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CanNang)
+            </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.QuanHe)
+            </td> *@
+            @* <td>
+                @Html.DisplayFor(modelItem => item.IdPhNavigation.IdPh)
+            </td> *@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdHs">Sửa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
