@@ -45,9 +45,15 @@
                 @Html.DisplayFor(modelItem => item.IdMh)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.IdLop }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IdLop }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.IdLop })
+                    <a asp-action="Edit"
+                       asp-route-Ngay="@item.Ngay"
+                       asp-route-IdLop="@item.IdLop">Edit</a> |
+                    <a asp-action="Details"
+                       asp-route-Ngay="@item.Ngay"
+                       asp-route-IdLop="@item.IdLop">Details</a> |
+                    <a asp-action="Delete"
+                       asp-route-Ngay="@item.Ngay"
+                       asp-route-IdLop="@item.IdLop">Delete</a>
             </td>
         </tr>
 }
