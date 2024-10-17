@@ -19,6 +19,8 @@ namespace mamNonTuongLaiTuoiSang.Models
         public int? NamSinh { get; set; }
         public string? IdPh { get; set; }
         public string? QuanHe { get; set; }
+        public decimal? CanNang { get; set; }
+        public decimal? ChieuCao { get; set; }
 
         public virtual PhuHuynh? IdPhNavigation { get; set; }
         public virtual ICollection<Dkxe> Dkxes { get; set; }
