@@ -1,6 +1,6 @@
 ﻿// Lấy các nút trong Sidebar
 const btnProfile = document.getElementById("btnProfile");
-const btnNo1 = document.getElementById("btnNo1");
+const btnBMI = document.getElementById("btnBMI");
 const btnNo2 = document.getElementById("btnNo2");
 const btnNo3 = document.getElementById("btnNo3");
 const btnNo4 = document.getElementById("btnNo4");
@@ -78,9 +78,37 @@ btnProfile.addEventListener("click", function () {
         });
 });
 
-btnNo1.addEventListener("click", function () {
-    contentArea.innerHTML = `<h2 class="text-2xl font-bold mb-4">Chức năng số 1</h2>`;
+btnBMI.addEventListener("click", function () {
+    contentArea.innerHTML = `
+        <div class="text-center">
+            <h1 class="text-red-600 text-xl font-bold mb-4">KẾT QUẢ BMI</h1>
+            <h2 class="text-lg font-semibold mb-2">BMI HIỆN TẠI CỦA BẠN</h2>
+            <div class="relative w-full max-w-md mx-auto mb-4">
+                <div class="flex justify-between">
+                    <div class="h-2 w-1/6 bg-blue-200"></div>
+                    <div class="h-2 w-1/6 bg-blue-300"></div>
+                    <div class="h-2 w-1/6 bg-blue-400"></div>
+                    <div class="h-2 w-1/6 bg-yellow-400"></div>
+                    <div class="h-2 w-1/6 bg-orange-400"></div>
+                    <div class="h-2 w-1/6 bg-red-500"></div>
+                </div>
+                <div class="absolute left-1/3 transform -translate-x-1/2 -translate-y-1/2 mt-1">
+                    <i class="fas fa-caret-up text-blue-500 text-2xl"></i>
+                </div>
+            </div>
+            <p class="text-gray-700 mb-4">Bình thường<br>...</p>
+            <h2 class="text-lg font-semibold mb-2">CÂN NẶNG LÝ TƯỞNG CỦA BẠN</h2>
+            <h2 class="text-lg font-semibold mb-2">...</h2>
+            <h2 class="text-lg font-semibold mb-2">CÂN NẶNG TỐI THIỂU CỦA BẠN</h2>
+            <h2 class="text-lg font-semibold mb-2">...</h2>
+            <h2 class="text-lg font-semibold mb-4">CÂN NẶNG TỐI ĐA CỦA BẠN</h2>
+            <h2 class="text-lg font-semibold mb-2">...</h2>
+            <h3 class="text-md font-semibold mb-2">Lời khuyên dành cho bạn:</h3>
+            <p class="text-gray-700">Hãy ăn uống lành mạnh kết hợp với tập thể dục khoa học để có mức BMI bình thường cùng cân nặng lý tưởng.</p>
+        </div>
+    `;
 });
+
 
 btnNo2.addEventListener("click", function () {
     contentArea.innerHTML = `<h2 class="text-2xl font-bold mb-4">Chức năng số 2</h2>`;
