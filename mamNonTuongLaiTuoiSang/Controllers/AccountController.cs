@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Crypto.IO;
 
 namespace mamNonTuongLaiTuoiSang.Controllers
 {
@@ -48,10 +49,17 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                     {
                         return RedirectToAction("Index", "NhanVien", new { area = "Admin" });
                     }
-                    else
+                    else if(user.TenCv == "Giáo Viên")
                     {
-                        return RedirectToAction("Index", "Teacher", user);
+                        ViewData["GiaoVien"] = user.MaSt;
+                        ViewBag.GiaoVien = user.MaSt;
+                        return RedirectToAction("Index", "GiaoVien", new { id = user.MaSt });
                     }
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Invalid email or password";
+                    return View();
                 }
 
                 // Nếu đăng nhập thất bại, hiển thị thông báo lỗi

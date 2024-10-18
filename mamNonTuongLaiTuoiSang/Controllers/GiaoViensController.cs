@@ -74,11 +74,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGiaoVien(string id, GiaoVien giaoVien)
         {
-            if (id != giaoVien.MaSt)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(giaoVien).State = EntityState.Modified;
 
             try

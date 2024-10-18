@@ -48,6 +48,22 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return lop;
         }
+        [HttpGet("getLopByMaSt/{maSt}")]
+        public async Task<ActionResult<IEnumerable<Lop>>> GetLopByMaSt(string maSt)
+        {
+          if (_context.Lops == null)
+          {
+              return BadRequest("Dữ liệu không tồn tại.");
+          }
+            var lop = await _context.Lops.Where(l => l.MaSt == maSt).ToListAsync();
+
+            if (lop == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            return lop;
+        }
 
         // PUT: api/Lops/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
