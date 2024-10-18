@@ -19,10 +19,11 @@
             <div class="text-gray-500 text-lg mb-4">Trang người dùng</div>
             <ul class="space-y-2">
                 <li>
-                    <button id="btnProfile" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
-                            onclick="navigateTo('/Teacher/Index')">
+                    <div>@ViewData["GiaoVien"]</div>
+                    <a id="btnProfile" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                       href="@Url.Action("Index", "GiaoVien", new {id = ViewData["GiaoVien"]})">
                         <i class="fas fa-user mr-2"></i> Thông tin người dùng
-                    </button>
+                    </a>
                 </li>
                 <li>
                     <button id="btnNo1" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"

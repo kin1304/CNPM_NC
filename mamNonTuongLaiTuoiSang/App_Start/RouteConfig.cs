@@ -11,7 +11,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ITempDataDictionaryFactory, TempDataDictionaryFactory>();
 builder.Services.AddDbContext<QLMamNonContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MamNon")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MamNon")).EnableSensitiveDataLogging());
 builder.Services.AddDistributedMemoryCache();
 
 // Configure session services
