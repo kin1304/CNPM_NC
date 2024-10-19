@@ -26,7 +26,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
           if (_context.GiaoViens == null)
           {
-              return NotFound();
+              return BadRequest();
           }
             return await _context.GiaoViens.ToListAsync();
         }
@@ -38,7 +38,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             // Kiểm tra xem _context có null không
             if (_context.GiaoViens == null || _context.NhanViens == null)
             {
-                return NotFound("Dữ liệu không tồn tại.");
+                return BadRequest("Dữ liệu không tồn tại.");
             }
 
             // Tìm giáo viên theo mã số
@@ -49,24 +49,28 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             // Nếu không tìm thấy giáo viên
             if (giaoVien == null || giaoVien.MaStNavigation.TenCv != "GiaoVien")
             {
-                return NotFound("Không tìm thấy giáo viên với mã số đã cho hoặc nhân viên không phải là giáo viên.");
+                return BadRequest("Không tìm thấy giáo viên với mã số đã cho hoặc nhân viên không phải là giáo viên.");
             }
 
             // Chuyển đổi thông tin sang DTO
-            var nhanVienDto = new NhanVien
+             TeacherInfo gv = new TeacherInfo();
             {
-                MaSt = giaoVien.MaStNavigation.MaSt,
-                HoTen = giaoVien.MaStNavigation.HoTen,
-                MatKhau=giaoVien.MaStNavigation.MatKhau,
-                DiaChi = giaoVien.MaStNavigation.DiaChi,
-                NamSinh = giaoVien.MaStNavigation.NamSinh,
-                GioiTinh = giaoVien.MaStNavigation.GioiTinh,
-                Email = giaoVien.MaStNavigation.Email,
-                Sdt = giaoVien.MaStNavigation.Sdt,
-                TenCv = giaoVien.MaStNavigation.TenCv
+                gv.MaSt = giaoVien.MaSt;
+                gv.HoTen = giaoVien.MaStNavigation.HoTen;
+                gv.DiaChi = giaoVien.MaStNavigation.DiaChi;
+                gv.NamSinh = giaoVien.MaStNavigation.NamSinh;
+                gv.GioiTinh = giaoVien.MaStNavigation.GioiTinh;
+                gv.Email = giaoVien.MaStNavigation.Email;
+                gv.Sdt = giaoVien.MaStNavigation.Sdt;
+                gv.TenCv = giaoVien.MaStNavigation.TenCv;
+                gv.TrinhDoChuyenMon = giaoVien.TrinhDoChuyenMon;
+                gv.ViTri=giaoVien.MaStNavigation.ViTri;
+                gv.SaoDanhGia = giaoVien.SaoDanhGia;
+                gv.NamLam = giaoVien.MaStNavigation.NamLam;
+                
             };
 
-            return Ok(nhanVienDto);
+            return Ok(gv);
         }
 
         // PUT: api/GiaoViens/5
@@ -89,7 +93,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 if (!GiaoVienExists(id))
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
                 else
                 {
@@ -140,7 +144,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             var giaoVien = await _context.GiaoViens.FindAsync(id);
             if (giaoVien == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             _context.GiaoViens.Remove(giaoVien);
