@@ -54,11 +54,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutKhoaHoc(string id, KhoaHoc khoaHoc)
         {
-            if (id != khoaHoc.IdKh)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(khoaHoc).State = EntityState.Modified;
 
             try
