@@ -95,11 +95,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHoaDon(string id, HoaDon hoaDon)
         {
-            if (id != hoaDon.IdHd)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(hoaDon).State = EntityState.Modified;
 
             try

@@ -14,7 +14,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string? TrinhDoChuyenMon { get; set; }
         public decimal? SaoDanhGia { get; set; }
 
-        public virtual NhanVien MaStNavigation { get; set; } = null!;
+        public virtual NhanVien? MaStNavigation { get; set; } = null!;
 
         public virtual ICollection<NgoaiKhoa> IdNks { get; set; }
     }

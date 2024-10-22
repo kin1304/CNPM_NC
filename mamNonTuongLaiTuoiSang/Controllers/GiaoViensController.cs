@@ -104,24 +104,24 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<GiaoVien>> PostGiaoVien(GiaoVien giaoVien)
         {
-          if (_context.GiaoViens == null)
-          {
-              return Problem("Entity set 'QLMamNonContext.GiaoViens'  is null.");
-          }
             _context.GiaoViens.Add(giaoVien);
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                // Kiểm tra xem giáo viên có tồn tại không bằng mã MaSt
                 if (GiaoVienExists(giaoVien.MaSt))
                 {
-                    return Conflict();
+                    return Conflict("Giáo viên với mã này đã tồn tại.");
                 }
                 else
                 {
-                    throw;
+                    // Log chi tiết lỗi để dễ dàng kiểm tra
+                    Console.WriteLine($"Lỗi khi lưu dữ liệu: {ex.Message}");
+                    // Thông báo lỗi chi tiết hơn nếu cần
+                    return StatusCode(500, "Đã xảy ra lỗi khi lưu dữ liệu. Vui lòng thử lại.");
                 }
             }
 
