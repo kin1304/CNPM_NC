@@ -1,0 +1,88 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.HoaDonKhoaHoc>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+<script>
+    function redirectToCreate() {
+        window.location.href = '@Url.Action("Create", "HoaDonKhoaHoc", new { area = "Admin" })';
+    }
+</script>
+<p>
+    <button onclick="redirectToCreate()" class="btn btn-primary">Create New</button>
+</p>
+<form asp-action="Index" method="get">
+    <label for="month">Filter by Month:</label>
+    <select name="month" id="month">
+        <option value="">--Select Month--</option>
+        @for (int i = 1; i <= 12; i++)
+        {
+            <option value="@i">@i</option>
+        }
+    </select>
+
+    <label for="filterBy">Filter By:</label>
+    <select name="filterBy" id="filterBy">
+        <option value="NgayDK">NgayDK</option>
+        <option value="NgayKt">NgayKt</option>
+    </select>
+
+    <input type="submit" value="Filter" />
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["SoLuongSortParm"]">SoLuong</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayDk)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayKt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdKh)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayDk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayKt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdHd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdKh)
+            </td>
+            <td>
+                    <a asp-action="Edit"
+                       asp-route-IdKH="@item.IdKh"
+                       asp-route-IdHD="@item.IdHd">Edit</a> |
+                    <a asp-action="Details"
+                       asp-route-IdKH="@item.IdKh"
+                       asp-route-IdHD="@item.IdHd">Details</a> |
+                    <a asp-action="Delete"
+                       asp-route-IdKH="@item.IdKh"
+                       asp-route-IdHD="@item.IdHd">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
