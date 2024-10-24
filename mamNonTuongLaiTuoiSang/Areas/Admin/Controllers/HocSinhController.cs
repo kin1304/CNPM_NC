@@ -90,7 +90,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdHs,TenHs,GioiTinh,NamSinh,IdPh,QuanHe")] HocSinh hocSinh)
+        public async Task<IActionResult> Create([Bind("IdHs,TenHs,GioiTinh,NamSinh,IdPh,QuanHe, ChieuCao, CanNang")] HocSinh hocSinh)
         {
 
             string data = JsonConvert.SerializeObject(hocSinh);
