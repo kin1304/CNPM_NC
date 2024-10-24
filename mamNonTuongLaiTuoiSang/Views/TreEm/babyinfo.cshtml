@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin trẻ</title>
+﻿@model mamNonTuongLaiTuoiSang.Models.HocSinh
+@{
+    ViewBag.title = "Trẻ em";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";
+}
+@section Styles {
     <link rel="stylesheet" href="~/Content/babyinfo.css">
-</head>
+}
 <body>
     <div class="container">
         <div class="child-info-header">
@@ -17,18 +17,21 @@
                 <img src="~/Content/images/nguyentranthanhnha.png" alt="Ảnh trẻ">
             </div>
             <div class="child-details">
-                <p><strong>Họ và Tên:</strong> Nguyễn Văn A</p>
-                <p><strong>Ngày Sinh:</strong> 01/01/2018</p>
-                <p><strong>Lớp:</strong> Mầm 1</p>
-                <p><strong>Giới Tính:</strong> Nam</p>
-                <p><strong>Số Điện Thoại Phụ Huynh:</strong> 0123456789</p>
+                <p><strong>Họ và Tên:</strong> @Model.TenHs</p>
+                <p><strong>Ngày Sinh:</strong> @Model.NamSinh</p>
+                <p><strong>Giới Tính:</strong> @Model.GioiTinh</p>
+                @if(Model.IdPhNavigation != null)
+                {
+                    <p><strong>Số Điện Thoại Phụ Huynh:</strong> @Model.IdPhNavigation.Sdt</p>
+                }
+                
             </div>
         </div>
 
         <div class="health-info">
             <h2>Thông Tin Sức Khỏe</h2>
-            <p><strong>Cân Nặng:</strong> 18kg</p>
-            <p><strong>Chiều Cao:</strong> 105cm</p>
+            <p><strong>Cân Nặng:</strong> @Model.CanNang (KG)</p>
+            <p><strong>Chiều Cao:</strong> @Model.ChieuCao (M)</p>
             <p><strong>Tiêm Chủng:</strong> Đầy Đủ</p>
         </div>
 
@@ -42,4 +45,4 @@
         </div>
     </div>
 </body>
-</html>
+

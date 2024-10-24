@@ -32,10 +32,10 @@
                     </button>
                 </li>
                 <li>
-                    <button id="btnNo2" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
-                            onclick="navigateTo('/LopHoc/Index')">
-                        <i class="fas fa-icons mr-2"></i> Chiều cao, cân nặng
-                    </button>
+                    <a id="btnNo2" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                            href="@Url.Action("Index", "LopHoc", new {id = ViewData["GiaoVien"]})">
+                        <i class="fas fa-icons mr-2"></i> Các lớp của tui
+                    </a>
                 </li>
                 <li>
                     <button id="btnNo3" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
