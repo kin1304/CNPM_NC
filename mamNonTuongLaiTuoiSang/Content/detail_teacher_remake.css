@@ -1,0 +1,209 @@
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9ecef;
+    padding: 20px;
+    margin: 0;
+}
+
+h4 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+}
+
+.container {
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    animation: gradientAnimation 5s ease infinite;
+    background: linear-gradient(45deg, #845ec2, #d65db1, #ff6f91, #ff9671, #ffc75f, #f9f871);
+    background-size: 400% 400%; /* Tăng kích thước cho gradient */
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+    .section h4 {
+        color: white;
+        font-size: 1.5em;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+dl {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    animation: gradientAnimationFordl 5s ease infinite;
+    background: linear-gradient(45deg, #5ec2b5, #69d1ae, #81dea2, #a3e991, #ccf27f, #f9f871);
+    background-size: 400% 400%; /* Tăng kích thước cho gradient */
+}
+
+@keyframes gradientAnimationFordl {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+.row {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+    .row:hover {
+        background-color: white;
+        width: 100%;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+.label {
+    display: flex;
+    font-weight: bold;
+    color: #495057;
+    width: 40%;
+}
+
+.letterMasothue {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterTrinhdochuyenmon {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterSao {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterHovaten {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterNamsinh {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterGioitinh {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterNamlam {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterEmail {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterDiachi {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterSodienthoai {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterChucvu {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.letterVitri {
+    display: inline-block;
+    transition: transform 1s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+
+/* Hiệu ứng xoay vòng vòng nè hí hí */
+.jump {
+    transform: rotate(360deg);
+}
+
+.value {
+    color: #212529;
+    text-align: right;
+    width: 60%;
+    padding-left: 10px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #dee2e6;
+    margin: 20px 0;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+.footer {
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .footer a {
+        color: white;
+        text-align: center;
+        margin-top: 20px;
+    }
