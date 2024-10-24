@@ -3,6 +3,11 @@
     box-sizing: border-box;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
 #top-header ul {
     background-color: #1F2B7B;
     color: white;
@@ -31,7 +36,6 @@
     margin-right: 10px;
 }
 
-
 #bottom-header {
     display: flex;
     height: 100px;
@@ -50,7 +54,6 @@
         width: 80px;
         height: 80px;
     }
-
 
 #right-section {
     display: flex;
@@ -73,34 +76,71 @@
             font-family: Arial, Helvetica, sans-serif;
             color: #1F2B7B;
             font-weight: bold;
+            cursor: pointer; /* Thêm con trỏ chuột để hiển thị nút bấm */
         }
 
-
+/* Định dạng nội dung */
 #content {
     display: flex;
-    height: 100px;
-    background-color: rgb(226, 223, 43);
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+    margin-top: 20px; /* Thêm khoảng cách phía trên giữa header */
+    margin-bottom: 20px; /* Thêm khoảng cách phía dưới giữa footer */
+    height: auto; /* Kích thước chiều cao tự động theo nội dung */
+    position: relative; /* Cần thiết để sử dụng các thuộc tính tuyệt đối bên trong */
 }
 
+.background-container {
+    position: absolute; /* Đặt khối này ở vị trí tuyệt đối */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('image/anhnhatre.jpg'); /* Đường dẫn đến hình nền */
+    background-size: cover; /* Tự động điều chỉnh kích thước */
+    background-position: center; /* Căn giữa hình ảnh */
+    z-index: -1; /* Để nền nằm phía dưới các nội dung khác */
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.8); /* Nền trắng với độ trong suốt */
+    border-radius: 30px; /* Bo góc 30 độ */
+    overflow: hidden; /* Ẩn phần bên ngoài hình chữ nhật */
+    transition: transform 0.3s; /* Hiệu ứng chuyển động khi hover */
+    width: 200px; /* Độ rộng cố định */
+    height: auto; /* Chiều cao tự động */
+    margin: 10px; /* Khoảng cách giữa các thẻ */
+}
+
+    .card:hover {
+        transform: scale(1.05); /* Phóng to khi hover */
+    }
+
+.card-image {
+    width: 100%; /* Để hình ảnh chiếm toàn bộ chiều rộng của thẻ */
+    height: auto; /* Chiều cao tự động */
+    border-radius: 30px 30px 0 0; /* Bo góc cho phần trên của thẻ */
+}
+
+.card-title {
+    padding: 10px;
+    font-size: 16px;
+    text-align: center; /* Căn giữa tiêu đề */
+}
+
+/* Footer */
 footer {
     display: flex;
     background-color: #2F5787;
     color: white;
     height: 360px;
     justify-content: space-between;
+    padding: 20px;
 }
 
-#About-us-wrapper {
-    flex: 1;
-}
-
-#Introduction-wrapper {
-    flex: 1;
-}
-
-#Information-wrapper {
+#About-us-wrapper, #Introduction-wrapper, #Information-wrapper {
     flex: 1;
 }
 
@@ -116,24 +156,26 @@ footer div ul {
         padding-bottom: 5px;
     }
 
-
     footer div ul li {
         margin-bottom: 10px;
     }
 
+/* Liên kết */
 a {
     text-decoration: none;
     color: blue;
     font-size: 20px;
 }
 
-a.hold {
-    color: orange;
-    font-size: 25px; /* Phóng to chữ khi nhấn giữ */
-}
-a:visited {
-    color: blue; /* Màu cho liên kết đã nhấn */
-}
-a.hover{
-    color: red; /* Màu cho liên kết khi rê chuột vào */
-}
+    a.hold {
+        color: orange;
+        font-size: 25px; /* Phóng to chữ khi nhấn giữ */
+    }
+
+    a:visited {
+        color: blue; /* Màu cho liên kết đã nhấn */
+    }
+
+    a.hover {
+        color: red; /* Màu cho liên kết khi rê chuột vào */
+    }

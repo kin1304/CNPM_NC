@@ -1,0 +1,104 @@
+﻿body {
+    display: flex;
+    flex-wrap: wrap; /* Cho phép thẻ xuống dòng */
+    justify-content: flex-start; /* Căn trái */
+    align-items: flex-start; /* Căn theo đầu dòng */
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    padding: 20px; /* Khoảng cách cho toàn bộ body */
+}
+
+button {
+    border: none;
+}
+
+.card {
+    display: flex; /* Sử dụng flexbox */
+    background-color: rgb(115, 212, 180);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Chiều rộng của thẻ */
+    padding: 15px; /* Khoảng cách bên trong thẻ */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    margin: 10px 5px; /* Khoảng cách giữa các thẻ */
+    transition: transform 0.3s; /* Hiệu ứng chuyển tiếp cho thẻ */
+}
+
+    .card:hover {
+        animation: gradientAnimation 5s ease infinite;
+        background: linear-gradient(45deg, #845ec2, #d65db1, #ff6f91, #ff9671, #ffc75f, #f9f871);
+        background-size: 400% 400%; /* Tăng kích thước cho gradient */
+    }
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.avatar {
+    width: 80px; /* Kích thước hình ảnh */
+    height: 80px; /* Kích thước hình ảnh */
+    border-radius: 50%; /* Tạo hình tròn */
+    margin-right: 15px; /* Khoảng cách giữa avatar và thông tin */
+    transition: transform 3.5s; /* Hiệu ứng chuyển tiếp cho avatar */
+}
+
+.info {
+    text-align: left; /* Căn trái nội dung */
+}
+
+.name {
+    font-size: 20px;
+    font-weight: normal; /* Mặc định không in đậm */
+    margin: 5px 0;
+}
+
+.details {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Hiệu ứng hover */
+.card:hover .avatar {
+    animation: rotate 1s linear infinite; /* Gọi animation xoay */
+}
+
+.card:hover .name {
+    font-weight: bold; /* In đậm chữ khi hover */
+}
+
+.card:hover .details {
+    font-weight: bold; /* In đậm chữ khi hover */
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(45deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    75% {
+        transform: rotate(-45deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
