@@ -35,7 +35,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 {
                     session.SetString("UserEmail", parent.Email);
                     session.SetString("Password", parent.MatKhau);
-
+                    ViewData["PhuHuynh"] = parent.IdPh;
                     return RedirectToAction("PhuHuynh", "PhuHuynh", parent);
                 }
 

@@ -11,11 +11,15 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public IActionResult PhuHuynh(PhuHuynh ph)
         {
+            TempData["PhuHuynh"] = ph.IdPh;
+            ViewData["PhuHuynh"] = ph.IdPh;
             return View(ph);
         }
         [HttpGet]
         public IActionResult Info(string id)
         {
+            TempData["PhuHuynh"] = id;
+            ViewData["PhuHuynh"] = id;
             PhuHuynh ph = new PhuHuynh();
             HttpResponseMessage response = client.GetAsync(baseURL + "/" + id).Result;
             if (response.IsSuccessStatusCode)
