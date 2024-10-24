@@ -49,8 +49,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return hocSinh;
         }
         // GET: api/HocSinh/ByPhuHuynh/{idPH} ( tìm thông tin học sinh thông qua id phu huynh)
-        [HttpGet("ByPhuHuynh/{idPH}")]
-        public async Task<ActionResult<IEnumerable<HocSinh>>> GetHocSinhByPhuHuynh(string idPH)
+        [HttpGet("ByPhuHuynh/{idPh}")]
+        public async Task<ActionResult<IEnumerable<HocSinh>>> GetHocSinhByPhuHuynh(string idPh)
         {
             if (_context.HocSinhs == null)
             {
@@ -59,7 +59,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             // Tìm tất cả học sinh có mã phụ huynh tương ứng
             var hocSinhs = await _context.HocSinhs
-                .Where(hs => hs.IdPh == idPH)
+                .Where(hs => hs.IdPh.Replace(" ","") == idPh.Replace(" ",""))
                 .ToListAsync();
 
             if (hocSinhs == null || hocSinhs.Count == 0)

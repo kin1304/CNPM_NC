@@ -203,6 +203,12 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Lop lop)
         {
+            HttpResponseMessage nvResponse = client.GetAsync(urlNhanVien + lop.MaSt).Result;
+            if (nvResponse.IsSuccessStatusCode)
+            {
+                string nvResult = nvResponse.Content.ReadAsStringAsync().Result;
+                lop.MaStNavigation = JsonConvert.DeserializeObject<NhanVien>(nvResult);
+            }
             string data = JsonConvert.SerializeObject(lop);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
@@ -294,6 +300,11 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
                 string result = response.Content.ReadAsStringAsync().Result;
                 nhanViens = JsonConvert.DeserializeObject<List<NhanVien>>(result);
             }
+            if(nhanViens == null)
+            {
+                return new List<SelectListItem>();
+            }
+            nhanViens = nhanViens.Where(nv => nv.TenCv == "Giáo Viên").ToList();
 
             // Chuyển đổi danh sách NhanVien thành danh sách SelectListItem
             var selectListItems = nhanViens.Select(nv => new SelectListItem

@@ -54,7 +54,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
         // GET: api/HocSinhLops/lop/{idLop} ( lấy mã lớp để tìm thông tin còn hàm trên lấy mã học sinh để tìm thông tin)
         [HttpGet("lop/{idLop}")]
-        public async Task<ActionResult<HocSinhLop>> GetHocSinhLoplop(string idLop)
+        public async Task<ActionResult<List<HocSinhLop>>> GetHocSinhLoplop(string idLop)
         {
             if (_context.HocSinhLops == null)
             {
@@ -63,7 +63,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             var hocSinhLop = await _context.HocSinhLops
                 .Where(hsl => hsl.IdLop == idLop)
-                .FirstOrDefaultAsync();
+                .ToListAsync();
 
             if (hocSinhLop == null)
             {
