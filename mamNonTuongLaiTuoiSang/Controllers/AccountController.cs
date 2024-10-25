@@ -1,60 +1,77 @@
 ﻿using mamNonTuongLaiTuoiSang.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 
 namespace mamNonTuongLaiTuoiSang.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ILogger<AccountController> logger;
+        private readonly HttpClient httpClient;
+
+        private readonly string urlPh = "http://localhost:5005/api/PhuHuynhs";
+        private readonly string urlNv = "http://localhost:5005/api/NhanViens";
+
+        public AccountController(IHttpContextAccessor httpContextAccessor, ILogger<AccountController> logger, HttpClient httpClient)
+        {
+            this.httpContextAccessor = httpContextAccessor;
+            this.logger = logger;
+            this.httpClient = httpClient;
+        }
+
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
-        private readonly QLMamNonContext db;
-        private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly ILogger<AccountController> logger;
-        public AccountController(QLMamNonContext context, IHttpContextAccessor httpContextAccessor, ILogger<AccountController> logger)
-        {
-            this.db = context;
-            this.httpContextAccessor = httpContextAccessor;
-            this.logger = logger;
-        }
 
         [HttpPost]
-        public ActionResult Login(string email, string password)
+        public async Task<ActionResult> Login(string email, string password)
         {
             try
             {
-
                 var session = httpContextAccessor.HttpContext.Session;
-                var parent = db.PhuHuynhs.SingleOrDefault(ph => ph.Email == email && ph.MatKhau == password);
-                if (parent != null)
+
+                // Kiểm tra thông tin người dùng PhuHuynh qua API
+                var phuHuynhResponse = await httpClient.GetAsync($"{urlPh}/filter?email={email}&matKhau={password}");
+                if (phuHuynhResponse.IsSuccessStatusCode)
                 {
-                    session.SetString("UserEmail", parent.Email);
-                    session.SetString("Password", parent.MatKhau);
-
-                    return RedirectToAction("User", "User");
-                }
-
-                var user = db.NhanViens.SingleOrDefault(nv => nv.Email == email && nv.MatKhau == password);
-                if (user != null)
-                {
-                    session.SetString("UserEmail", user.Email);
-                    session.SetString("Password", user.MatKhau);
-
-                    if (user.TenCv == "Admin")
+                    var parent = await phuHuynhResponse.Content.ReadFromJsonAsync<PhuHuynh>();
+                    if (parent != null)
                     {
-                        return RedirectToAction("Index", "NhanVien", new { area = "Admin" });
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "GiaoVien");
+                        session.SetString("UserEmail", parent.Email);
+                        session.SetString("Password", parent.MatKhau);
+                        ViewData["PhuHuynh"] = parent.IdPh;
+                        return RedirectToAction("PhuHuynh", "PhuHuynh", parent);
                     }
                 }
 
-                // Nếu đăng nhập thất bại, hiển thị thông báo lỗi
+                // Kiểm tra thông tin người dùng NhanVien qua API
+                var nhanVienResponse = await httpClient.GetAsync($"{urlNv}/filter?email={email}&matKhau={password}");
+                if (nhanVienResponse.IsSuccessStatusCode)
+                {
+                    var user = await nhanVienResponse.Content.ReadFromJsonAsync<NhanVien>();
+                    if (user != null)
+                    {
+                        session.SetString("UserEmail", user.Email);
+                        session.SetString("Password", user.MatKhau);
+
+                        if (user.TenCv == "Admin")
+                        {
+                            return RedirectToAction("Index", "NhanVien", new { area = "Admin" });
+                        }
+                        else if (user.TenCv == "GiaoVien")
+                        {
+                            ViewData["GiaoVien"] = user.MaSt;
+                            ViewBag.GiaoVien = user.MaSt;
+                            return RedirectToAction("Index", "GiaoVien", new { id = user.MaSt });
+                        }
+                    }
+                }
+
                 ViewBag.ErrorMessage = "Invalid email or password";
                 return View();
             }
@@ -72,10 +89,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             var session = httpContextAccessor.HttpContext.Session;
             session.Clear();
 
-            // Redirect to login page
-            return Ok(); // Trả về Ok để báo cho client rằng đã đăng xuất thành công
+            return Ok();
         }
-
-
     }
 }
