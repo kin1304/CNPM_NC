@@ -15,7 +15,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string? TenLop { get; set; }
         public int? SiSo { get; set; }
         public string? MaSt { get; set; }
-
+        
         public virtual NhanVien? MaStNavigation { get; set; }
         public virtual ICollection<HocSinhLop> HocSinhLops { get; set; }
         public virtual ICollection<Tkb> Tkbs { get; set; }

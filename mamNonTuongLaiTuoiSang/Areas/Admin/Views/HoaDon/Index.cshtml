@@ -1,0 +1,70 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.HoaDon>
+
+@{
+    ViewData["Title"] = "Quản lý hóa đơn";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Quản lý hóa đơn</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<!-- Form Tìm Kiếm -->
+<form asp-action="Index" method="get" class="form-inline mb-3">
+    <div class="form-group mr-2">
+        <input type="text" name="searchQuery" class="form-control" placeholder="Tìm kiếm..." value="@ViewBag.SearchQuery" />
+    </div>
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i> Tìm
+    </button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.IdHdSortParm">Mã hóa đơn</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayLap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayHetHan)
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.SoTienSortParm">Số tiền</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.TrangThaiSortParm">Trạng thái</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.IdHsSortParm">Mã học sinh</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.MaStSortParm">Mã nhân viên</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.IdHd)</td>
+                <td>@Html.DisplayFor(modelItem => item.NgayLap)</td>
+                <td>@Html.DisplayFor(modelItem => item.NgayHetHan)</td>
+                <td>@Html.DisplayFor(modelItem => item.SoTien)</td>
+                <td>@Html.DisplayFor(modelItem => item.TrangThai)</td>
+                <td>@Html.DisplayFor(modelItem => item.IdHs)</td>
+                <td>@Html.DisplayFor(modelItem => item.MaSt)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdHd">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdHd">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdHd">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

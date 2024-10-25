@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Crypto.IO;
+
 
 namespace mamNonTuongLaiTuoiSang.Controllers
 {
@@ -34,7 +37,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             try
             {
                 var session = httpContextAccessor.HttpContext.Session;
-
                 // Kiểm tra thông tin người dùng PhuHuynh qua API
                 var phuHuynhResponse = await httpClient.GetAsync($"{urlPh}/filter?email={email}&matKhau={password}");
                 if (phuHuynhResponse.IsSuccessStatusCode)
@@ -70,6 +72,11 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                             return RedirectToAction("Index", "GiaoVien", new { id = user.MaSt });
                         }
                     }
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Invalid email or password";
+                    return View();
                 }
 
                 ViewBag.ErrorMessage = "Invalid email or password";

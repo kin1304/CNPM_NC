@@ -50,7 +50,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return nhanVien;
         }
-        // GET: api/NhanViens/ByChucVu/{TenCv} ( tìm thông tin  thông qua tên chức vụ)
+        // GET: api/NhanViens/ByChucVu/{TenCv} ( tìm thông tin thông qua tên chức vụ)
         [HttpGet("ByChucVu/{TenCv}")]
         public async Task<ActionResult<IEnumerable<NhanVien>>> GetNhanVienbyTenCv(string TenCv)
         {
