@@ -92,6 +92,27 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return NhanViens;
         }
 
+        // GET: api/NhanViens/filter?email={email}&matKhau={matKhau}
+        [HttpGet("filter")]
+        public async Task<ActionResult<NhanVien>> GetNhanVienByEmailAndPassword(string email, string matKhau)
+        {
+            if (_context.NhanViens == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            var nhanVien = await _context.NhanViens
+                .FirstOrDefaultAsync(nv => nv.Email == email && nv.MatKhau == matKhau);
+
+            if (nhanVien == null)
+            {
+                return NotFound("Không tìm thấy nhân viên với email và mật khẩu này.");
+            }
+
+            return nhanVien;
+        }
+
+
         // PUT: api/NhanViens/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

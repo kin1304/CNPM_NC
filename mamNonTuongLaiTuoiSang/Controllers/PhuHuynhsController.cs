@@ -49,6 +49,27 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return phuHuynh;
         }
 
+        // GET: api/PhuHuynhs/filter?email={email}&matKhau={matKhau}
+        [HttpGet("filter")]
+        public async Task<ActionResult<PhuHuynh>> GetPhuHuynhByEmailAndPassword(string email, string matKhau)
+        {
+            if (_context.PhuHuynhs == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            var phuHuynh = await _context.PhuHuynhs
+                .FirstOrDefaultAsync(ph => ph.Email == email && ph.MatKhau == matKhau);
+
+            if (phuHuynh == null)
+            {
+                return NotFound("Không tìm thấy phụ huynh với email và mật khẩu này.");
+            }
+
+            return phuHuynh;
+        }
+
+
         // PUT: api/PhuHuynhs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
