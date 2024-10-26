@@ -1,5 +1,4 @@
-﻿@model mamNonTuongLaiTuoiSang.Models.PhuHuynh
-<head>
+﻿<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,13 +21,13 @@
                 <li>
                     
                     <button id="btnProfile" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
-                            onclick ="navigateTo('/PhuHuynh/Info/@Model.IdPh')">
+                            onclick ="navigateTo('/PhuHuynh/Info/@ViewData["PhuHuynh"]')">
                         <i class="fas fa-user mr-2"></i> Thông tin người dùng
                     </button>
                 </li>
                 <li>
                     <button id="btnNo2" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
-                            onclick="navigateTo('/TreEm/babyinfo')">
+                            onclick="navigateTo('/TreEm/Index/@ViewData["PhuHuynh"]')">
                         <i class="fas fa-icons mr-2"></i> Trẻ em của tui
                     </button>
                 </li>
@@ -67,6 +66,7 @@
             <!-- Nội dung động sẽ hiển thị ở đây -->
             @RenderBody()
             @RenderSection("Scripts", required: false)
+            @RenderSection("Styles", required: false)
         </div>
     </div>
 

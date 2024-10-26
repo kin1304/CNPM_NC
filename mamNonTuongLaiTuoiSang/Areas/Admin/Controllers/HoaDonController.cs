@@ -9,9 +9,9 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class HoaDonController : Controller
     {
-        private string url = "http://localhost:5005/api/hoadons/";
-        private string urlHs = "http://localhost:5005/api/hocsinhs/";
-        private string urlNv = "http://localhost:5005/api/nhanviens/";
+        private string url = "https://localhost:5005/api/hoadons/";
+        private string urlHs = "https://localhost:5005/api/hocsinhs/";
+        private string urlNv = "https://localhost:5005/api/nhanviens/";
 
         private HttpClient client = new HttpClient();
 
