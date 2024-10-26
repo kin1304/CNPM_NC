@@ -6,8 +6,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 {
     public class TreEmController : Controller
     {
-        private readonly string url = "http://localhost:5005/api/HocSinhs/ByPhuHuynh/";
-        private readonly string urlDetails = "http://localhost:5005/api/HocSinhs/";
+        private readonly string url = "https://localhost:5005/api/HocSinhs/ByPhuHuynh/";
+        private readonly string urlDetails = "https://localhost:5005/api/HocSinhs/";
 
         private HttpClient client = new HttpClient();
 
