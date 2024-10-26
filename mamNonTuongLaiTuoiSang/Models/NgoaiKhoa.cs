@@ -7,7 +7,8 @@ namespace mamNonTuongLaiTuoiSang.Models
     {
         public NgoaiKhoa()
         {
-            MaSts = new HashSet<GiaoVien>();
+            NgoaiKhoaGiaoViens = new HashSet<NgoaiKhoaGiaoVien>();
+            
         }
 
         public string IdNk { get; set; } = null!;
@@ -16,6 +17,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public DateTime? NgayKetThu { get; set; }
         public string? MoTa { get; set; }
 
-        public virtual ICollection<GiaoVien> MaSts { get; set; }
+        
+        public virtual ICollection<NgoaiKhoaGiaoVien> NgoaiKhoaGiaoViens { get; set; }
     }
 }

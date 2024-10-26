@@ -92,6 +92,59 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return NhanViens;
         }
 
+        // GET: api/NhanViens/GetNhanVienHd/{MaSt}
+        [HttpGet("GetNhanVienHd/{MaSt}")]
+        public async Task<ActionResult<object>> GetNhanVienDetails(string MaSt)
+        {
+            if (_context.NhanViens == null || _context.ChucVus == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            // Fetch the NhanVien (Employee) based on MaSt
+            var nhanVien = await _context.NhanViens
+                .Include(nv => nv.ChucVu)          // Include ChucVu for salary calculation
+                .Include(nv => nv.GiaoVien)        // Include GiaoVien if this employee is also a teacher
+                .FirstOrDefaultAsync(nv => nv.MaSt == MaSt);
+
+            if (nhanVien == null)
+            {
+                return BadRequest("Không tìm thấy nhân viên với mã nhân viên cung cấp.");
+            }
+
+            // Calculate the salary (LuongCoBan * HeSoLuong)
+            var luongCoBan = nhanVien.ChucVu?.LuongCoBan ?? 0;   // Default to 0 if null
+            var heSoLuong = nhanVien.ChucVu?.HeSoLuong ?? 0;     // Default to 0 if null
+            var tienluong = luongCoBan * heSoLuong;
+
+            // Return the NhanVien (employee) information, GiaoVien (teacher) details if any, and the calculated salary
+            var result = new
+            {
+                NhanVien = new
+                {
+                    nhanVien.MaSt,
+                    nhanVien.HoTen,
+                    nhanVien.DiaChi,
+                    nhanVien.NamSinh,
+                    nhanVien.GioiTinh,
+                    nhanVien.Email,
+                    nhanVien.Sdt,
+                    nhanVien.ViTri,
+                    LuongCoBan = luongCoBan,
+                    HeSoLuong = heSoLuong,
+                    tienluong = tienluong
+                },
+                GiaoVien = nhanVien.GiaoVien != null ? new
+                {
+                    nhanVien.GiaoVien.MaSt,
+                    nhanVien.GiaoVien.TrinhDoChuyenMon,
+                    nhanVien.GiaoVien.SaoDanhGia
+                } : null
+            };
+
+            return Ok(result);
+        }
+
         // PUT: api/NhanViens/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
