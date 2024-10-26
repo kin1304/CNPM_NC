@@ -15,8 +15,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         private readonly ILogger<AccountController> logger;
         private readonly HttpClient httpClient;
 
-        private readonly string urlPh = "http://localhost:5005/api/PhuHuynhs";
-        private readonly string urlNv = "http://localhost:5005/api/NhanViens";
+        private readonly string urlPh = "https://localhost:5005/api/PhuHuynhs";
+        private readonly string urlNv = "https://localhost:5005/api/NhanViens";
 
         public AccountController(IHttpContextAccessor httpContextAccessor, ILogger<AccountController> logger, HttpClient httpClient)
         {
@@ -65,7 +65,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                         {
                             return RedirectToAction("Index", "NhanVien", new { area = "Admin" });
                         }
-                        else if (user.TenCv == "GiaoVien")
+                        else if (user.TenCv == "Giáo Viên")
                         {
                             ViewData["GiaoVien"] = user.MaSt;
                             ViewBag.GiaoVien = user.MaSt;

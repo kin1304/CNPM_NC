@@ -10,9 +10,9 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
 {
     public class DiemDanhController : Controller
     {
-        private readonly string url = "http://localhost:5005/api/diemdanhs/";
-        private readonly string urlHs = "http://localhost:5005/api/hocsinhs/";
-        private readonly string urlLop = "http://localhost:5005/api/lops/";
+        private readonly string url = "https://localhost:5005/api/diemdanhs/";
+        private readonly string urlHs = "https://localhost:5005/api/hocsinhs/";
+        private readonly string urlLop = "https://localhost:5005/api/lops/";
         private readonly HttpClient client;
 
         private readonly QLMamNonContext _context;

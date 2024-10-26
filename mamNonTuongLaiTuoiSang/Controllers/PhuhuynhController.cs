@@ -6,7 +6,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 {
     public class PhuhuynhController : Controller
     {
-        private const string baseURL = "http://localhost:5005/api/PhuHuynhs";
+        private const string baseURL = "https://localhost:5005/api/PhuHuynhs";
         private HttpClient client = new HttpClient();
         [HttpGet]
         public IActionResult PhuHuynh(PhuHuynh ph)
