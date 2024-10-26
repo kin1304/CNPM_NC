@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using mamNonTuongLaiTuoiSang.Models;
+using AngleSharp.Dom;
 
 namespace mamNonTuongLaiTuoiSang.Models
 {
@@ -39,13 +41,14 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
         public virtual DbSet<VoucherCuaPh> VoucherCuaPhs { get; set; } = null!;
         public virtual DbSet<XeBu> XeBus { get; set; } = null!;
+        public virtual DbSet<NgoaiKhoaGiaoVien> NgoaiKhoaGiaoViens { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=NHA\\SQLEXPRESS;Initial Catalog=QLMamNon;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-NB8CABT\\SQLEXPRESS;Initial Catalog=QLMamNon;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             }
         }
 
@@ -176,6 +179,7 @@ namespace mamNonTuongLaiTuoiSang.Models
                     .HasForeignKey<GiaoVien>(d => d.MaSt)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__GiaoVien__SaoDan__59FA5E80");
+
             });
 
             modelBuilder.Entity<HoaDon>(entity =>
@@ -453,22 +457,7 @@ namespace mamNonTuongLaiTuoiSang.Models
                     .HasMaxLength(100)
                     .HasColumnName("TenNK");
 
-                entity.HasMany(d => d.MaSts)
-                    .WithMany(p => p.IdNks)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "NgoaiKhoaGiaoVien",
-                        l => l.HasOne<GiaoVien>().WithMany().HasForeignKey("MaSt").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__NgoaiKhoa___MaST__70DDC3D8"),
-                        r => r.HasOne<NgoaiKhoa>().WithMany().HasForeignKey("IdNk").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__NgoaiKhoa___IdNK__6FE99F9F"),
-                        j =>
-                        {
-                            j.HasKey("IdNk", "MaSt").HasName("PK__NgoaiKho__250199E40CF5A751");
 
-                            j.ToTable("NgoaiKhoa_GiaoVien");
-
-                            j.IndexerProperty<string>("IdNk").HasMaxLength(10).IsUnicode(false).HasColumnName("IdNK").IsFixedLength();
-
-                            j.IndexerProperty<string>("MaSt").HasMaxLength(10).IsUnicode(false).HasColumnName("MaST").IsFixedLength();
-                        });
             });
 
             modelBuilder.Entity<NhanVien>(entity =>
@@ -744,11 +733,30 @@ namespace mamNonTuongLaiTuoiSang.Models
                     .WithMany(p => p.XeBus)
                     .HasForeignKey(d => d.MaSt)
                     .HasConstraintName("FK__XeBus__MaST__3C69FB99");
+
             });
+            // Định nghĩa mối quan hệ giữa NgoaiKhoa và GiaoVien thông qua bảng trung gian
+            modelBuilder.Entity<NgoaiKhoaGiaoVien>(entity =>
+            {
+                entity.HasKey(nk => new { nk.IdNk, nk.MaSt }); // Đặt khóa chính cho bảng trung gian
+            entity.ToTable("NgoaiKhoa_GiaoVien");
+
+            modelBuilder.Entity<NgoaiKhoaGiaoVien>()
+                .HasOne(nk => nk.IdNKNavigation)
+                .WithMany(nk => nk.NgoaiKhoaGiaoViens) // Giả định rằng NgoaiKhoa có ICollection<NgoaiKhoaGiaoVien>
+                .HasForeignKey(nk => nk.IdNk);
+
+            modelBuilder.Entity<NgoaiKhoaGiaoVien>()
+                .HasOne(nk => nk.MaStNavigation)
+                .WithMany(gv => gv.NgoaiKhoaGiaoViens) // Giả định rằng GiaoVien có ICollection<NgoaiKhoaGiaoVien>
+                .HasForeignKey(nk => nk.MaSt);
+        });
 
             OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        
     }
 }

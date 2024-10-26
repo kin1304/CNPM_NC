@@ -7,7 +7,8 @@ namespace mamNonTuongLaiTuoiSang.Models
     {
         public GiaoVien()
         {
-            IdNks = new HashSet<NgoaiKhoa>();
+            NgoaiKhoaGiaoViens = new HashSet<NgoaiKhoaGiaoVien>();
+            
         }
 
         public string MaSt { get; set; } = null!;
@@ -16,6 +17,7 @@ namespace mamNonTuongLaiTuoiSang.Models
 
         public virtual NhanVien? MaStNavigation { get; set; } = null!;
 
-        public virtual ICollection<NgoaiKhoa> IdNks { get; set; }
+        
+        public virtual ICollection<NgoaiKhoaGiaoVien> NgoaiKhoaGiaoViens { get; set; }
     }
 }
