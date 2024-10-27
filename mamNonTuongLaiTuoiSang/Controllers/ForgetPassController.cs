@@ -12,7 +12,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
     {
         string code = "";
         string countdefault = "0000000";
-        private const string baseURL = "http://localhost:5005/api/PhuHuynhs";
+        private const string baseURL = "https://localhost:5005/api/PhuHuynhs";
 
 
         public IActionResult FindEmail()

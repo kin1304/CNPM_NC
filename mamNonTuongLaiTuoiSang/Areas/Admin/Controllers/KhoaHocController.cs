@@ -9,7 +9,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class KhoaHocController : Controller
     {
-        private string url = "http://localhost:5005/api/khoahocs/";
+        private string url = "https://localhost:5005/api/khoahocs/";
         private HttpClient client = new HttpClient();
 
         [HttpGet]

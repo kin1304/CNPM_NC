@@ -16,7 +16,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class PhuHuynhController : Controller
     {
-        private const string baseURL = "http://localhost:5005/api/PhuHuynhs";
+        private const string baseURL = "https://localhost:5005/api/PhuHuynhs";
         private readonly QLMamNonContext _context;
         private HttpClient client=new HttpClient();
 

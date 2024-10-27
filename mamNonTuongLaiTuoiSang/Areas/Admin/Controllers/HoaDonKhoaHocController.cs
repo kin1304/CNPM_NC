@@ -16,7 +16,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     public class HoaDonKhoaHocController : Controller
     {
 
-        private string baseURL = "http://localhost:5005/api/hoadonkhoahocs";
+        private string baseURL = "https://localhost:5005/api/hoadonkhoahocs";
         private readonly QLMamNonContext _context;
         private HttpClient client = new HttpClient();
 

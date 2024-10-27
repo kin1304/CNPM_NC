@@ -14,7 +14,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class MonHocController : Controller
     {
-        private const string baseURL = "http://localhost:5005/api/MonHocs";
+        private const string baseURL = "https://localhost:5005/api/MonHocs";
         private readonly QLMamNonContext _context;
         private HttpClient client = new HttpClient();
 

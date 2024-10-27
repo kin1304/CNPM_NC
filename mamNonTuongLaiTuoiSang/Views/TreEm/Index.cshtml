@@ -6,69 +6,29 @@
     Layout = "~/Views/Shared/_LayoutPh.cshtml";
 }
 
-<h1>Index</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Mã Học Sinh
-            </th>
-            <th>
-                Tên Học Sinh
-            </th>
-            <th>
-                Giới Tính
-            </th>
-            <th>
-                Năm Sinh
-            </th>
-            <th>
-                Mã Phụ Huynh
-            </th>
-            <th>
-                Quan Hệ
-            </th>
-            <th>
-                Cân Nặng
-            </th>
-            <th>
-                Chiều Cao
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdHs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenHs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GioiTinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NamSinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuanHe)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CanNang)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChieuCao)
-            </td>
-            <td>
-                    <a href="@Url.Action("babyinfo","TreEm", new {id=item.IdHs})">Chi Tiết</a>
-            </td>
-        </tr>
+@section Styles {
+    <link rel="stylesheet" href="/Content/GiaoDienQuanLyDanhSachTre.css">
 }
-    </tbody>
-</table>
+<audio id="1convit" src="/Content/audios/1convit.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
+<audio id="canhathuongnhau" src="/Content/audios/canhathuongnhau.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
+<audio id="chaulen3" src="/Content/audios/chaulen3.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
+<audio id="chauyeuba" src="/Content/audios/chauyeuba.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
+<audio id="concobebe" src="/Content/audios/concobebe.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
+<audio id="kiaconbuomvang" src="/Content/audios/kiaconbuomvang.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
+
+
+@foreach (var item in Model)
+{
+    <button onmouseover="playSound1()"
+    onmouseout="stopSound1()" class="w-3/10">
+        <a class="card " href="@Url.Action("babyinfo", "TreEm", new { id = item.IdHs })">
+            <img src="~/Content/images/nha_ava_fb.jpg" alt="Avatar" class="avatar">
+            <div class="info">
+                <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
+                <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
+                <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+            </div>
+        </a>
+    </button>
+}
+<script src="~/Content/GiaoDienQuanLyDanhSachTre.js"></script>

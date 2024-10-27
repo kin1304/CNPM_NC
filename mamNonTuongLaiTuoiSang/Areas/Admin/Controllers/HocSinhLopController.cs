@@ -15,7 +15,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class HocSinhLopController : Controller
     {
-        private string baseURL = "http://localhost:5005/api/HocSinhLops";
+        private string baseURL = "https://localhost:5005/api/HocSinhLops";
         private readonly QLMamNonContext _context;
         private HttpClient client = new HttpClient();
 
