@@ -63,7 +63,8 @@ body {
     align-items: center; /* Căn giữa theo chiều dọc */
 }
 
-    #right-section #categories {
+    #categories {
+        height: 100%;
         display: flex;
         justify-content: space-between; /* Căn giữa theo chiều ngang */
         align-items: center; /* Căn giữa theo chiều dọc */
@@ -78,6 +79,89 @@ body {
             font-weight: bold;
             cursor: pointer; /* Thêm con trỏ chuột để hiển thị nút bấm */
         }
+
+#login_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dangnhap_button {
+    position: relative;
+    --borderWidth: 3px;
+    color: white; /* Màu chữ */
+    padding: 3px 3px; /* Thêm khoảng cách cho chữ */
+    border-radius: var(--borderWidth); /* Làm tròn viền nút */
+}
+
+.dangnhap_button:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;  Đưa viền xuống dưới chữ 
+}
+
+.dangnhap_button:hover {
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+
+a {
+    padding: 4px;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    color: red;
+    font-weight: bold;
+    background-color: #ffffff; /* Màu nền tùy chọn */
+}
+
+@keyframes animatedgradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#dangnhapnhe {
+    position: relative;
+    color: #1F2B7B !important;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.bubble {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(29, 138, 40, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: rise 1s forwards;
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+}
 
 /* Định dạng nội dung */
 #content {
