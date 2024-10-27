@@ -33,7 +33,6 @@
         <div id="bottom-header">
             <div id="left-section">
                 <img src="/Content/images/logo_truong_Phung_gui.jpg" alt="Logo">
-
             </div>
             <div id="right-section">
                 <ul id="categories">
@@ -47,7 +46,8 @@
                     <li onclick="showContent('tuyen-dung')">TUYỂN DỤNG</li>
                     <li onclick="showContent('tin-tuc')">TIN TỨC</li>
                     <li onclick="showContent('lien-he')">LIÊN HỆ</li>
-                    <li><a href="Account/Login">ĐĂNG NHẬP</a></li>
+                    <li class="dangnhap_button" id="login_button"><a id="dangnhapnhe" href="Account/Login">ĐĂNG NHẬP</a></li>
+
                 </ul>
             </div>
         </div>
@@ -88,8 +88,7 @@
             </ul>
         </div>
     </footer>
-
     <!-- Nhúng file JavaScript -->
-    <script src="/Content/trangchu.js"></script>
+     <script src="~/Content/trangchu.js"></script>
 </body>
 </html>
