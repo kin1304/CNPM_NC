@@ -225,6 +225,24 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         {
             return (_context.NhanViens?.Any(e => e.MaSt == id)).GetValueOrDefault();
         }
+        [HttpGet("filter")]
+        public async Task<ActionResult<NhanVien>> GetNhanVienByEmailAndPassword(string email, string matKhau)
+        {
+            if (_context.NhanViens == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            var nhanvien = await _context.NhanViens
+                .FirstOrDefaultAsync(ph => ph.Email == email && ph.MatKhau == matKhau);
+
+            if (nhanvien == null)
+            {
+                return NotFound("Không tìm thấy phụ huynh với email và mật khẩu này.");
+            }
+
+            return nhanvien;
+        }
     }
 }
 
