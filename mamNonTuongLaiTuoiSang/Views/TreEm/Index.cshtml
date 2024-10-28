@@ -15,20 +15,93 @@
 <audio id="chauyeuba" src="/Content/audios/chauyeuba.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
 <audio id="concobebe" src="/Content/audios/concobebe.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
 <audio id="kiaconbuomvang" src="/Content/audios/kiaconbuomvang.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
-
-
 @foreach (var item in Model)
 {
-    <button onmouseover="playSound1()"
-    onmouseout="stopSound1()" class="w-3/10">
-        <a class="card " href="@Url.Action("babyinfo", "TreEm", new { id = item.IdHs })">
-            <img src="~/Content/images/nha_ava_fb.jpg" alt="Avatar" class="avatar">
-            <div class="info">
-                <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
-                <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
-                <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
-            </div>
-        </a>
-    </button>
+
+    var random = new Random().Next(1, 6);
+    switch (random)
+    {
+        case 1:
+            <button onmouseover="playSound1()"
+                    onmouseout="stopSound1()" class="w-full">
+                <a class="card " href="@Url.Action("babyinfo", "TreEm", new { id = item.IdHs })">
+                    <img src="~/Content/images/nha_ava_fb.jpg" alt="Avatar" class="avatar">
+                    <div class="info">
+                        <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                    </div>
+                </a>
+            </button>
+            break;
+        case 2:
+            <button onmouseover="playSound2()"
+                    onmouseout="stopSound2()" class="w-full">
+                <a class="card " href="@Url.Action("babyinfo", "TreEm", new { id = item.IdHs })">
+                    <img src="~/Content/images/nha_ava_fb.jpg" alt="Avatar" class="avatar">
+                    <div class="info">
+                        <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                    </div>
+                </a>
+            </button>
+            break;
+        case 3:
+            <button onmouseover="playSound3()"
+                    onmouseout="stopSound3()" class="w-full">
+                <a class="card " href="@Url.Action("babyinfo", "TreEm", new { id = item.IdHs })">
+                    <img src="~/Content/images/nha_ava_fb.jpg" alt="Avatar" class="avatar">
+                    <div class="info">
+                        <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                    </div>
+                </a>
+            </button>
+            break;
+        case 4:
+            <button onmouseover="playSound4()"
+                    onmouseout="stopSound4()" class="w-full">
+                <a class="card " href="@Url.Action("babyinfo", "TreEm", new { id = item.IdHs })">
+                    <img src="~/Content/images/nha_ava_fb.jpg" alt="Avatar" class="avatar">
+                    <div class="info">
+                        <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                    </div>
+                </a>
+            </button>
+            break;
+        case 5:
+            <button onmouseover="playSound5()"
+                    onmouseout="stopSound5()" class="w-full">
+                <a class="card " href="@Url.Action("babyinfo", "TreEm", new { id = item.IdHs })">
+                    <img src="~/Content/images/nha_ava_fb.jpg" alt="Avatar" class="avatar">
+                    <div class="info">
+                        <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                    </div>
+                </a>
+            </button>
+            break;
+        default:
+            <button onmouseover="playSound6()"
+                    onmouseout="stopSound6()" class="w-full">
+                <a class="card " href="@Url.Action("babyinfo", "TreEm", new { id = item.IdHs })">
+                    <img src="~/Content/images/nha_ava_fb.jpg" alt="Avatar" class="avatar">
+                    <div class="info">
+                        <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
+                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                    </div>
+                </a>
+            </button>
+            break;
+
+
+    }
+
 }
 <script src="~/Content/GiaoDienQuanLyDanhSachTre.js"></script>
