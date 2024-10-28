@@ -1,0 +1,118 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.Voucher>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<form method="get" asp-action="Index">
+    
+    <!-- Filter dropdowns -->
+    <div>
+        <label for="filterType">Lọc theo:</label>
+        <select id="filterType" name="filterType" onchange="updateFilterValueOptions()">
+            <option value="">Chọn</option>
+            <option value="ngaytao">Ngày tạo</option>
+            <option value="ngayhethan">Ngày hết hạn</option>
+        </select>
+
+        <select id="filterValue" name="filterValue">
+            <option value="">Chọn trạng thái</option>
+        </select>
+        <input type="submit" value="Lọc" />
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayTao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayHetHan)
+            </th>
+            <th>
+                @Html.ActionLink("Phần Trăm Giảm", "Index", new { sortOrder = ViewBag.PhanTramGiamSortParm })
+
+            </th>
+            <th>
+                @Html.ActionLink("Số Lượng", "Index", new { sortOrder = ViewBag.SoLuongSortParm })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaSt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayTao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayHetHan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhanTramGiam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaSt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdVoucher">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdVoucher">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdVoucher">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script type="text/javascript">
+    function updateFilterValueOptions() {
+        var filterType = document.getElementById("filterType").value;
+        var filterValue = document.getElementById("filterValue");
+
+        // Clear current options
+        filterValue.innerHTML = "";
+
+        // Default option
+        var defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.text = "Chọn trạng thái";
+        filterValue.appendChild(defaultOption);
+
+        // Add options based on the selected filterType
+        if (filterType === "ngaytao") {
+            // Add options for 'Ngày tạo'
+            var createdOption = document.createElement("option");
+            createdOption.value = "created";
+            createdOption.text = "Đã tạo";
+            filterValue.appendChild(createdOption);
+
+            var upcomingOption = document.createElement("option");
+            upcomingOption.value = "upcoming";
+            upcomingOption.text = "Sắp tạo";
+            filterValue.appendChild(upcomingOption);
+        } else if (filterType === "ngayhethan") {
+            // Add options for 'Ngày hết hạn'
+            var validOption = document.createElement("option");
+            validOption.value = "valid";
+            validOption.text = "Còn hạn";
+            filterValue.appendChild(validOption);
+
+            var expiredOption = document.createElement("option");
+            expiredOption.value = "expired";
+            expiredOption.text = "Quá hạn";
+            filterValue.appendChild(expiredOption);
+        }
+    }
+</script>
