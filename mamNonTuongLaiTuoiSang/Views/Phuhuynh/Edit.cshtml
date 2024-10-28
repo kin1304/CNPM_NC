@@ -1,0 +1,86 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.PhuHuynh
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Chỉnh sửa thông tin";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";
+}
+
+
+<div id="mainContent" class="main-content">
+    <div id="contentArea" class="text-gray-700 text-lg">
+        <div class="max-w-4xl mx-auto border border-gray-300 p-4">
+            <div class="flex">
+                <div class="w-1/4">
+                    <img alt="Profile picture" class="rounded-full" height="100" src="https://storage.googleapis.com/a1aa/image/74PNLrMcK6ZDDF9oZ0uvDk62LAegmbp9zfgAqGEZJ91vopmTA.jpg" width="100" />
+                </div>
+                <div class="w-3/4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="IdPh" />
+                            <div class="form-group">
+                                <label asp-for="HoTen" class="control-label">Họ và tên</label>
+                                <input asp-for="HoTen" class="form-control" />
+                                <span asp-validation-for="HoTen" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DiaChi" class="control-label"> Địa chỉ</label>
+                                <input asp-for="DiaChi" class="form-control" />
+                                <span asp-validation-for="DiaChi" class="text-danger"></span>
+                            </div>
+                             
+                            <label asp-for="GioiTinh" class="control-label">Giới Tính</label>
+                            <select asp-for="GioiTinh" class="form-control">
+                                <option value="true" selected="@Model.GioiTinh">Nam</option>
+                                <option value="false" selected="@(!Model.GioiTinh)">Nữ</option>
+                            </select>
+                            <span asp-validation-for="GioiTinh" class="text-danger"></span>
+
+                            <div class="form-group">
+                                <label asp-for="NgheNghiep" class="control-label"></label>
+                                <input asp-for="NgheNghiep" class="form-control" />
+                                <span asp-validation-for="NgheNghiep" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NamSinh" class="control-label">Năm Sinh</label>
+                                <input asp-for="NamSinh" class="form-control" />
+                                <span asp-validation-for="NamSinh" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="MatKhau" class="control-label">Mật Khẩu</label>
+                                <input asp-for="MatKhau" class="form-control" />
+                                <span asp-validation-for="MatKhau" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" >
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control"  />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Sdt" class="control-label">Số Điện Thoại</label>
+                                <input asp-for="Sdt" class="form-control" />
+                                <span asp-validation-for="Sdt" class="text-danger"></span>
+                            </div>
+                            <div class="form-group button" style=" border-color:black color:brown">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h2 class="text-red-600 font-bold">Thông tin người thân khác</h2>
+                <p><span class="font-bold">Họ tên người liên hệ:</span> [...]</p>
+                <p><span class="font-bold">Địa chỉ người liên hệ:</span> [...]</p>
+                <p><span class="font-bold">Điện thoại người liên hệ:</span> [...]</p>
+            </div>
+            <div>
+                <a style=" color:brown border-color:indigo " href="PhuHuynh/Info/@Model.IdPh">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
