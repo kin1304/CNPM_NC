@@ -1,0 +1,30 @@
+﻿@model IEnumerable<mamNonTuoLaiTuoiSang.Models.NhanVien>
+
+@{
+    ViewData["Title"] = "Thunhap";
+    ViewData["GiaoVien"] = Model.MaSt;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bảng lương nhân viên</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Chức vụ</th>
+            <th>Lương cơ bản</th>
+            <th>Tổng lương</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var nhanVien in Model)
+        {
+            <tr>
+                <td>@nhanVien.HoTen</td>
+                <td>@nhanVien.ChucVu?.TenChucVu</td>
+                <td>@nhanVien.LuongCoBan</td>
+                <td>@nhanVien.TongLuong</td>
+            </tr>
+        }
+    </tbody>
+</table>

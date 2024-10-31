@@ -1,0 +1,36 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.KhoaHoc>
+
+@{
+    ViewBag.Title = "Danh sách Khóa Học";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";
+}
+
+<div class="container mx-auto p-8">
+    <h1 class="text-2xl font-semibold mb-6">Danh sách Khóa Học</h1>
+
+    <table class="table-auto w-full bg-white rounded-lg shadow-md">
+        <thead>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <th class="py-3 px-6 text-left">Mã KH</th>
+                <th class="py-3 px-6 text-left">Tên Khóa Học</th>
+                <th class="py-3 px-6 text-left">Đơn Giá</th>
+                <th class="py-3 px-6 text-left">Mô Tả</th>
+                <th class="py-3 px-6 text-left">Số Lượng</th>
+                <th class="py-3 px-6 text-left">Thời Hạn</th>
+            </tr>
+        </thead>
+        <tbody class="text-gray-700 text-sm font-light">
+            @foreach (var kh in Model)
+            {
+                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <td class="py-3 px-6">@kh.IdKh</td>
+                    <td class="py-3 px-6">@kh.TenKh</td>
+                    <td class="py-3 px-6">@String.Format("{0:0,0} VND", kh.DonGia)</td>
+                    <td class="py-3 px-6">@kh.MoTa</td>
+                    <td class="py-3 px-6">@kh.SoLuong</td>
+                    <td class="py-3 px-6">@kh.ThoiHan</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
