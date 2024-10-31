@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using mamNonTuongLaiTuoiSang.Models;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace mamNonTuongLaiTuoiSang.Controllers
 {
@@ -53,6 +54,43 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             TempData["PhuHuynh"] = ViewData["PhuHuynh"] as string;
             return View(hocSinh);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            ViewData["PhuHuynh"] = TempData["PhuHuynh"] as string;
+            TempData["PhuHuynh"] = ViewData["PhuHuynh"] as string;
+            HocSinh hocSinh = new HocSinh();
+            HttpResponseMessage response = client.GetAsync(urlDetails + id).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<HocSinh>(result);
+                if (data != null)
+                {
+                    hocSinh = data;
+                }
+
+            }
+            return View(hocSinh);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(HocSinh hocSinh)
+        {
+            string data = JsonConvert.SerializeObject(hocSinh);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(urlDetails + hocSinh.IdHs, content);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("babyinfo", new { id = hocSinh.IdHs });
+            }
+            else
+            {
+                string errorContent = response.Content.ReadAsStringAsync().Result;
+                Console.WriteLine(errorContent); // In ra lỗi chi tiết từ API
+                return View(hocSinh);
+            }
         }
     }
 }
