@@ -47,14 +47,17 @@
                     <i class="fas fa-icons mr-3"></i>
                     <span class="font-semibold">Trẻ em của tui</span>
                 </button>
-                <button id="btnNo3" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="window.location.href='@Url.Action("Index", "ThoiKhoaBieu", new {id = ViewData["PhuHuynh"]})'">
+
+                <button id="btnNo3" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/PhuHuynh/KhoaHoc')">
                     <i class="fas fa-map-marker-alt mr-3"></i>
+                    <span class="font-semibold">Khóa học</span>
+                </button>
+              
+                <button id="btnNo4" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="window.location.href='@Url.Action("Index", "ThoiKhoaBieu", new {id = ViewData["PhuHuynh"]})'">
+                    <i class="fas fa-table mr-3"></i>
                     <span class="font-semibold">Thời Khóa Biểu</span>
                 </button>
-                <button id="btnNo4" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn">
-                    <i class="fas fa-table mr-3"></i>
-                    <span class="font-semibold">No4</span>
-                </button>
+              
                 <button id="btnNo5" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn">
                     <i class="fas fa-user-plus mr-3"></i>
                     <span class="font-semibold">No5</span>
