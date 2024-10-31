@@ -32,8 +32,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
 
         // GET: api/Tkbs/IdLop/Ngay
-        [HttpGet("{IdLop}/{Ngay}")]
-        public async Task<ActionResult<Tkb>> GetTkb(string IdLop, string Ngay)
+        [HttpGet("{Ngay}/{IdLop}/{CaHoc}")]
+        public async Task<ActionResult<Tkb>> GetTkb(string IdLop, string Ngay, string CaHoc)
         {
             if (_context.Tkbs == null)
             {
@@ -43,7 +43,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             // Truy vấn dữ liệu từ bảng Tkb theo hai khóa chính
             var tkb = await _context.Tkbs
                 .Include(t => t.IdMhNavigation )   
-                .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay);
+                .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay && t.CaHoc == CaHoc);
             if (tkb == null)
             {
                 return BadRequest("Không tìm thấy thời khóa biểu với IdLop và Ngày được cung cấp.");
@@ -62,13 +62,13 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return Ok(tkbDto);
         }
         // PUT: api/Tkbs/IdLop/Ngay
-        [HttpPut("{IdLop}/{Ngay}")]
-        public async Task<IActionResult> PutTkb(string IdLop, string Ngay, Tkb tkb)
+        [HttpPut("{Ngay}/{IdLop}/{CaHoc}")]
+        public async Task<IActionResult> PutTkb(string IdLop, string Ngay, string CaHoc, Tkb tkb)
         {
             // Tìm bản ghi Tkb theo IdLop và Ngay
             var existingTkb = await _context.Tkbs
                 .Include(t => t.IdMhNavigation)  // Bao gồm thông tin từ MonHoc
-                .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay);
+                .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay && t.CaHoc == CaHoc);
 
             if (existingTkb == null)
             {
@@ -90,7 +90,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
 
                 // Xử lý lỗi đồng bộ hóa nếu có xung đột
-                if (!TkbExists(IdLop, Ngay))
+                if (!TkbExists(IdLop, Ngay, CaHoc))
                 {
                     return BadRequest ("Thời khóa biểu không tồn tại.");
                 }
@@ -114,9 +114,9 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
 
             // Kiểm tra sự tồn tại của bản ghi với IdLop và Ngay
-            if (TkbExists(tkb.IdLop, tkb.Ngay))
+            if (TkbExists(tkb.IdLop, tkb.Ngay, tkb.CaHoc))
             {
-                return Conflict("Thời khóa biểu đã tồn tại với IdLop và Ngày đã cho.");
+                return Conflict("Thời khóa biểu đã tồn tại với IdLop và Ngày và Ca đã cho.");
             }
 
             // Thêm bản ghi mới vào DbSet
@@ -133,12 +133,12 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
 
             // Trả về kết quả 201 Created cùng với thông tin bản ghi vừa thêm
-            return CreatedAtAction("GetTkb", new { IdLop = tkb.IdLop, Ngay = tkb.Ngay }, tkb);
+            return CreatedAtAction("GetTkb", new { IdLop = tkb.IdLop, Ngay = tkb.Ngay, CaHoc = tkb.CaHoc }, tkb);
         }
 
         // DELETE: api/Tkbs/IdLop/Ngay
-        [HttpDelete("{IdLop}/{Ngay}")]
-        public async Task<IActionResult> DeleteTkb(string IdLop, string Ngay)
+        [HttpDelete("{Ngay}/{IdLop}/{CaHoc}")]
+        public async Task<IActionResult> DeleteTkb(string IdLop, string Ngay, string CaHoc)
         {
             if (_context.Tkbs == null)
             {
@@ -147,11 +147,11 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             // Tìm bản ghi Tkb theo IdLop và Ngay
             var tkb = await _context.Tkbs
-                .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay);
+                .FirstOrDefaultAsync(t => t.IdLop == IdLop && t.Ngay == Ngay && t.CaHoc == CaHoc);
 
             if (tkb == null)
             {
-                return BadRequest("Không tìm thấy thời khóa biểu với IdLop và Ngày được cung cấp.");
+                return BadRequest("Không tìm thấy thời khóa biểu với IdLop và Ngày và ca học được cung cấp.");
             }
 
             // Xóa bản ghi Tkb
@@ -161,10 +161,35 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return NoContent(); // Trả về mã 204 nếu xóa thành công
         }
 
-        private bool TkbExists(string IdLop, string Ngay)
+        private bool TkbExists(string IdLop, string Ngay, string CaHoc)
         {
             // Kiểm tra xem có tồn tại bản ghi Tkb nào với IdLop và Ngay đã cho hay không
-            return _context.Tkbs.Any(t => t.IdLop == IdLop && t.Ngay == Ngay);
+            return _context.Tkbs.Any(t => t.IdLop == IdLop && t.Ngay == Ngay && t.CaHoc ==CaHoc);
         }
+        [HttpGet("GetTkbByLop/{IdLop}")]
+        public async Task<ActionResult<IEnumerable<Tkb>>> GetTkbByLop(string IdLop)
+        {
+            if (_context.Tkbs == null)
+            {
+                return BadRequest();
+            }
+            return await _context.Tkbs.Where(t => t.IdLop == IdLop).ToListAsync();
+        }
+        [HttpGet("GetTkbByHocSinh/{IdHocSinh}")]
+        public async Task<ActionResult<IEnumerable<Tkb>>> GetTkbByHocSinh(string IdHocSinh)
+        {
+            if (_context.Tkbs == null)
+            {
+                return BadRequest();
+            }
+            HocSinhLop hocSinhLop = await _context.HocSinhLops.FirstOrDefaultAsync(hsl => hsl.IdHs == IdHocSinh);
+            if (hocSinhLop == null)
+            {
+                return BadRequest("Không tìm thấy học sinh lớp với IdHocSinh được cung cấp.");
+            }
+            string idLop = hocSinhLop.IdLop;
+            return await _context.Tkbs.Where(t => t.IdLop == idLop).ToListAsync();
+        }
+        
     }
 }
