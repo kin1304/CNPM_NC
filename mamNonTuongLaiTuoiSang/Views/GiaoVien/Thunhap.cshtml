@@ -1,4 +1,4 @@
-﻿@model IEnumerable<mamNonTuoLaiTuoiSang.Models.NhanVien>
+﻿@model mamNonTuongLaiTuoiSang.Models.NhanVien
 
 @{
     ViewData["Title"] = "Thunhap";
@@ -17,14 +17,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var nhanVien in Model)
-        {
-            <tr>
-                <td>@nhanVien.HoTen</td>
-                <td>@nhanVien.ChucVu?.TenChucVu</td>
-                <td>@nhanVien.LuongCoBan</td>
-                <td>@nhanVien.TongLuong</td>
-            </tr>
-        }
+
+        <tr>
+            <td>@Model.HoTen</td>
+            <td>@Model.TenCv</td>
+            <td>@Model.ChucVu.LuongCoBan</td>
+            <td>@Model.ChucVu.TinhLuong()</td>
+        </tr>
+
     </tbody>
 </table>
