@@ -74,10 +74,29 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return hocSinhLop;
         }
 
+        [HttpGet("{IdHs}/{IdLop}")]
+        public async Task<ActionResult<HocSinhLop>> GetHocSinhLopss(string IdHs, string IdLop)
+        {
+            if (_context.HocSinhLops == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            var hocSinhLop = await _context.HocSinhLops
+                .Where(hsl => hsl.IdHs == IdHs && hsl.IdLop == IdLop)
+                .FirstOrDefaultAsync();
+
+            if (hocSinhLop == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            return hocSinhLop;
+        }
         // PUT: api/HocSinhLops/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutHocSinhLop(string id, HocSinhLop hocSinhLop)
+        [HttpPut("{IdHs}/{IdLop}")]
+        public async Task<IActionResult> PutHocSinhLop(string IdHs, string IdLop, HocSinhLop hocSinhLop)
         {
 
             _context.Entry(hocSinhLop).State = EntityState.Modified;
@@ -88,7 +107,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HocSinhLopExists(id))
+                if (!HocSinhLopExists(IdHs,IdLop))
                 {
                     return BadRequest("Dữ liệu không tồn tại.");
 
@@ -114,7 +133,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             catch (DbUpdateException)
             {
-                if (HocSinhLopExists(hocSinhLop.IdHs))
+                if (HocSinhLopExists(hocSinhLop.IdHs, hocSinhLop.IdLop))
                 {
                     return Conflict();
                 }
@@ -124,19 +143,19 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 }
             }
 
-            return CreatedAtAction("GetHocSinhLop", new { id = hocSinhLop.IdHs }, hocSinhLop);
+            return CreatedAtAction("GetHocSinhLopss", new { IdHs = hocSinhLop.IdHs, IdLop = hocSinhLop.IdLop }, hocSinhLop);
         }
 
         // DELETE: api/HocSinhLops/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHocSinhLop(string id)
+        [HttpDelete("{IdHs}/{IdLop}")]
+        public async Task<IActionResult> DeleteHocSinhLop(string IdHs, string IdLop)
         {
 
             if (_context.HocSinhLops == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-            var hocSinhLop = await _context.HocSinhLops.FirstOrDefaultAsync(h => h.IdHs == id);
+            var hocSinhLop = await _context.HocSinhLops.FirstOrDefaultAsync(h => h.IdHs == IdHs && h.IdLop == IdLop);
             if (hocSinhLop == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
@@ -148,9 +167,9 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return NoContent();
         }
 
-        private bool HocSinhLopExists(string id)
+        private bool HocSinhLopExists(string IdHs, string IdLop)
         {
-            return (_context.HocSinhLops?.Any(e => e.IdHs == id)).GetValueOrDefault();
+            return (_context.HocSinhLops?.Any(e => e.IdHs == IdHs && e.IdLop == IdLop)).GetValueOrDefault();
         }
     }
 }
