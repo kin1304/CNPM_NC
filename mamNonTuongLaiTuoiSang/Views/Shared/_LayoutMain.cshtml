@@ -1,11 +1,11 @@
-﻿@model mamNonTuongLaiTuoiSang.Models.PhuHuynh
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Chủ</title>
     <link rel="stylesheet" href="/Content/trangchu.css">
+    <link rel="stylesheet" href="/Content/Loader.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -32,31 +32,52 @@
         </div>
 
         <div id="bottom-header">
-                <div id="left-section">
-                    <a href="@Url.Action("trangchu","Main", new {id=ViewData["PhuHuynh"]})"><img src="/Content/images/logo_truong_Phung_gui.jpg" alt="Logo"></a>
-                </div>
+            <div id="left-section">
+                <a href="@Url.Action("trangchu","Main", new {id=ViewData["PhuHuynh"]})"><img src="/Content/images/logo_truong_Phung_gui.jpg" alt="Logo"></a>
+            </div>
 
 
             <div id="right-section">
                 <ul id="categories">
-                    <li onclick="showContent('home')">TRANG CHỦ</li>
+                    <li>
+                        <a style="margin-right: 20px;
+                         font-size: 15px;
+                          font-family: Arial, Helvetica, sans-serif;
+                          color: #1F2B7B;
+                         font-weight: bold;
+                         cursor: pointer;" href="@Url.Action("trangchu","Main",new {id=ViewData["PhuHuynh"]})">TRANG CHỦ</a>
+                    </li>
                     <li onclick="showContent('gioi-thieu')">GIỚI THIỆU</li>
                     <li onclick="showContent('hoc-phi')">HỌC PHÍ</li>
                     <li onclick="showContent('tuyen-sinh')">TUYỂN SINH</li>
                     <li onclick="showContent('video')">VIDEO</li>
-                    <li onclick="showContent('day-hoc')">DẠY HỌC TRỰC TUYẾN</li>
-                    <li><a href="@Url.Action("NgoaiKhoa","Main",new {id=ViewData["PhuHuynh"]})">HOẠT ĐỘNG NGOẠI KHÓA</a></li>
+                    <li>
+                        <a style="margin-right: 20px;
+                         font-size: 15px;
+                          font-family: Arial, Helvetica, sans-serif;
+                          color: #1F2B7B;
+                         font-weight: bold;
+                         cursor: pointer;" href="@Url.Action("KhoaHoc","Main")">KHÓA HỌC</a>
+                    </li>
+                    <li>
+                        <a style="margin-right: 20px;
+                         font-size: 15px;
+                          font-family: Arial, Helvetica, sans-serif;
+                          color: #1F2B7B;
+                         font-weight: bold;
+                         cursor: pointer;" href="@Url.Action("NgoaiKhoa","Main")">HOẠT ĐỘNG NGOẠI KHÓA    </a>
+                    </li>
                     <li onclick="showContent('tuyen-dung')">TUYỂN DỤNG</li>
                     <li onclick="showContent('tin-tuc')">TIN TỨC</li>
                     <li onclick="showContent('lien-he')">LIÊN HỆ</li>
-                @if (ViewData["PhuHuynh"] != null)
-                {
-                        <li class="dangnhap_button" id="login_button"><a id="dangnhapnhe" href="/PhuHuynh/Info/@ViewData["PhuHuynh"]">@Model.HoTen</a></li>
-                }
-                else
-                {
-                        <li class="dangnhap_button" id="login_button"><a id="dangnhapnhe" href="Account/Login">ĐĂNG NHẬP</a></li>
-                }
+                    @if (ViewData["PhuHuynh"] != null)
+                    {
+                        <li class="dangnhap_button" id="login_button"><a id="dangnhapnhe" href="/PhuHuynh/Info/@ViewData["PhuHuynh"]">@ViewData["TenPh"]</a></li>
+                    }
+                    else
+                    {
+                        <li class="dangnhap_button" id="login_button"><a id="dangnhapnhe" href="/Account/Login">ĐĂNG NHẬP</a></li>
+                    }
 
                 </ul>
             </div>
@@ -100,5 +121,6 @@
     </footer>
     <!-- Nhúng file JavaScript -->
     <script src="~/Content/trangchu.js"></script>
+    <script src="~/Content/Loader.js"></script>
 </body>
 </html>

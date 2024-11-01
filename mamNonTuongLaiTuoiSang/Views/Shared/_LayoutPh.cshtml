@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="~/Content/logout.js"></script>
+    <script scr="~/Content/Loader.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/loader.css" />
     <style>
         .bg-gradient {
             background-image: linear-gradient(to right, #ffaf47, #ffa539, #ff9b2a, #ff9019, #ff8400);
@@ -34,10 +37,12 @@
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="bg-white shadow-xl rounded-r-full rounded-l-lg p-4 h-full">
-            <div class="flex items-center justify-center py-6 space-x-2">
-                <img src="~/content/images/logo_truong_phung_gui.jpg" class="w-16 h-16 rounded-full shadow-md" alt="Logo" />
-                <div class="text-2xl font-semibold text-gray-700">Trang người dùng</div>
-            </div>
+            <a href="@Url.Action("trangchu","Main", new{id = ViewData["PhuHuynh"]} )">
+                <div class="flex items-center justify-center py-6 space-x-2">
+                    <img src="~/content/images/logo_truong_phung_gui.jpg" class="w-16 h-16 rounded-full shadow-md" alt="Logo" />
+                    <div class="text-2xl font-semibold text-gray-700">ELSA</div>
+                </div>
+            </a>
             <nav class="mt-8">
                 <button id="btnProfile" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/PhuHuynh/Info/@ViewData["PhuHuynh"]')">
                     <i class="fas fa-user mr-3"></i>
@@ -48,16 +53,16 @@
                     <span class="font-semibold">Trẻ em của tui</span>
                 </button>
 
-                <button id="btnNo3" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/PhuHuynh/KhoaHoc')">
+                <button id="btnNo3" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/PhuHuynh/KhoaHoc/@ViewData["PhuHuynh"]')">
                     <i class="fas fa-map-marker-alt mr-3"></i>
-                    <span class="font-semibold">Khóa học</span>
+                    <span class="font-semibold">Khóa học của con tui</span>
                 </button>
-              
+
                 <button id="btnNo4" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="window.location.href='@Url.Action("Index", "ThoiKhoaBieu", new {id = ViewData["PhuHuynh"]})'">
                     <i class="fas fa-table mr-3"></i>
                     <span class="font-semibold">Thời Khóa Biểu</span>
                 </button>
-              
+
                 <button id="btnNo5" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn">
                     <i class="fas fa-user-plus mr-3"></i>
                     <span class="font-semibold">No5</span>
@@ -100,6 +105,8 @@
         function navigateTo(url) {
             window.location.href = url; // Điều hướng đến URL được truyền vào
         }
+        
+
     </script>
 </body>
 </html>
