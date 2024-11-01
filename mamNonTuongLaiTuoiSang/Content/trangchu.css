@@ -245,21 +245,3 @@ footer div ul {
     }
 
 /* Liên kết */
-a {
-    text-decoration: none;
-    color: blue;
-    font-size: 20px;
-}
-
-    a.hold {
-        color: orange;
-        font-size: 25px; /* Phóng to chữ khi nhấn giữ */
-    }
-
-    a:visited {
-        color: blue; /* Màu cho liên kết đã nhấn */
-    }
-
-    a.hover {
-        color: red; /* Màu cho liên kết khi rê chuột vào */
-    }

@@ -8,10 +8,15 @@
 @section Styles {
     <link rel="stylesheet" href="/Content/thoikhoabieune.css">
 }
+<div id="loader" class="loader">
+    
+</div>
 <h1 class="text-black">Thời Khóa Biểu</h1>
 <div class="text-black rounded-t p-8 select_box">
     <h2>Chọn trẻ em: </h2>
-    <select id="childSelect" class="form-control" asp-items="@(ViewData["IdHocSinh"] as SelectList)"></select>
+    <select id="childSelect" class="form-control" asp-items="@(ViewData["IdHocSinh"] as SelectList)">
+        <option value="">-- Chọn trẻ em --</option>
+    </select>
 </div>
 <div id="timetableContainer" class="timetable">
 </div>
