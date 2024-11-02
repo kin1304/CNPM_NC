@@ -14,6 +14,10 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string ViTri { get; set; } = null!;
         public int? LuongCoBan { get; set; }
         public decimal? HeSoLuong { get; set; }
+        public decimal? TinhLuong()
+        {
+            return LuongCoBan * HeSoLuong;
+        }
 
         public virtual ICollection<NhanVien> NhanViens { get; set; }
     }
