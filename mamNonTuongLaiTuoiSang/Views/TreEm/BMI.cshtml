@@ -1,0 +1,49 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+
+    ViewData["Title"] = "BMI";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";
+}
+
+<div id="loader" class="loader">
+</div>
+<h1 class="text-black" style="text-align:center; font-size:30px">Chỉ số BMI</h1>
+<div class="text-black rounded-t p-8 select_box">
+    <h2>Chọn trẻ em: </h2>
+    <select id="childSelect" class="form-control" asp-items="@(ViewData["IdHocSinh"] as SelectList)">
+        <option value="">-- Chọn trẻ em --</option>
+    </select>
+</div>
+<p id="khongthay" style="display:block">Không tìm thấy thông tin chiều cao và cân nặng cho học sinh này.</p>
+<div id="Bmi" class="text-center" style="display:none">
+    <h1 class="text-red-600 text-xl font-bold mb-4">KẾT QUẢ BMI</h1>
+    <h2 id="chiso" class="text-lg font-semibold mb-2"></h2>
+    <div class="relative w-full max-w-md mx-auto mb-4">
+        <div class="flex justify-between">
+            <div class="h-2 w-1/6 bg-blue-200"></div>
+            <div class="h-2 w-1/6 bg-blue-300"></div>
+            <div class="h-2 w-1/6 bg-blue-400"></div>
+            <div class="h-2 w-1/6 bg-yellow-400"></div>
+            <div class="h-2 w-1/6 bg-orange-400"></div>
+            <div class="h-2 w-1/6 bg-red-500"></div>
+        </div>
+        <div id="phantram" class="absolute transform -translate-x-1/2 -translate-y-1/2 mt-1">
+            <i class="fas fa-caret-up text-blue-500 text-2xl"></i>
+        </div>
+    </div>
+    <p id="trangthai" class="text-gray-700 mb-4"></p> <br />
+    <h2 class="text-lg font-semibold mb-2">CÂN NẶNG LÝ TƯỞNG CỦA BẠN</h2>
+    <h2 id ="lytuong" class="text-lg font-semibold mb-2"></h2>
+    <h2 class="text-lg font-semibold mb-2">CÂN NẶNG TỐI THIỂU CỦA BẠN</h2>
+    <h2 id="toithieu" class="text-lg font-semibold mb-2"> <h2>
+    <h2 class="text-lg font-semibold mb-4">CÂN NẶNG TỐI ĐA CỦA BẠN</h2>
+    <h2 id="toida" class="text-lg font-semibold mb-2"></h2>
+    <h3 class="text-md font-semibold mb-2">Lời khuyên dành cho bạn:</h3>
+    <p class="text-gray-700">Hãy ăn uống lành mạnh kết hợp với tập thể dục khoa học để có mức BMI bình thường cùng cân nặng lý tưởng.</p>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Content/BMI.js"></script>
+}
