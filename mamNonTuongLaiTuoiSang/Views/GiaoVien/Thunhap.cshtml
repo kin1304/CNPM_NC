@@ -1,0 +1,29 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.NhanVien
+
+@{
+    ViewData["Title"] = "Thunhap";
+    ViewData["GiaoVien"] = Model.MaSt;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bảng lương nhân viên</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Chức vụ</th>
+            <th>Lương cơ bản</th>
+            <th>Tổng lương</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>@Model.HoTen</td>
+            <td>@Model.TenCv</td>
+            <td>@Model.ChucVu.LuongCoBan</td>
+            <td>@Model.ChucVu.TinhLuong()</td>
+        </tr>
+
+    </tbody>
+</table>

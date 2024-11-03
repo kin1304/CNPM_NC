@@ -1,0 +1,83 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.PhuHuynh
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Chỉnh sửa thông tin";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";
+}
+
+<div id="loader" class="loader">
+</div>
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-4xl">
+        <div class="flex">
+            <div class="w-1/4 flex flex-col items-center">
+                <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-4">
+                    <img alt="Profile picture" class="rounded-full" src="~/content/images/nha_ava_fb.jpg" width="100" height="100" /> @* hình phuhuynh *@
+                </div>
+                <div class="text-lg font-semibold text-gray-700">@Model.HoTen</div>
+                <div>
+                    <a style=" color:brown border-color:indigo" asp-controller="PhuHuynh" asp-action="Info" asp-route-id="@Model.IdPh">Back to List</a>
+                </div>
+            </div>
+            <div class="w-3/4 pl-8">
+                <div class="grid grid-cols-2 gap-4">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="IdPh" />
+                        <div class="col-span-2">
+                            <label asp-for="HoTen" class="block text-gray-700">Tên phụ huynh</label>
+                            <input asp-for ="HoTen" type="text" class="w-full mt-1 p-2 border border-gray-300 rounded" value="@Model.HoTen">
+                            <span asp-validation-for="HoTen" class="text-danger"></span>
+                        </div>
+                        <div class="col-span-2">
+                            <label asp-for="DiaChi" class="block text-gray-700">Địa chỉ</label>
+                            <input asp-for="DiaChi" type="text" class="w-full mt-1 p-2 border border-gray-300 rounded" value="@Model.DiaChi">
+                            <span asp-validation-for="DiaChi" class="text-danger"></span>
+                        </div>
+                        <div class="col-span-2">
+                            <label asp-for="GioiTinh" class="control-label">Giới Tính</label>
+                            <select asp-for="GioiTinh" class="form-control">
+                                <option value="true" selected="@Model.GioiTinh">Nam</option>
+                                <option value="false" selected="@(!Model.GioiTinh)">Nữ</option>
+                            </select>
+                            <span asp-validation-for="GioiTinh" class="text-danger"></span>
+                        </div>
+                        <div class="col-span-2">
+                            <label asp-for="NgheNghiep" class="block text-gray-700">Nghề Nghiệp</label>
+                            <input asp-for="NgheNghiep" type="text" class="w-full mt-1 p-2 border border-gray-300 rounded" value="@Model.NgheNghiep">
+                            <span asp-validation-for="NgheNghiep" class="text-danger"></span>
+                        </div>
+                        <div class="col-span-2">
+                            <label asp-for="NamSinh" class="block text-gray-700">Năm Sinh</label>
+                            <input asp-for="NamSinh" type="text" class="w-full mt-1 p-2 border border-gray-300 rounded" value="@Model.NamSinh">
+                            <span asp-validation-for="NamSinh" class="text-danger"></span>
+                        </div>
+                        <div class="col-span-2">
+                            <label asp-for="MatKhau" class="block text-gray-700">Mật Khẩu</label>
+                            <input asp-for="MatKhau" type="text" class="w-full mt-1 p-2 border border-gray-300 rounded" value="@Model.MatKhau">
+                            <span asp-validation-for="MatKhau" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-span-2">
+                            <label asp-for="Email" class="block text-gray-700">Email</label>
+                            <input asp-for="Email" type="text" class="w-full mt-1 p-2 border border-gray-300 rounded" value="@Model.Email">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="col-span-2">
+                            <label asp-for="Sdt" class="block text-gray-700">Số điện thoại</label>
+                            <input asp-for="Sdt" type="text" class="w-full mt-1 p-2 border border-gray-300 rounded" value="@Model.Sdt">
+                            <span asp-validation-for="Sdt" class="text-danger"></span>
+                        </div>
+                        <div class="text-black px-4 py-2 rounded">
+                            <input type="submit" value="Save" class="btn btn-primary bg-green-100" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

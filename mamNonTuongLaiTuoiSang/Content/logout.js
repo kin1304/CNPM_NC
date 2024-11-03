@@ -19,3 +19,19 @@ document.getElementById('logoutBtn').addEventListener('click', function () {
             console.error('Lỗi:', error);
         });
 });
+
+const btnLogout = document.getElementById("btnLogout");
+const logoutModal = document.getElementById("logoutModal");
+const cancelLogout = document.getElementById("cancelLogout");
+const confirmLogout = document.getElementById("confirmLogout");
+btnLogout.addEventListener("click", function () {
+    logoutModal.classList.remove("hidden");
+});
+
+cancelLogout.addEventListener("click", function () {
+    logoutModal.classList.add("hidden");
+});
+
+confirmLogout.addEventListener("click", function () {
+    window.location.href = "http://localhost:5005";
+});

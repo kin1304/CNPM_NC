@@ -33,7 +33,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
         /// GET: api/GiaoViens/{maSt} (hãy gán link này api/GiaoViens/St006 vì trong database mới thêm thằng này là tên công việc giáo viên)
         [HttpGet("{maSt}")]
-        public async Task<ActionResult<NhanVien>> GetNhanVienByGiaoVien(string maSt)
+        public async Task<ActionResult<GiaoVien>> GetNhanVienByGiaoVien(string maSt)
         {
             // Kiểm tra xem _context có null không
             if (_context.GiaoViens == null || _context.NhanViens == null)
@@ -42,35 +42,24 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
 
             // Tìm giáo viên theo mã số
-            var giaoVien = await _context.GiaoViens
-                .Include(g => g.MaStNavigation) // Bao gồm thông tin nhân viên
+            GiaoVien giaoVien = await _context.GiaoViens
                 .FirstOrDefaultAsync(g => g.MaSt == maSt);
-
+            
             // Nếu không tìm thấy giáo viên
-            if (giaoVien == null || giaoVien.MaStNavigation.TenCv != "GiaoVien")
+            if (giaoVien == null )
             {
                 return BadRequest("Không tìm thấy giáo viên với mã số đã cho hoặc nhân viên không phải là giáo viên.");
             }
 
             // Chuyển đổi thông tin sang DTO
-             TeacherInfo gv = new TeacherInfo();
+            if(giaoVien.MaStNavigation == null)
             {
-                gv.MaSt = giaoVien.MaSt;
-                gv.HoTen = giaoVien.MaStNavigation.HoTen;
-                gv.DiaChi = giaoVien.MaStNavigation.DiaChi;
-                gv.NamSinh = giaoVien.MaStNavigation.NamSinh;
-                gv.GioiTinh = giaoVien.MaStNavigation.GioiTinh;
-                gv.Email = giaoVien.MaStNavigation.Email;
-                gv.Sdt = giaoVien.MaStNavigation.Sdt;
-                gv.TenCv = giaoVien.MaStNavigation.TenCv;
-                gv.TrinhDoChuyenMon = giaoVien.TrinhDoChuyenMon;
-                gv.ViTri=giaoVien.MaStNavigation.ViTri;
-                gv.SaoDanhGia = giaoVien.SaoDanhGia;
-                gv.NamLam = giaoVien.MaStNavigation.NamLam;
-                
-            };
+                NhanVien nhanVien = await _context.NhanViens.FirstOrDefaultAsync(g => g.MaSt == maSt);
+                giaoVien.MaStNavigation = nhanVien;
+            }
+            
 
-            return Ok(gv);
+            return Ok(giaoVien);
         }
 
         // PUT: api/GiaoViens/5

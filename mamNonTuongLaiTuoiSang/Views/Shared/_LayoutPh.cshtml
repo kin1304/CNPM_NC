@@ -1,72 +1,93 @@
-﻿<head>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
-    <style>  
-        body {
-            background-image: linear-gradient(to right top, #565656, #747274, #968f91, #b9aeac, #dacfc7, #e7dbcf, #f2e7d7, #fdf3df, #fdead4, #ffe0cc, #ffd5c6, #ffcbc4);
-            background-size: cover;
-            background-attachment: fixed;
-            min-height: 100vh;
+    <script src="~/Content/logout.js"></script>
+    <script scr="~/Content/Loader.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/loader.css" />
+    <style>
+        .bg-gradient {
+            background-image: linear-gradient(to right, #ffaf47, #ffa539, #ff9b2a, #ff9019, #ff8400);
         }
+
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+
+            .sidebar-item:hover {
+                background-color: #ffe6cc;
+                color: #ff8400;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+        /* Thêm hiệu ứng cho button */
+        .btn {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+            .btn:hover {
+                transform: scale(1.05);
+            }
     </style>
 </head>
 <body class="bg-gray-100">
-    <div class="flex">
+    <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-1/6 sidebar-bg h-screen p-4 border border-gray-300 rounded-lg shadow-2xl">
-            <div class="text-gray-500 text-lg mb-4">Trang người dùng</div>
-            <ul class="space-y-2">
-                <li>
-                    
-                    <button id="btnProfile" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
-                            onclick ="navigateTo('/PhuHuynh/Info/@ViewData["PhuHuynh"]')">
-                        <i class="fas fa-user mr-2"></i> Thông tin người dùng
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo2" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
-                            onclick="navigateTo('/TreEm/Index/@ViewData["PhuHuynh"]')">
-                        <i class="fas fa-icons mr-2"></i> Trẻ em của tui
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo3" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
-                        <i class="fas fa-map-marker-alt mr-2"></i> No3
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo4" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
-                        <i class="fas fa-table mr-2"></i> No4
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo5" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
-                        <i class="fas fa-user-plus mr-2"></i> No5
-                    </button>
-                </li>
-                <li>
-                    <button id="btnLogout" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
-                        <i class="fas fa-sign-in-alt mr-2"></i> Đăng xuất
-                    </button>
-                </li>
-            </ul>
+        <div class="bg-white shadow-xl rounded-r-full rounded-l-lg p-4 h-full">
+            <a href="@Url.Action("trangchu","Main", new{id = ViewData["PhuHuynh"]} )">
+                <div class="flex items-center justify-center py-6 space-x-2">
+                    <img src="~/content/images/logo_truong_phung_gui.jpg" class="w-16 h-16 rounded-full shadow-md" alt="Logo" />
+                    <div class="text-2xl font-semibold text-gray-700">ELSA</div>
+                </div>
+            </a>
+            <nav class="mt-8">
+                <button id="btnProfile" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/PhuHuynh/Info/@ViewData["PhuHuynh"]')">
+                    <i class="fas fa-user mr-3"></i>
+                    <span class="font-semibold">Thông tin người dùng</span>
+                </button>
+                <button id="btnNo2" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/TreEm/Index/@ViewData["PhuHuynh"]')">
+                    <i class="fas fa-icons mr-3"></i>
+                    <span class="font-semibold">Trẻ em của tui</span>
+                </button>
+
+                <button id="btnNo3" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/PhuHuynh/KhoaHoc/@ViewData["PhuHuynh"]')">
+                    <i class="fas fa-map-marker-alt mr-3"></i>
+                    <span class="font-semibold">Khóa học của con tui</span>
+                </button>
+
+                <button id="btnNo4" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="window.location.href='@Url.Action("Index", "ThoiKhoaBieu", new {id = ViewData["PhuHuynh"]})'">
+                    <i class="fas fa-table mr-3"></i>
+                    <span class="font-semibold">Thời Khóa Biểu</span>
+                </button>
+
+                <button id="btnNo5" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="window.location.href='@Url.Action("BMI", "TreEm", new {id = ViewData["PhuHuynh"]})'">
+                    <i class="fas fa-user-plus mr-3"></i>
+                    <span class="font-semibold">Chỉ số BMI</span>
+                </button>
+                <button id="btnLogout" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn">
+                    <i class="fas fa-sign-in-alt mr-3"></i>
+                    <span class="font-semibold">Đăng xuất</span>
+                </button>
+            </nav>
         </div>
 
         <!-- Main Content -->
-        <div class="w-4/5 h-screen p-4">
-            <!-- Header -->
-            <div class="header-bg p-6 border border-gray-300 rounded-lg shadow-2xl mb-4">
-                <h3 style="font: 30px;">Xin chào</h3>
-                <div class="relative">
-                    <input type="text" placeholder="Search" class="bg-white text-gray-700 rounded-full px-4 py-2 focus:outline-none">                
+        <div class="flex-1 flex flex-col h-full">
+            <header class="bg-gradient text-white flex justify-between items-center px-8 py-4 rounded-b-3xl shadow-lg">
+                <div class="text-xl font-semibold">Xin chào phụ huynh</div>
+                <div class="flex items-center">
+                    <input type="text" placeholder="Search" class="bg-white text-gray-700 rounded-full px-4 py-2 focus:outline-none shadow-sm">
                 </div>
-            </div>
-            <!-- Nội dung động sẽ hiển thị ở đây -->
-            @RenderBody()
-            @RenderSection("Scripts", required: false)
-            @RenderSection("Styles", required: false)
+            </header>
+            <main class="flex-1 bg-white p-8 rounded-t-3xl shadow-lg mt-4 overflow-y-auto">
+                <!-- Nội dung động sẽ hiển thị ở đây -->
+                @RenderBody()
+                @RenderSection("Scripts", required: false)
+                @RenderSection("Styles", required: false)
+            </main>
         </div>
     </div>
 
@@ -75,8 +96,8 @@
         <div class="bg-white p-6 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold mb-4">Bạn có chắc chắn muốn đăng xuất không?</h2>
             <div class="flex justify-end space-x-4">
-                <button id="cancelLogout" class="bg-gray-300 text-gray-700 px-4 py-2 rounded">Hủy</button>
-                <button id="confirmLogout" class="bg-red-500 text-white px-4 py-2 rounded">Đăng xuất</button>
+                <button id="cancelLogout" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition">Hủy</button>
+                <button id="confirmLogout" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Đăng xuất</button>
             </div>
         </div>
     </div>
@@ -84,5 +105,8 @@
         function navigateTo(url) {
             window.location.href = url; // Điều hướng đến URL được truyền vào
         }
+        
+
     </script>
 </body>
+</html>

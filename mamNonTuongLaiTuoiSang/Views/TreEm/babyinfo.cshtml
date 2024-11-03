@@ -6,11 +6,15 @@
 @section Styles {
     <link rel="stylesheet" href="~/Content/babyinfo.css">
 }
+
 <body>
+    <div id="loader" class="loader">
+        
+    </div>
     <div class="container">
         <div class="child-info-header">
             <h1>Thông Tin Trẻ</h1>
-            <button id="edit-btn" >Chỉnh Sửa</button>
+            <button id="edit-btn" onclick="navigateTo('/TreEm/Edit/@Model.IdHs')">Chỉnh Sửa</button>
         </div>
         <div class="child-info">
             <div class="profile-pic">
@@ -33,15 +37,6 @@
             <p><strong>Cân Nặng:</strong> @Model.CanNang (KG)</p>
             <p><strong>Chiều Cao:</strong> @Model.ChieuCao (M)</p>
             <p><strong>Tiêm Chủng:</strong> Đầy Đủ</p>
-        </div>
-
-        <div class="attendance-info">
-            <h2>Điểm Danh</h2>
-            <ul>
-                <li>Ngày 01/09/2024 - Có Mặt</li>
-                <li>Ngày 02/09/2024 - Vắng Mặt</li>
-                <li>Ngày 03/09/2024 - Có Mặt</li>
-            </ul>
         </div>
     </div>
 </body>

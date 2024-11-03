@@ -3,53 +3,54 @@
     ViewBag.title = "User";
     Layout = "~/Views/Shared/_LayoutPh.cshtml";
 }
-<div class="p-8">
-    <div id="mainContent" class="main-content">
-        <div id="contentArea" class="text-gray-700 text-lg">
-            <div class="max-w-4xl mx-auto border border-gray-300 p-4">
-                <div class="flex">
-                    <div class="w-1/4">
-                        <img alt="Profile picture" class="rounded-full" height="100" src="https://storage.googleapis.com/a1aa/image/74PNLrMcK6ZDDF9oZ0uvDk62LAegmbp9zfgAqGEZJ91vopmTA.jpg" width="100" />
+<div id="loader" class="loader">
+  
+</div>
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-4xl">
+        <div class="flex">
+            <div class="w-1/4 flex flex-col items-center">
+                <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mb-4">
+                    <img alt="Profile picture" class="rounded-full" src="~/content/images/nha_ava_fb.jpg" width="100" height="100" /> @* hình phuhuynh *@
+                </div>
+                <div class="text-lg font-semibold text-gray-700">@Model.HoTen</div>
+            </div>
+            <div class="w-3/4 pl-8">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <label class="block text-gray-700">Tên phụ huynh</label>
+                        <label class="w-full mt-1 p-2 border border-gray-300 rounded">@Model.HoTen</label>
                     </div>
-                    <div class="w-3/4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <h2 class="text-red-600 font-bold">Thông tin phụ huynh</h2>
-                                <p><span class="font-bold">Họ tên:</span> @Model.HoTen</p>
-                                <p><span class="font-bold">Địa chỉ:</span> @Model.DiaChi</p>
-                                @if (Model.GioiTinh == true)
-                                {
-                                    <p><span class="font-bold">Giới tính:</span> Nam </p>
-                                }
-                                else
-                                {
-                                    <p><span class="font-bold">Giới tính:</span> Nữ </p>
-                                }
-
-                                <p><span class="font-bold">Nghề nghiệp:</span> @Model.NgheNghiep</p>
-                                <p><span class="font-bold">Năm sinh:</span> @Model.NamSinh</p>
-                                <p><span class="font-bold">Email:</span> @Model.Email</p>
-                                <p><span class="font-bold">Số điện thoại:</span> @Model.Sdt</p>
-                            </div>
-                            <div>
-                                <h2 class="text-red-600 font-bold">Thông tin liên lạc</h2>
-                                <p><span class="font-bold">Dân tộc:</span> [...]</p>
-                                <p><span class="font-bold">Tôn giáo:</span> [...]</p>
-                                <p><span class="font-bold">Quốc gia:</span> [...]</p>
-                                <p><span class="font-bold">Tỉnh thành:</span> [...]</p>
-                                <p><span class="font-bold">Quận huyện:</span> [...]</p>
-
-                                <p><span class="font-bold">ĐT bàn:</span> [...]</p>
-                                <button class="mt-2 px-4 py-2 bg-gray-200 border border-gray-400">[Cập nhật thông tin cá nhân]</button>
-                            </div>
-                        </div>
+                    <div>
+                        <label class="block text-gray-700">Địa chỉ</label>
+                        <label class="w-full mt-1 p-2 border border-gray-300 rounded">@Model.DiaChi</label>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Nghề nghiệp</label>
+                        <label class="w-full mt-1 p-2 border border-gray-300 rounded">@Model.NgheNghiep</label>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Số điện thoại</label>
+                        <label class="w-full mt-1 p-2 border border-gray-300 rounded">@Model.Sdt</label>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Ngày sinh</label>
+                        <label class="w-full mt-1 p-2 border border-gray-300 rounded">@Model.NamSinh </label>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700">Giới tính</label>
+                        @if (Model.GioiTinh == true)
+                        {
+                            <label class="w-full mt-1 p-2 border border-gray-300 rounded">Nam</label>
+                        }
+                        else
+                        {
+                            <label class="w-full mt-1 p-2 border border-gray-300 rounded">Nữ</label>
+                        }
                     </div>
                 </div>
-                <div class="mt-4">
-                    <h2 class="text-red-600 font-bold">Thông tin người thân khác</h2>
-                    <p><span class="font-bold">Họ tên người liên hệ:</span> [...]</p>
-                    <p><span class="font-bold">Địa chỉ người liên hệ:</span> [...]</p>
-                    <p><span class="font-bold">Điện thoại người liên hệ:</span> [...]</p>
+                <div class="mt-8 flex justify-end">
+                    <button class="bg-green-500 text-white px-4 py-2 rounded" onclick="navigateTo('/PhuHuynh/Edit/@Model.IdPh')">Cật nhật thông tin</button>
                 </div>
             </div>
         </div>
