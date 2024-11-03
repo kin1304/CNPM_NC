@@ -54,11 +54,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVoucher(string id, Voucher voucher)
         {
-            if (id != voucher.IdVoucher)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(voucher).State = EntityState.Modified;
 
             try
