@@ -11,6 +11,7 @@ namespace mamNonTuongLaiTuoiSang.Models
             HoaDons = new HashSet<HoaDon>();
             HocSinhLops = new HashSet<HocSinhLop>();
             TiemChungs = new HashSet<TiemChung>();
+            SucKhoes =new HashSet<SucKhoe>();
         }
 
         public string IdHs { get; set; } = null!;
@@ -19,13 +20,11 @@ namespace mamNonTuongLaiTuoiSang.Models
         public int? NamSinh { get; set; }
         public string? IdPh { get; set; }
         public string? QuanHe { get; set; }
-        public decimal? CanNang { get; set; }
-        public decimal? ChieuCao { get; set; }
-
         public virtual PhuHuynh? IdPhNavigation { get; set; }
         public virtual ICollection<Dkxe> Dkxes { get; set; }
         public virtual ICollection<HoaDon> HoaDons { get; set; }
         public virtual ICollection<HocSinhLop> HocSinhLops { get; set; }
         public virtual ICollection<TiemChung> TiemChungs { get; set; }
+        public virtual ICollection<SucKhoe> SucKhoes { get; set; }
     }
 }
