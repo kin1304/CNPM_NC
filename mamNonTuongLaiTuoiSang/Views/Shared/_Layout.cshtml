@@ -16,23 +16,34 @@
     <div class="flex">
         <!-- Sidebar -->
         <div class="w-1/6 sidebar-bg h-screen p-4 border border-gray-300 rounded-lg shadow-2xl">
-            <div class="text-gray-500 text-lg mb-4">Trang người dùng</div>
+            <div class="text-gray-500 text-lg mb-4">Trang giáo viên</div>
             <ul class="space-y-2">
                 <li>
-                    <div>@ViewData["GiaoVien"]</div>
                     <a id="btnProfile" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
                        href="@Url.Action("Index", "GiaoVien", new {id = ViewData["GiaoVien"]})">
                         <i class="fas fa-user mr-2"></i> Thông tin người dùng
                     </a>
                 </li>
                 <li>
-                    <button id="btnNo1" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                    <button id="btnDiemDanh" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
                             onclick="navigateTo('/DiemDanh/Index')">
                         <i class="fas fa-tachometer-alt mr-2"></i> Điểm danh
                     </button>
                 </li>
                 <li>
-                    <a id="btnNo2" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                    <a id="btnNK" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                       href="@Url.Action("Index", "NgoaiKhoa", new {id = ViewData["GiaoVien"]})">
+                        <i class="fas fa-user mr-2"></i> Ngoại Khóa
+                    </a>
+                </li>
+                <li>
+                    <a id="btnNKGV" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                       href="@Url.Action("Index", "NgoaiKhoaGiaoVien", new {id = ViewData["GiaoVien"]})">
+                        <i class="fas fa-user mr-2"></i> Ngoại khóa đã đăng ký
+                    </a>
+                </li>
+                <li>
+                    <a id="btnLopHoc" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
                             href="@Url.Action("Index", "LopHoc", new {id = ViewData["GiaoVien"]})">
                         <i class="fas fa-icons mr-2"></i> Các lớp của tui
                     </a>

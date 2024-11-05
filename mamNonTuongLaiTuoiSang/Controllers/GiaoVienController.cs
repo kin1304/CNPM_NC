@@ -14,7 +14,15 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 return NotFound();
             }
             GiaoVien gv = db.GiaoViens.SingleOrDefault(gv => gv.MaSt == id);
-            gv.MaStNavigation = db.NhanViens.SingleOrDefault(nv=> nv.MaSt == gv.MaSt);
+            try
+            {
+                gv.MaStNavigation = db.NhanViens.SingleOrDefault(nv => nv.MaSt == id);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message); 
+            }
             ViewData["GiaoVien"] = id;
             return View(gv);
         }

@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Org.BouncyCastle.Crypto.IO;
+using AngleSharp.Io;
 
 
 namespace mamNonTuongLaiTuoiSang.Controllers
@@ -65,16 +66,22 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                         {
                             return RedirectToAction("Index", "NhanVien", new { area = "Admin" });
                         }
-                        else if (user.TenCv == "Giáo Viên")
+                        else if (user.TenCv == "GiaoVien")
                         {
                             ViewData["GiaoVien"] = user.MaSt;
                             ViewBag.GiaoVien = user.MaSt;
                             return RedirectToAction("Index", "GiaoVien", new { id = user.MaSt });
                         }
+                        else
+                        {
+
+                        }
                     }
                 }
                 else
                 {
+                    string responseContent = await nhanVienResponse.Content.ReadAsStringAsync();
+                    Console.WriteLine("Content: " + responseContent);
                     ViewBag.ErrorMessage = "Invalid email or password";
                     return View();
                 }
