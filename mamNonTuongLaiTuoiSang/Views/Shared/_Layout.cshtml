@@ -33,14 +33,8 @@
                    href="@Url.Action("Thunhap", "GiaoVien", new { id = ViewData["GiaoVien"] })">
                     <i class="fas fa-table mr-3"></i> Thu nhập
                 </a>
-
-                <button id="btnNo4" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn">
-                    <i class="fas fa-table mr-3"></i> No4
-                </button>
-                <button id="btnNo5" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn">
-                    <i class="fas fa-user-plus mr-3"></i> No5
-                </button>
-                <button id="btnLogout" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn">
+                <button id="btnLogout" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn"
+                        onclick="navigateTo('/Account/Login')">
                     <i class="fas fa-sign-in-alt mr-3"></i> Đăng xuất
                 </button>
             </nav>

@@ -22,5 +22,11 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual NhanVien? MaStNavigation { get; set; }
         public virtual ICollection<HocSinhLop> HocSinhLops { get; set; }
         public virtual ICollection<Tkb> Tkbs { get; set; }
+
+        // Phương thức đếm số lớp của một giáo viên
+        public static int DemSoLop(string maSt, QLMamNonContext db)
+        {
+            return db.Lops.Count(l => l.MaSt == maSt);
+        }
     }
 }
