@@ -42,6 +42,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual DbSet<VoucherCuaPh> VoucherCuaPhs { get; set; } = null!;
         public virtual DbSet<XeBu> XeBus { get; set; } = null!;
         public virtual DbSet<NgoaiKhoaGiaoVien> NgoaiKhoaGiaoViens { get; set; } = null!;
+        public virtual DbSet<SucKhoe> SucKhoes { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -735,23 +736,53 @@ namespace mamNonTuongLaiTuoiSang.Models
                     .HasConstraintName("FK__XeBus__MaST__3C69FB99");
 
             });
-            // Định nghĩa mối quan hệ giữa NgoaiKhoa và GiaoVien thông qua bảng trung gian
+            
             modelBuilder.Entity<NgoaiKhoaGiaoVien>(entity =>
             {
-                entity.HasKey(nk => new { nk.IdNk, nk.MaSt }); // Đặt khóa chính cho bảng trung gian
+                entity.HasKey(nk => new { nk.IdNk, nk.MaSt }); 
             entity.ToTable("NgoaiKhoa_GiaoVien");
 
             modelBuilder.Entity<NgoaiKhoaGiaoVien>()
                 .HasOne(nk => nk.IdNKNavigation)
-                .WithMany(nk => nk.NgoaiKhoaGiaoViens) // Giả định rằng NgoaiKhoa có ICollection<NgoaiKhoaGiaoVien>
+                .WithMany(nk => nk.NgoaiKhoaGiaoViens) 
                 .HasForeignKey(nk => nk.IdNk);
 
             modelBuilder.Entity<NgoaiKhoaGiaoVien>()
                 .HasOne(nk => nk.MaStNavigation)
-                .WithMany(gv => gv.NgoaiKhoaGiaoViens) // Giả định rằng GiaoVien có ICollection<NgoaiKhoaGiaoVien>
+                .WithMany(gv => gv.NgoaiKhoaGiaoViens) 
                 .HasForeignKey(nk => nk.MaSt);
         });
 
+            modelBuilder.Entity<SucKhoe>(entity =>
+            {
+                entity.HasKey(e => e.IdSK); // Thiết lập IdSK làm khóa chính
+
+                entity.ToTable("SucKhoe");
+
+                entity.Property(e => e.IdSK)
+                    .ValueGeneratedOnAdd() // Đặt IDENTITY cho IdSK
+                    .HasColumnName("IdSK");
+
+                entity.Property(e => e.IdHS)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("IdHS")
+                    .IsFixedLength();
+
+                entity.Property(e => e.ChieuCao)
+                    .HasColumnType("decimal(5, 2)");
+
+                entity.Property(e => e.CanNang)
+                    .HasColumnType("decimal(5, 2)");
+
+                entity.Property(e => e.NgayNhap)
+                    .HasColumnType("date");
+
+                entity.HasOne(d => d.HocSinh)
+                    .WithMany(p => p.SucKhoes)
+                    .HasForeignKey(d => d.IdHS)
+                    .HasConstraintName("FK__SucKhoe__IdHS__5EBF139D");
+            });
             OnModelCreatingPartial(modelBuilder);
         }
 
