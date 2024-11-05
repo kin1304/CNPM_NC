@@ -1,0 +1,39 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.NgoaiKhoaGiaoVien>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdNk)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaSt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdNk)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaSt)
+                </td>
+                <td>
+                    <!-- Update delete link to use correct Delete action -->
+                    <a href="@Url.Action("Delete", "NgoaiKhoaGiaoVien", new { MaSt = item.MaSt, IdNk = item.IdNk })">
+                        Hủy đăng ký ngoại khóa
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

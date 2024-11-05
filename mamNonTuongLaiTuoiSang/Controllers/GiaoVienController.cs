@@ -35,6 +35,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 var responseContent = response.Content.ReadAsStringAsync();
                 Console.WriteLine("Content: " + responseContent);
             }
+
             return View(gv);
         }
         public IActionResult Thunhap(string id)

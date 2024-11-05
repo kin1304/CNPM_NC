@@ -24,15 +24,45 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NgoaiKhoaGiaoVien>>> GetNgoaiKhoaGiaoViens()
         {
-          
+
             return await _context.NgoaiKhoaGiaoViens.ToListAsync();
         }
+        [HttpGet("ByGiaoVien/{MaSt}")]
+        public async Task<ActionResult<IEnumerable<NgoaiKhoaGiaoVien>>> GetNgoaiKhoaByGiaoVien(string MaSt)
+        {
+            if (_context.NgoaiKhoas == null)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
 
+            // Tìm tất cả học sinh có mã phụ huynh tương ứng
+            var ngoaikhoa = await _context.NgoaiKhoaGiaoViens
+                .Where(hs => hs.MaSt.Replace(" ", "") == MaSt.Replace(" ", ""))
+                .ToListAsync();
+
+            if (ngoaikhoa == null || ngoaikhoa.Count == 0)
+            {
+                return BadRequest("Dữ liệu không tồn tại.");
+            }
+
+            return ngoaikhoa;
+        }
+        [HttpGet("{MaSt}/{idNk}")]
+        public async Task<ActionResult<NgoaiKhoaGiaoVien>> GetNKAndGV(string Mast,string idnk)
+        {
+            var nkgv=  _context.NgoaiKhoaGiaoViens
+                .Where(ng=>ng.MaSt==Mast && ng.IdNk==idnk).FirstOrDefault();
+            if (nkgv == null)
+            {
+                return null;
+            }
+            return nkgv;
+        }
         // GET: api/NgoaiKhoaGiaoViens/{idNk}
         [HttpGet("{idNk}")]
         public async Task<ActionResult> GetGiaoViensByIdNk(string idNk)
         {
-           
+
             // Lấy thông tin giáo viên dựa trên IdNk
             var giaoViens = await _context.NgoaiKhoaGiaoViens
                 .Where(nkgv => nkgv.IdNk == idNk)
@@ -56,91 +86,52 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return Ok(giaoViens);
         }
-        // PUT: api/NgoaiKhoaGiaoViens/{idNk}/{maSt}
-        [HttpPut("{idNk}/{maSt}")]
-        public async Task<IActionResult> PutNgoaiKhoaGiaoVien(string idNk, string maSt, NgoaiKhoaGiaoVien ngoaiKhoaGiaoVien)
-        {
-           
-            // Đánh dấu thực thể này sẽ được sửa đổi
-            _context.Entry(ngoaiKhoaGiaoVien).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!NgoaiKhoaGiaoVienExists(idNk, maSt))
-                {
-                    return BadRequest("Dữ liệu không tồn tại.");
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
-        }
-
-        // POST: api/NgoaiKhoaGiaoViens
         [HttpPost]
-        public async Task<ActionResult<NgoaiKhoaGiaoVien>> PostNgoaiKhoaGiaoVien(NgoaiKhoaGiaoVien ngoaiKhoaGiaoVien)
+        public async Task<ActionResult<NgoaiKhoaGiaoVien>> PostNgoaiKhoa(NgoaiKhoaGiaoVien ngoaiKhoa)
         {
-            if (_context.NgoaiKhoaGiaoViens == null)
-            {
-                return Problem("Entity set 'QLMamNonContext.NgoaiKhoaGiaoViens' is null.");
-            }
 
-            _context.NgoaiKhoaGiaoViens.Add(ngoaiKhoaGiaoVien);
+            _context.NgoaiKhoaGiaoViens.Add(ngoaiKhoa);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (NgoaiKhoaGiaoVienExists(ngoaiKhoaGiaoVien.IdNk, ngoaiKhoaGiaoVien.MaSt))
+                if (NgoaiKhoaGiaoVienExists(ngoaiKhoa.IdNk, ngoaiKhoa.MaSt))
                 {
-                    return Conflict("NgoaiKhoaGiaoVien với IdNk và MaSt này đã tồn tại.");
+                    return Conflict();
                 }
                 else
                 {
                     throw;
                 }
             }
-
-            return CreatedAtAction("GetNgoaiKhoaGiaoVien", new { idNk = ngoaiKhoaGiaoVien.IdNk, maSt = ngoaiKhoaGiaoVien.MaSt }, ngoaiKhoaGiaoVien);
+            return CreatedAtAction("GetNgoaiKhoa", new { id = ngoaiKhoa.IdNk, mast = ngoaiKhoa.MaSt }, ngoaiKhoa);
         }
-
-        // DELETE: api/NgoaiKhoaGiaoViens/{idNk}/{maSt}
-        [HttpDelete("{idNk}/{maSt}")]
-        public async Task<IActionResult> DeleteNgoaiKhoaGiaoVien(string idNk, string maSt)
+        [HttpDelete("{MaSt}/{idNk}")]
+        public async Task<IActionResult> DeleteNgoaiKhoaGiaoVien(string maSt, string idNk)
         {
             if (_context.NgoaiKhoaGiaoViens == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-
             var ngoaiKhoaGiaoVien = await _context.NgoaiKhoaGiaoViens
                 .FirstOrDefaultAsync(n => n.IdNk == idNk && n.MaSt == maSt);
             if (ngoaiKhoaGiaoVien == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-
             _context.NgoaiKhoaGiaoViens.Remove(ngoaiKhoaGiaoVien);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool NgoaiKhoaGiaoVienExists(string idNk, string maSt)
+        private bool NgoaiKhoaGiaoVienExists(string id,string mast)
         {
-            return _context.NgoaiKhoaGiaoViens.Any(e => e.IdNk == idNk && e.MaSt == maSt);
+            return (_context.NgoaiKhoaGiaoViens?.Any(e => e.IdNk == id && e.MaSt==mast)).GetValueOrDefault();
         }
-
     }
-
-
 }
 
