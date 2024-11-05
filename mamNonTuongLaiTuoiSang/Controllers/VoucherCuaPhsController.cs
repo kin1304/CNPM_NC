@@ -51,41 +51,37 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return Ok(voucherCuaPh);
         }
-        // GET: api/VoucherCuaPhs/MostUsed
-        [HttpGet("MostUsed")]
-        public async Task<ActionResult<IEnumerable<object>>> GetMostUsedVouchers()
-        {
-         
-            var mostUsedVouchers = await _context.VoucherCuaPhs
-                .Where(v => v.Trangthai == 1) //   trạng thái là 1
-                .GroupBy(v => v.IdVoucher)
-                .Select(g => new
-                {
-                    IdVoucher = g.Key,
-                    soluongdangsudung = g.Sum(v => v.SoLuong) // Tính tổng số lượng
-                })
-                .OrderByDescending(v => v.soluongdangsudung) // Sắp xếp giảm dần theo số lượng
-                .ToListAsync();
 
-            return Ok(mostUsedVouchers);
-        }
-        // GET: api/VoucherCuaPhs/LeastUsed
-        [HttpGet("LeastUsed")]
-        public async Task<ActionResult<IEnumerable<object>>> GetLeastUsedVouchers()
+        // POST: api/VoucherCuaPhs
+        [HttpPost]
+        public async Task<ActionResult<VoucherCuaPh>> PostVoucherCuaPh(VoucherCuaPh voucherCuaPh)
         {
-            
-            var leastUsedVouchers = await _context.VoucherCuaPhs
-                .Where(v => v.Trangthai == 0) 
-                .GroupBy(v => v.IdVoucher)
-                .Select(g => new
-                {
-                    IdVoucher = g.Key,
-                    Count = g.Sum(v => v.SoLuong) 
-                })
-                .OrderBy(v => v.Count) 
-                .ToListAsync();
+            if (_context.VoucherCuaPhs == null)
+            {
+                return Problem("Entity set 'QLMamNonContext.VoucherCuaPhs' is null.");
+            }
 
-            return Ok(leastUsedVouchers);
+            // Kiểm tra sự tồn tại của voucher với cùng IdPh và IdVoucher
+            if (VoucherCuaPhExists(voucherCuaPh.IdPh, voucherCuaPh.IdVoucher))
+            {
+                return Conflict("Voucher đã tồn tại với IdPh và IdVoucher này.");
+            }
+
+            // Thêm voucher mới vào DbContext
+            _context.VoucherCuaPhs.Add(voucherCuaPh);
+
+            try
+            {
+                // Lưu thay đổi vào cơ sở dữ liệu
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw; // Xử lý ngoại lệ nếu cần thiết
+            }
+
+            // Trả về thông tin voucher đã thêm kèm theo địa chỉ URL của bản ghi mới
+            return CreatedAtAction("GetVoucherCuaPh", new { idPh = voucherCuaPh.IdPh, idVoucher = voucherCuaPh.IdVoucher }, voucherCuaPh);
         }
 
         /// PUT: api/VoucherCuaPhs/{idPh}/{idVoucher}
@@ -120,40 +116,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
 
             return NoContent(); // Trả về 204 No Content nếu thành công
-        }
-
-
-        // POST: api/VoucherCuaPhs
-        [HttpPost]
-        public async Task<ActionResult<VoucherCuaPh>> PostVoucherCuaPh(VoucherCuaPh voucherCuaPh)
-        {
-            if (_context.VoucherCuaPhs == null)
-            {
-                return Problem("Entity set 'QLMamNonContext.VoucherCuaPhs' is null.");
-            }
-
-            // Kiểm tra sự tồn tại của voucher với cùng IdPh và IdVoucher
-            if (VoucherCuaPhExists(voucherCuaPh.IdPh, voucherCuaPh.IdVoucher))
-            {
-                return Conflict("Voucher đã tồn tại với IdPh và IdVoucher này.");
-            }
-
-            // Thêm voucher mới vào DbContext
-            _context.VoucherCuaPhs.Add(voucherCuaPh);
-
-            try
-            {
-                // Lưu thay đổi vào cơ sở dữ liệu
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                throw; // Xử lý ngoại lệ nếu cần thiết
-            }
-
-            // Trả về thông tin voucher đã thêm kèm theo địa chỉ URL của bản ghi mới
-            return CreatedAtAction("GetVoucherCuaPh", new { idPh = voucherCuaPh.IdPh, idVoucher = voucherCuaPh.IdVoucher }, voucherCuaPh);
-        }
+        }   
 
         // DELETE: api/VoucherCuaPhs/{idPh}/{idVoucher}
         [HttpDelete("{idPh}/{idVoucher}")]

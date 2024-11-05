@@ -70,6 +70,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return hocSinhs;
         }
+
         [HttpGet("ChieuCao/CanNang/{id}")]
         public async Task<IActionResult> GetChieuCaoCanNangHocSinh(string id)
         {
@@ -96,7 +97,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             };
             return Ok(chieuCaoCanNang);
         }
-        
         // PUT: api/HocSinhs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

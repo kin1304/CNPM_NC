@@ -15,6 +15,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public DateTime? NgayHetHan { get; set; }
         public decimal? PhanTramGiam { get; set; }
         public int? SoLuong { get; set; }
+        public string? Trangthai { get; set; }
         public string? MaSt { get; set; }
 
         public virtual NhanVien? MaStNavigation { get; set; }

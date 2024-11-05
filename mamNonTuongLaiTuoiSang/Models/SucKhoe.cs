@@ -17,4 +17,5 @@ namespace mamNonTuongLaiTuoiSang.Models
         public HocSinh? HocSinh { get; set; }
     }
 
+
 }
