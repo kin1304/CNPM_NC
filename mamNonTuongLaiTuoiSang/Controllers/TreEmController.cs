@@ -11,6 +11,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         private readonly string url = "https://localhost:5005/api/HocSinhs/ByPhuHuynh/";
         private readonly string urlDetails = "https://localhost:5005/api/HocSinhs/";
         private readonly string urlPh = "https://localhost:5005/api/HocSinhs/ByPhuHuynh/";
+        private readonly string urlChieuCao = "https://localhost:5005/api/HocSinhs/ChieuCao/CanNang/";
 
         private HttpClient client = new HttpClient();
 
@@ -36,6 +37,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 var responseContent = response.Content.ReadAsStringAsync();
                 Console.WriteLine("Content: " + responseContent);
             }
+
             return View(hocSinhs);
         }
         [HttpGet]
@@ -53,6 +55,29 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                     hocSinh = data;
                 }
 
+            }
+            CCCN cCCN = new CCCN();
+            HttpResponseMessage res = client.GetAsync(urlChieuCao + id).Result;
+            if (res.IsSuccessStatusCode)
+            {
+                string result = res.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<CCCN>(result);
+                if (data != null)
+                {
+                    cCCN = data;
+                }
+
+            }
+            if(cCCN != null)
+            {
+
+               ViewData["CanNang"] = cCCN.CanNang;
+                ViewData["ChieuCao"] = cCCN.ChieuCao;
+            }
+            else
+            {
+                ViewData["CanNang"] = 0;
+                ViewData["ChieuCao"] = 0;
             }
             TempData["PhuHuynh"] = ViewData["PhuHuynh"] as string;
             return View(hocSinh);

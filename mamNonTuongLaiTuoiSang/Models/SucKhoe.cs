@@ -1,14 +1,21 @@
-﻿namespace mamNonTuongLaiTuoiSang.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace mamNonTuongLaiTuoiSang.Models
 {
     public class SucKhoe
     {
-        public int IdSK { get; set; }
-        public string? IdHS { get; set; }         
-        public decimal? ChieuCao { get; set; }    
-        public decimal? CanNang { get; set; }      
-        public DateTime? NgayNhap { get; set; }
+        public int IdSK { get; set; } // IDENTITY, nên chỉ cần định nghĩa là int
+        public string IdHS { get; set; } // Foreign key đến HocSinh
 
-        public HocSinh HocSinh { get; set; }
+        public decimal? ChieuCao { get; set; } // Chiều cao tính bằng cm
 
+        public decimal? CanNang { get; set; } // Cân nặng tính bằng kg
+
+        public DateTime? NgayNhap { get; set; } // Ngày nhập dữ liệu
+
+        // Navigation property để kết nối với HocSinh
+        public HocSinh? HocSinh { get; set; }
     }
+
+
 }
