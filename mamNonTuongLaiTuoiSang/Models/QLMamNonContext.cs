@@ -42,13 +42,14 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual DbSet<VoucherCuaPh> VoucherCuaPhs { get; set; } = null!;
         public virtual DbSet<XeBu> XeBus { get; set; } = null!;
         public virtual DbSet<NgoaiKhoaGiaoVien> NgoaiKhoaGiaoViens { get; set; } = null!;
+        public virtual DbSet<SucKhoe> SucKhoes { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-NB8CABT\\SQLEXPRESS;Initial Catalog=QLMamNon;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+                optionsBuilder.UseSqlServer("Data Source=NHA\\SQLEXPRESS;Initial Catalog=QLMamNon;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             }
         }
 
@@ -733,6 +734,37 @@ namespace mamNonTuongLaiTuoiSang.Models
                     .WithMany(p => p.XeBus)
                     .HasForeignKey(d => d.MaSt)
                     .HasConstraintName("FK__XeBus__MaST__3C69FB99");
+
+            });
+            modelBuilder.Entity<SucKhoe>(entity =>
+            {
+                entity.HasKey(e => e.IdSK)
+                    .HasName("PK__KhoaHoc__B773D1812C3EF6A5");
+
+                entity.ToTable("SucKhoe");
+
+                entity.Property(e => e.IdSK)
+                      .ValueGeneratedOnAdd();
+                entity.Property(e => e.IdHS)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .IsFixedLength();
+
+                entity.Property(e => e.ChieuCao)
+                    .HasColumnType("decimal(5, 2)"); // Cấu hình cho ChieuCao
+
+                entity.Property(e => e.CanNang)
+                    .HasColumnType("decimal(5, 2)"); // Cấu hình cho CanNang
+
+                entity.Property(e => e.NgayNhap)
+                    .HasColumnType("date"); // Cấu hình cho NgayNhap
+
+                // Cấu hình khóa ngoại cho IdHS
+                entity.HasOne(e => e.HocSinh)
+                    .WithMany() // Hoặc cấu hình nhiều với HocSinh nếu có
+                    .HasForeignKey(e => e.IdHS)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__SucKhoe__IdHs__3C69FB99");
 
             });
             // Định nghĩa mối quan hệ giữa NgoaiKhoa và GiaoVien thông qua bảng trung gian
