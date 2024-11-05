@@ -6,7 +6,11 @@
 @section Styles {
     <link rel="stylesheet" href="~/Content/babyinfo.css">
 }
+
 <body>
+    <div id="loader" class="loader">
+        
+    </div>
     <div class="container">
         <div class="child-info-header">
             <h1>Thông Tin Trẻ</h1>
@@ -30,8 +34,8 @@
 
         <div class="health-info">
             <h2>Thông Tin Sức Khỏe</h2>
-            <p><strong>Cân Nặng:</strong> @Model.CanNang (KG)</p>
-            <p><strong>Chiều Cao:</strong> @Model.ChieuCao (M)</p>
+            <p><strong>Chiều Cao:</strong> @ViewData["ChieuCao"] (m)</p>
+            <p><strong>Cân Nặng:</strong> @ViewData["CanNang"] (kg)</p>
             <p><strong>Tiêm Chủng:</strong> Đầy Đủ</p>
         </div>
     </div>

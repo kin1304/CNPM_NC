@@ -1,0 +1,28 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.KhoaHoc
+@{
+    ViewBag.Title = "Chi tiết khóa học";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/Content/chitietkhoahoc.css">
+
+}
+<div id="loader" class="loader">
+    Qúa trình này có thể mất vài phút
+</div>
+
+<div class="container">
+    <div class="course-title">@Model.TenKh</div>
+    <img src="~/Content/images/ctdlgt.jpg" alt="Khóa Học Lập Trình Web" class="course-image">
+    <div class="course-details">
+        <span class="course-price">Giá: @Model.DonGia</span><br>
+        <span class="course-duration">Thời gian: @Model.ThoiHan</span><br>
+        <span class="course-quantity">Số lượng học viên: @Model.SoLuong</span>
+    </div>
+    <div class="description">
+        <h2>Mô Tả Khóa Học</h2>
+        <p>@Model.MoTa</p>
+    </div>
+    <a href="#" class="button">Đăng Ký Ngay</a>
+</div>

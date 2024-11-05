@@ -1,0 +1,44 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.NhanVien
+
+@{
+    ViewData["Title"] = "Thunhap";
+    ViewData["GiaoVien"] = Model.MaSt;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var soLop = ViewBag.SoLop;
+    var soNgoaiKhoa = ViewBag.SoNgoaiKhoa;
+
+    var kpi = (soLop >= 3 && soNgoaiKhoa >= 5) ? "Đạt" : "Chưa đạt";
+    var tongLuong = (soLop >= 3 && soNgoaiKhoa >= 5) ? Model.ChucVu.TinhLuong() : Model.ChucVu.TinhLuong() * 0.9M;
+
+}
+
+<h2>Bảng lương nhân viên</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Chức vụ</th>
+            <th>Lương cơ bản</th>
+            <th>Số lớp dạy</th>
+            <th>Số ngoại khóa đăng ký</th>
+            <th>KPI</th>
+            <th>Tổng lương</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>@Model.HoTen</td>
+            <td>@Model.TenCv</td>
+            <td>@Model.ChucVu.LuongCoBan</td>
+             <td>@soLop</td>
+            <td>@soNgoaiKhoa</td>
+            <td>@kpi</td>
+            <td>@tongLuong</td>
+
+
+        </tr>
+
+    </tbody>
+</table>

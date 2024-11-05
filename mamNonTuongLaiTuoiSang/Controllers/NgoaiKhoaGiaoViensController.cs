@@ -81,11 +81,12 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             // Nếu không có giáo viên nào
             if (giaoViens == null || !giaoViens.Any())
             {
-                return NotFound("Không tìm thấy giáo viên cho IdNk đã cho.");
+                return BadRequest("Không tìm thấy giáo viên cho IdNk đã cho.");
             }
 
             return Ok(giaoViens);
         }
+
 
         [HttpPost]
         public async Task<ActionResult<NgoaiKhoaGiaoVien>> PostNgoaiKhoa(NgoaiKhoaGiaoVien ngoaiKhoa)
@@ -107,7 +108,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                     throw;
                 }
             }
-
             return CreatedAtAction("GetNgoaiKhoa", new { id = ngoaiKhoa.IdNk, mast = ngoaiKhoa.MaSt }, ngoaiKhoa);
         }
         [HttpDelete("{MaSt}/{idNk}")]
@@ -133,7 +133,5 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             return (_context.NgoaiKhoaGiaoViens?.Any(e => e.IdNk == id && e.MaSt==mast)).GetValueOrDefault();
         }
     }
-
-
 }
 

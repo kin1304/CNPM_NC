@@ -9,6 +9,9 @@
 @section Styles {
     <link rel="stylesheet" href="/Content/GiaoDienQuanLyDanhSachTre.css">
 }
+<div id="loader" class="loader">
+    
+</div>
 <audio id="1convit" src="/Content/audios/1convit.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
 <audio id="canhathuongnhau" src="/Content/audios/canhathuongnhau.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
 <audio id="chaulen3" src="/Content/audios/chaulen3.mp3" preload="auto"></audio> <!-- Đường dẫn đến tệp âm thanh -->
@@ -29,7 +32,7 @@
                     <div class="info">
                         <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
                         <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
-                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                        
                     </div>
                 </a>
             </button>
@@ -42,7 +45,7 @@
                     <div class="info">
                         <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
                         <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
-                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                        
                     </div>
                 </a>
             </button>
@@ -55,7 +58,7 @@
                     <div class="info">
                         <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
                         <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
-                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                       
                     </div>
                 </a>
             </button>
@@ -68,7 +71,7 @@
                     <div class="info">
                         <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
                         <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
-                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                        
                     </div>
                 </a>
             </button>
@@ -81,7 +84,7 @@
                     <div class="info">
                         <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
                         <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
-                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                        
                     </div>
                 </a>
             </button>
@@ -93,8 +96,7 @@
                     <img src="~/Content/images/nha_ava_fb.jpg" alt="Avatar" class="avatar">
                     <div class="info">
                         <div class="name">@Html.DisplayFor(modelItem => item.TenHs)</div>
-                        <div class="details">@Html.DisplayFor(modelItem => item.NamSinh)</div>
-                        <div class="details">@Html.DisplayFor(modelItem => item.CanNang)</div>
+                       
                     </div>
                 </a>
             </button>

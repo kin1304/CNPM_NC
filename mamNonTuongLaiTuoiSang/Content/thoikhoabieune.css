@@ -1,13 +1,4 @@
-﻿body {
-    margin: 60px;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 2em;
-    animation: gradientAnimation 5s ease infinite;
-    background: linear-gradient(45deg, #845ec2, #d65db1, #ff6f91, #ff9671, #ffc75f, #f9f871);
-    background-size: 400% 400%; /* Tăng kích thước cho gradient */
-}
+﻿
 
 @keyframes gradientAnimation {
     0% {
@@ -23,14 +14,28 @@
     }
 }
 
+.select_box {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+    .select_box h2 {
+        margin-right: 10px; /* Khoảng cách giữa h2 và select */
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        text-align: center;
+        animation: fadeIn 1s ease-in-out;
+        color: black;
+        font: 24px bold;
+    }
+
 h1 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     text-align: center;
-    background: white; /* Gradient màu */
-    -webkit-background-clip: text; /* Cắt nền để chỉ hiển thị trên chữ */
-    -webkit-text-fill-color: transparent; /* Làm cho màu chữ trong suốt */
     animation: fadeIn 1s ease-in-out;
+    color: black;
+    font:36px bold ;
 }
+
 
 @keyframes fadeIn {
     from {
@@ -45,9 +50,24 @@ h1 {
 .timetable {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(auto-fill, 80px);
     gap: 10px;
     margin-top: 20px;
+    margin: 60px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1em;
+    animation: gradientAnimation 5s ease infinite;
+    background: linear-gradient(45deg, #845ec2, #d65db1, #ff6f91, #ff9671, #ffc75f, #f9f871);
+    background-size: 400% 400%; /* Tăng kích thước cho gradient */
 }
+    .timetable .middle-border {
+        grid-column: span 6;
+        border-top: 2px solid black;
+        margin: 8px 0;
+    }
+
 
 .header, .cell {
     display: flex;
@@ -62,11 +82,11 @@ h1 {
 }
 
 .header {
-    background-size: 400% 400%;
+    background-size: 100% 100%;
     height: 65px;
     animation: gradientAnimation1 5s ease infinite;
     background-image: linear-gradient(to right, #5e9cc2, #2fb6cf, #0bc9f7, #0be8f7, #0bf7d4, #0bf7a2);
-    color: white;
+    color: black;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: bold;
 }

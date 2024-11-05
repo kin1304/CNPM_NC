@@ -1,0 +1,32 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.KhoaHoc>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewBag.Title = "Danh sách khóa học";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/Content/danhsachkhoahoc.css">
+}
+<div id="loader" class="loader">
+    Qúa trình này có thể mất vài phút
+</div>
+
+<h1>Danh Sách Khóa Học</h1>
+
+<div class="course-list">
+
+    @foreach (var item in Model)
+    {
+        <a asp-action="ChiTietKhoaHoc" asp-route-id="@item.IdKh" class="course">
+            <img src="~/Content/images/ctdlgt.jpg" alt="Khóa Học 1">
+            <div class="course-title">@item.TenKh</div>
+            <div class="course-details">
+                <span class="course-price">Giá: @item.DonGia</span><br>
+                <span>Mô tả: @item.MoTa</span><br>
+                <span>Số lượng: @item.SoLuong</span><br>
+                <span class="course-duration">Thời hạn: @item.ThoiHan</span>
+            </div>
+        </a>
+    }
+
+</div>

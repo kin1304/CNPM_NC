@@ -12,12 +12,21 @@ namespace mamNonTuongLaiTuoiSang.Models
         }
 
         public string IdLop { get; set; } = null!;
-        public string? TenLop { get; set; }
+        public string? TenLop { get; set; }   
+        public string? TrangThai { get; set; }
+        public DateTime? NgayBK { get; set; }
+        public DateTime? NgayKT { get; set; }
         public int? SiSo { get; set; }
         public string? MaSt { get; set; }
-        
+
         public virtual NhanVien? MaStNavigation { get; set; }
         public virtual ICollection<HocSinhLop> HocSinhLops { get; set; }
         public virtual ICollection<Tkb> Tkbs { get; set; }
+
+        // Phương thức đếm số lớp của một giáo viên
+        public static int DemSoLop(string maSt, QLMamNonContext db)
+        {
+            return db.Lops.Count(l => l.MaSt == maSt);
+        }
     }
 }

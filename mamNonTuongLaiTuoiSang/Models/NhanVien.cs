@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace mamNonTuongLaiTuoiSang.Models
 {
@@ -27,6 +28,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string? ViTri { get; set; }
 
         public virtual ChucVu? ChucVu { get; set; }
+        [JsonIgnore]
         public virtual GiaoVien? GiaoVien { get; set; }
         public virtual ICollection<HoaDon> HoaDons { get; set; }
         public virtual ICollection<Lop> Lops { get; set; }

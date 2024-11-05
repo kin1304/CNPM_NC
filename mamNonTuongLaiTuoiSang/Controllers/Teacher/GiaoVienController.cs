@@ -35,7 +35,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 var responseContent = response.Content.ReadAsStringAsync();
                 Console.WriteLine("Content: " + responseContent);
             }
-
             return View(gv);
         }
         public IActionResult Thunhap(string id)
@@ -63,6 +62,15 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 var responseContent = response.Content.ReadAsStringAsync();
                 Console.WriteLine("Content: " + responseContent);
             }
+
+            // Tính số lớp và số ngoại khóa của giáo viên
+            var soLop = Lop.DemSoLop(id, db);
+            var soNgoaiKhoa = NgoaiKhoaGiaoVien.DemSoNgoaiKhoa(id, db);
+
+            // Truyền vào ViewData hoặc ViewBag
+            ViewBag.SoLop = soLop;
+            ViewBag.SoNgoaiKhoa = soNgoaiKhoa;
+
             return View(nv);
         }
 

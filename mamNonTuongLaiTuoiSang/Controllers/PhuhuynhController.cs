@@ -2,12 +2,14 @@
 using mamNonTuongLaiTuoiSang.Models;
 using Newtonsoft.Json;
 using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace mamNonTuongLaiTuoiSang.Controllers
 {
     public class PhuhuynhController : Controller
     {
         private const string baseURL = "https://localhost:5005/api/PhuHuynhs";
+        private const string baseURL2 = "https://localhost:5005/api/KhoaHocs";
         private HttpClient client = new HttpClient();
         [HttpGet]
         public IActionResult PhuHuynh(PhuHuynh ph)
@@ -70,6 +72,25 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 Console.WriteLine(errorContent); // In ra lỗi chi tiết từ API
             }
             return View(ph);
+        }
+
+        [HttpGet]
+        public IActionResult KhoaHoc(string id)
+        {
+            TempData["PhuHuynh"] = id;
+            ViewData["PhuHuynh"] = id;
+            List<KhoaHoc> kh = new List<KhoaHoc>();
+            HttpResponseMessage response = client.GetAsync(baseURL2).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+                var data = JsonConvert.DeserializeObject<List<KhoaHoc>>(result);
+                if (data != null)
+                {
+                    kh = data;
+                }
+            }
+            return View(kh);
         }
     }
 }

@@ -48,17 +48,48 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return voucher;
         }
+        // GET: api/Vouchers/MostUsed
+        [HttpGet("MostUsed")]
+        public async Task<ActionResult<IEnumerable<object>>> GetMostUsedVouchers()
+        {
+
+            var mostUsedVouchers = await _context.Vouchers
+                .Where(v => v.Trangthai == "đã sử dụng") //   trạng thái là đã sử dụng
+                .GroupBy(v => v.IdVoucher)
+                .Select(g => new
+                {
+                    IdVoucher = g.Key,
+                    soluongdangsudung = g.Sum(v => v.SoLuong) // Tính tổng số lượng
+                })
+                .OrderByDescending(v => v.soluongdangsudung) // Sắp xếp giảm dần theo số lượng
+                .ToListAsync();
+
+            return Ok(mostUsedVouchers);
+        }
+        // GET: api/VoucherCuaPhs/LeastUsed
+        [HttpGet("LeastUsed")]
+        public async Task<ActionResult<IEnumerable<object>>> GetLeastUsedVouchers()
+        {
+
+            var leastUsedVouchers = await _context.Vouchers
+                .Where(v => v.Trangthai == "chưa sử dụng")
+                .GroupBy(v => v.IdVoucher)
+                .Select(g => new
+                {
+                    IdVoucher = g.Key,
+                    Count = g.Sum(v => v.SoLuong)
+                })
+                .OrderBy(v => v.Count)
+                .ToListAsync();
+
+            return Ok(leastUsedVouchers);
+        }
 
         // PUT: api/Vouchers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVoucher(string id, Voucher voucher)
         {
-            if (id != voucher.IdVoucher)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(voucher).State = EntityState.Modified;
 
             try

@@ -1,19 +1,14 @@
-﻿<head>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
-    <style>  
-        body {
-            background-image: linear-gradient(to right top, #565656, #747274, #968f91, #b9aeac, #dacfc7, #e7dbcf, #f2e7d7, #fdf3df, #fdead4, #ffe0cc, #ffd5c6, #ffcbc4);
-            background-size: cover;
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/giaovien.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-100">
-    <div class="flex">
+    <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-1/6 sidebar-bg h-screen p-4 border border-gray-300 rounded-lg shadow-2xl">
             <div class="text-gray-500 text-lg mb-4">Trang giáo viên</div>
@@ -72,17 +67,19 @@
         </div>
 
         <!-- Main Content -->
-        <div class="w-4/5 h-screen p-4">
-            <!-- Header -->
-            <div class="header-bg p-6 border border-gray-300 rounded-lg shadow-2xl mb-4">
-                <h3 style="font: 30px;">Xin chào</h3>
+        <div class="flex-1 flex flex-col h-full">
+            <header class="bg-gradient text-white flex justify-between items-center px-8 py-4 rounded-b-3xl shadow-lg">
+                <div class="text-xl font-semibold">Xin chào</div>
                 <div class="relative">
-                    <input type="text" placeholder="Search" class="bg-white text-gray-700 rounded-full px-4 py-2 focus:outline-none">                
+                    <input type="text" placeholder="Search" class="bg-white text-gray-700 rounded-full px-4 py-2 focus:outline-none shadow-sm">
                 </div>
-            </div>
-            <!-- Nội dung động sẽ hiển thị ở đây -->
-            @RenderBody()
-            @RenderSection("Scripts", required: false)
+            </header>
+            <main class="flex-1 bg-white p-8 rounded-t-3xl shadow-lg mt-4 overflow-y-auto">
+                <!-- Nội dung động sẽ hiển thị ở đây -->
+                @RenderBody()
+                @RenderSection("Scripts", required: false)
+                @RenderSection("Styles", required: false)
+            </main>
         </div>
     </div>
 
@@ -102,3 +99,4 @@
         }
     </script>
 </body>
+</html>
