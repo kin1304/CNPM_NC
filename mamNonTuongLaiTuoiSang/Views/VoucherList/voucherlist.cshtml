@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voucher List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Căn giữa theo chiều dọc */
+            flex-direction: column; /* Hiển thị theo chiều dọc */
+        }
+
+        .voucher-container {
+            display: flex;
+            flex-wrap: wrap; /* Cho phép xuống dòng */
+            gap: 20px; /* Khoảng cách giữa các voucher */
+            justify-content: left; /* Căn giữa các voucher */
+            padding: 20px; /* Khoảng cách từ lề */
+        }
+
+        .coupon {
+            width: 300px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        .coupon::after {
+            content: "";
+            position: absolute;
+            height: 50px;
+            width: 50px;
+            background: white;
+            border-radius: 50%;
+            right: -25px;
+            top: 50px;
+        }
+
+        .coupon > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .left {
+            width: 20%;
+            background-color: transparent;
+            background-image: radial-gradient(
+                circle at 0% 50%,
+                transparent 25px,
+                #c482d8 26px
+            );
+        }
+
+        .left div {
+            transform: rotate(-90deg);
+            white-space: nowrap;
+            margin-left: 20px;
+            color: white;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        .center {
+            flex-grow: 1;
+            text-align: left;
+            background: linear-gradient(90deg, #e1c8f6, #a8befe);
+        }
+
+        .center h2 {
+            color: white;
+            font-size: 25px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            white-space: nowrap;
+            text-align: left;
+        }
+
+        .center h3 {
+            font-size: 15px;
+        }
+
+        .center small {
+            font-size: 0.625rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+       
+    </style>
+</head>
+<body>
+    <div class="voucher-container">
+        <div class="coupon">
+            <div class="left">
+                <div>Discount</div>
+            </div>
+            <div class="center">
+                <div>
+                    <h2>Giảm giá 50%</h2>
+                    <h3>87878521112</h3>
+                    <small>Valid until May, 2023</small>
+                </div>
+            </div>
+            <div class="right">
+                <div></div>
+            </div>
+        </div>
+
+        <div class="coupon">
+            <div class="left">
+                <div>Discount</div>
+            </div>
+            <div class="center">
+                <div>
+                    <h2>Giảm giá 30%</h2>
+                    <h3>12345678901</h3>
+                    <small>Valid until June, 2023</small>
+                </div>
+            </div>
+            <div class="right">
+                <div></div>
+            </div>
+        </div>
+
+        <div class="coupon">
+            <div class="left">
+                <div>Discount</div>
+            </div>
+            <div class="center">
+                <div>
+                    <h2>Giảm giá 20%</h2>
+                    <h3>98765432100</h3>
+                    <small>Valid until July, 2023</small>
+                </div>
+            </div>
+            <div class="right">
+                <div></div>
+            </div>
+        </div>
+
+        <div class="coupon">
+            <div class="left">
+                <div>Discount</div>
+            </div>
+            <div class="center">
+                <div>
+                    <h2>Giảm giá 10%</h2>
+                    <h3>55555555555</h3>
+                    <small>Valid until August, 2023</small>
+                </div>
+            </div>
+            <div class="right">
+                <div></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
