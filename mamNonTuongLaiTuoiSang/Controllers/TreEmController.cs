@@ -8,10 +8,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 {
     public class TreEmController : Controller
     {
-        private readonly string url = "https://localhost:5005/api/HocSinhs/ByPhuHuynh/";
-        private readonly string urlDetails = "https://localhost:5005/api/HocSinhs/";
-        private readonly string urlPh = "https://localhost:5005/api/HocSinhs/ByPhuHuynh/";
-        private readonly string urlChieuCao = "https://localhost:5005/api/HocSinhs/ChieuCao/CanNang/";
+        private readonly string url = "http://localhost:5005/api/HocSinhs/ByPhuHuynh/";
+        private readonly string urlDetails = "http://localhost:5005/api/HocSinhs/";
+        private readonly string urlPh = "http://localhost:5005/api/HocSinhs/ByPhuHuynh/";
+        private readonly string urlChieuCao = "http://localhost:5005/api/HocSinhs/ChieuCao/CanNang/";
 
         private HttpClient client = new HttpClient();
 

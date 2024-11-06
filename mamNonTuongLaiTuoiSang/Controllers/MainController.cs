@@ -6,8 +6,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 {
     public class MainController : Controller
     {
-        private const string baseURL = "https://localhost:5005/api/PhuHuynhs";
-        private const string baseURL2 = "https://localhost:5005/api/KhoaHocs";
+        private const string baseURL = "http://localhost:5005/api/PhuHuynhs";
+        private const string baseURL2 = "http://localhost:5005/api/KhoaHocs";
         private HttpClient client = new HttpClient();
         [HttpGet]
         public ActionResult trangchu(string id)

@@ -14,7 +14,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class VoucherController : Controller
     {
-        private string url = "https://localhost:5005/api/vouchers/";
+        private string url = "http://localhost:5005/api/vouchers/";
         private readonly QLMamNonContext _context;
         private HttpClient client = new HttpClient();
 
