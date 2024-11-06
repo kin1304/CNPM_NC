@@ -16,8 +16,8 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class LopController : Controller
     {
-        private const string url = "https://localhost:5005/api/Lops/";
-        private const string urlNhanVien = "https://localhost:5005/api/nhanviens/";
+        private const string url = "http://localhost:5005/api/Lops/";
+        private const string urlNhanVien = "http://localhost:5005/api/nhanviens/";
         private HttpClient client = new HttpClient();
         private readonly QLMamNonContext _context;
         private readonly IHttpClientFactory _httpClientFactory;

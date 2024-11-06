@@ -12,7 +12,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class NhanVienController : Controller
     {
-        private const string baseURL = "https://localhost:5005/api/NhanViens";
+        private const string baseURL = "http://localhost:5005/api/NhanViens";
         private readonly QLMamNonContext _context;
         private readonly ILogger<NhanVienController> _logger;
         private HttpClient client = new HttpClient();

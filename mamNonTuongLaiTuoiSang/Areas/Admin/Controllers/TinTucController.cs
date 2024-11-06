@@ -12,8 +12,8 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class TinTucController : Controller
     {
-        private string url = "https://localhost:5005/api/tintucs/";
-        private string urlNhanVien = "https://localhost:5005/api/nhanviens/";
+        private string url = "http://localhost:5005/api/tintucs/";
+        private string urlNhanVien = "http://localhost:5005/api/nhanviens/";
         private readonly QLMamNonContext _context;
         private readonly IHttpClientFactory _httpClientFactory;
         private HttpClient client = new HttpClient();

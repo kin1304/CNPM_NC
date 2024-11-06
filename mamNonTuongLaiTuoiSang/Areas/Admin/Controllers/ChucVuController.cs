@@ -11,7 +11,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class ChucVuController : Controller
     {
-        private string url = "https://localhost:5005/api/chucvus/";
+        private string url = "http://localhost:5005/api/chucvus/";
         private HttpClient client = new HttpClient();
 
         // GET: Admin/ChucVu

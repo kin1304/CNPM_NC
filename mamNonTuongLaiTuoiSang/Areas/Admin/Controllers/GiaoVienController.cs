@@ -9,8 +9,8 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class GiaoVienController : Controller
     {
-        private string url = "https://localhost:5005/api/giaoviens/";
-        private string urlNhanVien = "https://localhost:5005/api/nhanviens/";
+        private string url = "http://localhost:5005/api/giaoviens/";
+        private string urlNhanVien = "http://localhost:5005/api/nhanviens/";
         private HttpClient client = new HttpClient();
 
         [HttpGet]
