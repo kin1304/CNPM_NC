@@ -8,10 +8,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
 {
     public class LopHocController : Controller
     {
-        private string url = "https://localhost:5005/api/hocsinhs/";
-        private string urlPH = "https://localhost:5005/api/phuhuynhs/";
-        private string urlLop = "https://localhost:5005/api/lops/getLopByMaSt/";
-        private string urldslop = "https://localhost:5005/api/HocSinhLops/lop/";
+        private string url = "http://localhost:5005/api/hocsinhs/";
+        private string urlPH = "http://localhost:5005/api/phuhuynhs/";
+        private string urlLop = "http://localhost:5005/api/lops/getLopByMaSt/";
+        private string urldslop = "http://localhost:5005/api/HocSinhLops/lop/";
         private HttpClient client = new HttpClient();
 
         public IActionResult Index(string id)

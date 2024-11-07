@@ -13,8 +13,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
     public class NgoaiKhoaGiaoVienController : Controller
     {
         private readonly QLMamNonContext _context;
-        private string url = "https://localhost:5005/api/NgoaiKhoaGiaoViens/";
-        private string urlByGV = "https://localhost:5005/api/NgoaiKhoaGiaoViens/bygiaovien/";
+        private string url = "http://localhost:5005/api/NgoaiKhoaGiaoViens/";
+        private string urlByGV = "http://localhost:5005/api/NgoaiKhoaGiaoViens/bygiaovien/";
         private HttpClient client = new HttpClient();
 
         public NgoaiKhoaGiaoVienController(QLMamNonContext context)
