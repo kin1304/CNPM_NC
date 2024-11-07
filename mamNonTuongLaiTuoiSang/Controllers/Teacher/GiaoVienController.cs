@@ -9,8 +9,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
     public class GiaoVienController : Controller
     {
         private readonly QLMamNonContext db = new QLMamNonContext();
-        private readonly string url = "https://localhost:5005/api/GiaoViens/";
-        private readonly string urlNhanVien = "https://localhost:5005/api/NhanViens/GetNhanVienHd/";
+        private readonly string url = "http://localhost:5005/api/GiaoViens/";
+        private readonly string urlNhanVien = "http://localhost:5005/api/NhanViens/GetNhanVienHd/";
         private readonly HttpClient client = new HttpClient();
 
         [HttpGet]

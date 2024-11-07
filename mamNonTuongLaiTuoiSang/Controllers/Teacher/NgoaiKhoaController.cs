@@ -14,9 +14,9 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
     public class NgoaiKhoaController : Controller
     {
         private readonly QLMamNonContext _context;
-        private string url = "https://localhost:5005/api/ngoaikhoas/";
-        private string urlNV = "https://localhost:5005/api/nhanviens/";
-        private string urlNKNV = "https://localhost:5005/api/NgoaiKhoaGiaoViens/";
+        private string url = "http://localhost:5005/api/ngoaikhoas/";
+        private string urlNV = "http://localhost:5005/api/nhanviens/";
+        private string urlNKNV = "http://localhost:5005/api/NgoaiKhoaGiaoViens/";
         private HttpClient client = new HttpClient();
 
         public NgoaiKhoaController(QLMamNonContext context)
