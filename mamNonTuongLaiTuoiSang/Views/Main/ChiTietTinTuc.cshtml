@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = ViewData["Title"];
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="news-detail">
+    <h1>@ViewData["Title"]</h1>
+    <img src="@ViewData["Image"]" alt="Image" />
+    <p>@ViewData["Content"]</p>
+    <p><strong>Ngày:</strong> @ViewData["Date"]</p>
+</div>

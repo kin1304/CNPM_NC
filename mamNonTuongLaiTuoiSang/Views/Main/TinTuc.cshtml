@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Tin Tức";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml"; 
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/Content/tintuc.css" />
+</head>
+<body class="bg-white text-gray-900">
+    <div class="max-w-4xl mx-auto p-4">
+
+        <!-- News Item 1 -->
+        <div class="container">
+            <img src="~/Content/images/baotangchientich.jpg" alt="Image" class="news-image" />
+            <div class="news-content">
+                <div class="news-meta">
+                    <span class="news-category">TIN TỨC</span>
+                    <span class="news-date">01.11.2024</span>
+                </div>
+                <h2 class="news-title">
+                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 1 })" class="news-link">Tin tức về Khóa học mới</a>
+                </h2>
+                <p class="news-description">
+                    Chúng tôi xin thông báo về các khóa học mới sắp khai giảng dành cho trẻ. Các lớp học sẽ tập trung vào phát triển kỹ năng và tư duy sáng tạo cho các bé. Hãy nhanh chóng đăng ký để đảm bảo con bạn có một chỗ trong khóa học phù hợp.
+                </p>
+            </div>
+        </div>
+        <hr class="divider" />
+
+        <!-- News Item 2 -->
+        <div class="container">
+            <img src="~/Content/images/image2.jpg" alt="Image" class="news-image" />
+            <div class="news-content">
+                <div class="news-meta">
+                    <span class="news-category">TIN TỨC</span>
+                    <span class="news-date">01.11.2024</span>
+                </div>
+                <h2 class="news-title">
+                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 2 })" class="news-link">Thông báo Lễ hội Âm nhạc</a>
+                </h2>
+                <p class="news-description">
+                    Lễ hội Âm nhạc sẽ diễn ra vào cuối tháng này với nhiều hoạt động thú vị, giúp các bé khám phá âm nhạc và phát triển tài năng. Các gia đình hãy lên lịch và cùng tham gia để tạo nên những kỷ niệm đẹp cùng con!
+                </p>
+            </div>
+        </div>
+        <hr class="divider" />
+
+        <!-- News Item 3 -->
+        <div class="container">
+            <img src="~/Content/images/image3.jpg" alt="Image" class="news-image" />
+            <div class="news-content">
+                <div class="news-meta">
+                    <span class="news-category">TIN TỨC</span>
+                    <span class="news-date">01.11.2024</span>
+                </div>
+                <h2 class="news-title">
+                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 3 })" class="news-link">Cập nhật chương trình học</a>
+                </h2>
+                <p class="news-description">
+                    Chương trình học đã được cập nhật với nhiều hoạt động thú vị và bổ ích, đảm bảo mang lại trải nghiệm học tập đa dạng và hấp dẫn cho các bé. Quý phụ huynh hãy tham khảo để chuẩn bị tốt cho con em mình!
+                </p>
+            </div>
+        </div>
+        <hr class="divider" />
+
+        <!-- News Item 4 -->
+        <div class="container">
+            <img src="~/Content/images/image4.jpg" alt="Image" class="news-image" />
+            <div class="news-content">
+                <div class="news-meta">
+                    <span class="news-category">TIN TỨC</span>
+                    <span class="news-date">01.11.2024</span>
+                </div>
+                <h2 class="news-title">
+                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 4 })" class="news-link">Khảo sát sự hài lòng</a>
+                </h2>
+                <p class="news-description">
+                    Chúng tôi mong muốn nhận được ý kiến từ quý phụ huynh để không ngừng nâng cao chất lượng chương trình giảng dạy và dịch vụ. Hãy dành chút thời gian để hoàn thành khảo sát và đóng góp ý kiến cho sự phát triển của trường.
+                </p>
+            </div>
+        </div>
+        <hr class="divider" />
+
+        <!-- News Item 5 -->
+        <div class="container">
+            <img src="~/Content/images/image5.jpg" alt="Image" class="news-image" />
+            <div class="news-content">
+                <div class="news-meta">
+                    <span class="news-category">TIN TỨC</span>
+                    <span class="news-date">01.11.2024</span>
+                </div>
+                <h2 class="news-title">
+                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 5 })" class="news-link">Chương trình ngoại khóa sắp tới</a>
+                </h2>
+                <p class="news-description">
+                    Để giúp các bé phát triển toàn diện, trường sẽ tổ chức chương trình ngoại khóa với nhiều hoạt động phong phú. Đây là cơ hội tuyệt vời để các bé rèn luyện kỹ năng sống và học hỏi từ thực tế. Hãy đăng ký ngay để con có thể tham gia nhé!
+                </p>
+            </div>
+        </div>
+        <hr class="divider" />
+
+    </div>
+</body>
+</html>

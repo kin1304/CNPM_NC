@@ -1,0 +1,46 @@
+﻿@model PhuHuynh
+
+@{
+    ViewBag.Title = "Thông Tin Tiêm Chủng";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";  
+}
+
+<h2>Thông Tin Tiêm Chủng</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Tên Vaccine</th>
+            <th>Ngày Tiêm</th>
+            <th>Ghi Chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tiemChung in (List<TiemChung>)ViewData["TiemChung"])
+        {
+            <tr>
+                <td>@tiemChung.Vaccine</td>
+                <td>@tiemChung.NgayTiem.ToString("dd/MM/yyyy")</td>
+                <td>@tiemChung.GhiChu</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Form để cập nhật thông tin tiêm chủng -->
+<form asp-action="CapNhatTiemChung" method="post">
+    <input type="hidden" name="hocSinhId" value="@Model.HocSinhId" />
+    <div>
+        <label>Tên Vaccine:</label>
+        <input type="text" name="TiemChung.Vaccine" placeholder="Tên Vaccine" required />
+    </div>
+    <div>
+        <label>Ngày Tiêm:</label>
+        <input type="date" name="TiemChung.NgayTiem" required />
+    </div>
+    <div>
+        <label>Ghi Chú:</label>
+        <textarea name="TiemChung.GhiChu" placeholder="Ghi chú"></textarea>
+    </div>
+    <button type="submit">Cập Nhật</button>
+</form>
