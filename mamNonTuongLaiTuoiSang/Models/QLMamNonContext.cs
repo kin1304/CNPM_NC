@@ -43,6 +43,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual DbSet<XeBu> XeBus { get; set; } = null!;
         public virtual DbSet<NgoaiKhoaGiaoVien> NgoaiKhoaGiaoViens { get; set; } = null!;
         public virtual DbSet<SucKhoe> SucKhoes { get; set; } = null!;
+        public virtual DbSet<ThongBao> ThongBaos { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -784,6 +785,20 @@ namespace mamNonTuongLaiTuoiSang.Models
                     .WithMany(p => p.SucKhoes)
                     .HasForeignKey(d => d.IdHS)
                     .HasConstraintName("FK__SucKhoe__IdHS__5EBF139D");
+            });
+            modelBuilder.Entity<ThongBao>(entity =>
+            {
+                entity.HasKey(e => e.IdTitle); 
+
+                entity.Property(e => e.IdTitle)
+                    .IsRequired()
+                    .HasMaxLength(50); 
+
+                entity.Property(e => e.NoiDung)
+                    .HasMaxLength(1000); 
+
+                entity.Property(e => e.TepDinhKem)
+                    .HasMaxLength(255);
             });
             OnModelCreatingPartial(modelBuilder);
         }
