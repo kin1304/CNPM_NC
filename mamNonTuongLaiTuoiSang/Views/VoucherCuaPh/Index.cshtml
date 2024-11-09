@@ -1,0 +1,55 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.VoucherCuaPh>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";
+}
+
+<h1>Index</h1>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">@TempData["Message"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Trạng thái
+            </th>
+            <th>
+                Mã voucher
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @if (item.Trangthai == 0)
+                    {
+                        <span>Đã dùng</span>
+                    }
+                    else if (item.Trangthai == 1)
+                    {
+                        <span>Chưa dùng</span>
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdVoucher)
+            </td>
+            <td>
+                <td>
+                    <form asp-action="DeleteVoucher" method="post">
+                        <input type="hidden" name="idPh" value="@item.IdPh" />
+                        <input type="hidden" name="idVoucher" value="@item.IdVoucher" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa voucher này?')">Xóa</button>
+                    </form>
+                </td>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
