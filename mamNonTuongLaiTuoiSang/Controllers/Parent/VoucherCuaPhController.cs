@@ -6,8 +6,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
 {
     public class VoucherCuaPhController : Controller
     {
-        private readonly string url = "https://localhost:5005/api/VoucherCuaPhs/ByPhuHuynh/";
-        private readonly string url1 = "https://localhost:5005/api/VoucherCuaPhs/";
+        private readonly string url = "http://localhost:5005/api/VoucherCuaPhs/ByPhuHuynh/";
+        private readonly string url1 = "http://localhost:5005/api/VoucherCuaPhs/";
 
         private HttpClient client = new HttpClient();
 
