@@ -67,6 +67,14 @@
                     <i class="fas fa-user-plus mr-3"></i>
                     <span class="font-semibold">Chỉ số BMI</span>
                 </button>
+                <button id="btnNo6" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="window.location.href='@Url.Action("Index", "VoucherCuaPh", new {id = ViewData["PhuHuynh"]})'">
+                    <i class="fas fa-user-plus mr-3"></i>
+                    <span class="font-semibold">Voucher của tôi</span>
+                </button>
+                <button id="btnNo7" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="window.location.href='@Url.Action("Index", "Voucher", new {id = ViewData["PhuHuynh"]})'">
+                    <i class="fas fa-user-plus mr-3"></i>
+                    <span class="font-semibold">Voucher</span>
+                </button>
                 <button id="btnLogout" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn">
                     <i class="fas fa-sign-in-alt mr-3"></i>
                     <span class="font-semibold">Đăng xuất</span>

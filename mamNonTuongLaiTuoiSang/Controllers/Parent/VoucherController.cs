@@ -7,8 +7,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
 {
     public class VoucherController : Controller
     {
-        private readonly string url = "https://localhost:5005/api/Vouchers";
-        private readonly string urlPh = "https://localhost:5005/api/VoucherCuaPhs";
+        private readonly string url = "http://localhost:5005/api/Vouchers";
+        private readonly string urlPh = "http://localhost:5005/api/VoucherCuaPhs";
 
         private readonly HttpClient client = new HttpClient();
 
@@ -63,10 +63,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
                     TempData["ErrorMessage"] = "Voucher này bạn đã thu nhập.";
                     return RedirectToAction("Index", new { id = idPh });
                 }
-            }
-            else
-            {
-                return BadRequest("Lỗi khi kiểm tra voucher.");
             }
 
             // Tạo dữ liệu mới cho VoucherCuaPh nếu chưa tồn tại
