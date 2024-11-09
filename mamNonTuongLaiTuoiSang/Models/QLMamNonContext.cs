@@ -44,6 +44,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual DbSet<NgoaiKhoaGiaoVien> NgoaiKhoaGiaoViens { get; set; } = null!;
         public virtual DbSet<SucKhoe> SucKhoes { get; set; } = null!;
         public virtual DbSet<ThongBao> ThongBaos { get; set; } = null!;
+        public virtual DbSet<ThongBao_PhuHuynh> ThongBao_PhuHuynhs { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -788,17 +789,67 @@ namespace mamNonTuongLaiTuoiSang.Models
             });
             modelBuilder.Entity<ThongBao>(entity =>
             {
-                entity.HasKey(e => e.IdTitle); 
+                
+                entity.HasKey(e => e.IdTitle);
 
+                
                 entity.Property(e => e.IdTitle)
-                    .IsRequired()
-                    .HasMaxLength(50); 
+                    .IsRequired();
 
+                
+                entity.Property(e => e.Title)
+                    .HasMaxLength(255);
+
+                
                 entity.Property(e => e.NoiDung)
-                    .HasMaxLength(1000); 
+                    .HasMaxLength(1000)
+                    .IsRequired(); 
 
+                
                 entity.Property(e => e.TepDinhKem)
                     .HasMaxLength(255);
+
+               
+                entity.Property(e => e.NgayTao)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
+            modelBuilder.Entity<ThongBao_PhuHuynh>(entity =>
+            {
+               
+                entity.HasKey(e => new { e.IdTitle, e.IdPH })
+                    .HasName("PK__ThongBao_PhuHuynh");
+
+               
+                entity.ToTable("ThongBao_PhuHuynh");
+
+                
+                entity.Property(e => e.IdTitle)
+                    .HasColumnName("IdTitle");
+
+                
+                entity.Property(e => e.IdPH)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("IdPH")
+                    .IsFixedLength();
+
+                
+                entity.Property(e => e.IsRead)
+                    .HasColumnName("IsRead")
+                    .HasDefaultValue(false); 
+
+               
+                entity.HasOne(d => d.IdTitleNavigation)
+                    .WithMany(p => p.ThongBaoPhuHuynhs)
+                    .HasForeignKey(d => d.IdTitle)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ThongBao_PhuHuynh__IdTitle");
+
+                entity.HasOne(d => d.IdPhNavigation)
+                    .WithMany(p => p.ThongBaoPhuHuynhs)
+                    .HasForeignKey(d => d.IdPH)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ThongBao_PhuHuynh__IdPH");
             });
             OnModelCreatingPartial(modelBuilder);
         }
