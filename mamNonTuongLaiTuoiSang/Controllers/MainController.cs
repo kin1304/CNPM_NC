@@ -11,8 +11,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         private HttpClient client = new HttpClient();
         [HttpGet]
         public ActionResult trangchu(string id)
-        {
-            if (id == null)
+        { 
+            if (id == null || id == "Login")
             {
                 return View();
             }

@@ -56,8 +56,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<VoucherCuaPh>> PostVoucherCuaPh(VoucherCuaPh voucherCuaPh)
         {
-            voucherCuaPh.IdPhNavigation = _context.PhuHuynhs.Where(p => p.IdPh == voucherCuaPh.IdPh).FirstOrDefault();
-            voucherCuaPh.IdVoucherNavigation = _context.Vouchers.Where(v => v.IdVoucher == voucherCuaPh.IdVoucher).FirstOrDefault();
+            voucherCuaPh.IdPhNavigation = _context.PhuHuynhs.Where(p => p.IdPh.Trim() == voucherCuaPh.IdPh.Trim()).FirstOrDefault();
+            voucherCuaPh.IdVoucherNavigation = _context.Vouchers.Where(v => v.IdVoucher.Trim() == voucherCuaPh.IdVoucher.Trim()).FirstOrDefault();
             if (_context.VoucherCuaPhs == null)
             {
                 return Problem("Entity set 'QLMamNonContext.VoucherCuaPhs' is null.");
@@ -156,7 +156,14 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 return NotFound();
             }
-            return await _context.VoucherCuaPhs.Where(v => v.IdPh == id).ToListAsync();
+            var vcph = await _context.VoucherCuaPhs.Where(v => v.IdPh == id).ToListAsync();
+            for (var i = 0; i < vcph.Count; i++)
+            {
+                vcph[i].IdPhNavigation = _context.PhuHuynhs.Where(p => p.IdPh.Trim() == vcph[i].IdPh.Trim()).FirstOrDefault();
+                vcph[i].IdVoucherNavigation = _context.Vouchers.Where(v => v.IdVoucher.Trim() == vcph[i].IdVoucher.Trim()).FirstOrDefault();
+            }
+            return vcph;
         }
+    
     }
 }

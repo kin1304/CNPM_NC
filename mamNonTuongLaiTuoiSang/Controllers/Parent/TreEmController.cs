@@ -18,6 +18,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public IActionResult Index(string id)
         {
+            ViewData["Nofi"] = HttpContext.Session.GetString("Nofi");
             ViewData["PhuHuynh"] = id;
             TempData["PhuHuynh"] = id;
             List<HocSinh> hocSinhs = new List<HocSinh>();
@@ -43,6 +44,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public IActionResult babyinfo(string id)
         {
+            ViewData["Nofi"] = HttpContext.Session.GetString("Nofi");
             ViewData["PhuHuynh"] = TempData["PhuHuynh"] as string;
             HocSinh hocSinh = new HocSinh();
             HttpResponseMessage response = client.GetAsync(urlDetails + id).Result;
@@ -86,6 +88,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public IActionResult Edit(string id)
         {
+            ViewData["Nofi"] = HttpContext.Session.GetString("Nofi");
             ViewData["PhuHuynh"] = TempData["PhuHuynh"] as string;
             TempData["PhuHuynh"] = ViewData["PhuHuynh"] as string;
             HocSinh hocSinh = new HocSinh();
@@ -105,6 +108,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(HocSinh hocSinh)
         {
+            ViewData["Nofi"] = HttpContext.Session.GetString("Nofi");
             string data = JsonConvert.SerializeObject(hocSinh);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PutAsync(urlDetails + hocSinh.IdHs, content);
@@ -122,6 +126,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public IActionResult BMI(string id)
         {
+            ViewData["Nofi"] = HttpContext.Session.GetString("Nofi");
             ViewData["PhuHuynh"] = id;
             TempData["PhuHuynh"] = id;
             List<HocSinh> hocSinhs = new List<HocSinh>();
