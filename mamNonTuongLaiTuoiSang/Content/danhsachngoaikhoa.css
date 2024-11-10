@@ -1,0 +1,41 @@
+﻿
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background-color: #f1f1f1;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    .schedule-table th, .schedule-table td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .schedule-table th {
+        background-color: #013668;
+        color: white;
+        text-align: center;
+    }
+
+    .schedule-table td {
+        text-align: center;
+        background-color: white;
+    }
+
+.activity-info {
+    display: block;
+    font-weight: bold;
+    color: #333;
+}
