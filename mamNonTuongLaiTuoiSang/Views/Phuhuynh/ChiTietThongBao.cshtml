@@ -1,0 +1,28 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.ThongBao_PhuHuynh
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Chi tiết thông báo";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="/Content/chitietthongbao.css">
+}
+
+@if (Model != null)
+{
+    <div class="header">
+        <h2>Chi tiết Thông báo</h2>
+        <a href="@Url.Action("ThongBao", "PhuHuynh", new{id=Model.IdPH})" class="back-link"><i class="fas fa-arrow-left"></i> Quay lại</a>
+    </div>
+
+    <div class="content">
+        <h1>@Model.IdTitleNavigation.Title</h1>
+        <img src="hinh-anh-thong-bao.jpg" alt="Hình ảnh thông báo">
+        <p>@Model.IdTitleNavigation.NoiDung</p>
+        @if (Model.IdTitleNavigation.TepDinhKem != null)
+        {
+            <a href="@Url.Action("DownloadFile", "PhuHuynh", new { id = Model.IdTitleNavigation.IdTitle })" class="download-link">Tải tệp đính kèm</a>
+        }
+    </div>
+}

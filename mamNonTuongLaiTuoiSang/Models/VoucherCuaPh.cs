@@ -9,7 +9,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string IdVoucher { get; set; } = null!;
         public byte? Trangthai { get; set; }
 
-        public virtual PhuHuynh IdPhNavigation { get; set; } = null!;
-        public virtual Voucher IdVoucherNavigation { get; set; } = null!;
+        public virtual PhuHuynh? IdPhNavigation { get; set; }
+        public virtual Voucher? IdVoucherNavigation { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
         [HttpGet]
         public IActionResult Index(string id)
         {
+            ViewData["Nofi"] = HttpContext.Session.GetString("Nofi");
             ViewData["PhuHuynh"] = id;
             TempData["PhuHuynh"] = id;
             List<VoucherCuaPh> vouchers = new List<VoucherCuaPh>();
