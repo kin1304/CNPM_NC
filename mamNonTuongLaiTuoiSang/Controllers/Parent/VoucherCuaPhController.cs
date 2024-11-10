@@ -36,25 +36,28 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
             return View(vouchers);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteVoucher(string idPh, string idVoucher)
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string idPh, string idVoucher)
         {
             ViewData["PhuHuynh"] = idPh;
             TempData["PhuHuynh"] = idPh;
 
             // Đường dẫn đến API Delete
-            string url = $"https://localhost:5005/api/VoucherCuaPhs/{idPh}/{idVoucher}";
+            string urlt = url1 + $"{idPh}/{idVoucher}";
 
             // Gửi yêu cầu xóa đến API
-            HttpResponseMessage response = await client.DeleteAsync(url);
+            HttpResponseMessage response = await client.DeleteAsync(urlt);
 
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Xóa voucher thành công.";
+                TempData["SuccessMessage"] = "Xóa voucher thành công.";
             }
             else
             {
-                TempData["Message"] = "Không thể xóa voucher.";
+                string responeContent = response.Content.ReadAsStringAsync().Result;
+                Console.WriteLine("Content: " + responeContent);
+                TempData["ErrorMessage"] = "Không thể xóa voucher.";
             }
 
             return RedirectToAction("Index", new { id = idPh });
