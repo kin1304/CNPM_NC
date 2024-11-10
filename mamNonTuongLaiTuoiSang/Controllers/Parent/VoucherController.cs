@@ -38,6 +38,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
 
         // Hành động Thu nhập voucher
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ThuNhapVoucher(string idVoucher, string idPh)
         {
             ViewData["PhuHuynh"] = idPh;
@@ -66,14 +67,14 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
             }
 
             // Tạo dữ liệu mới cho VoucherCuaPh nếu chưa tồn tại
-            var newVoucherCuaPh = new VoucherCuaPh
+            VoucherCuaPh voucherCuaPh = new VoucherCuaPh
             {
-                IdPh = sanitizedIdPh.ToUpper(),
-                IdVoucher = sanitizedIdVoucher.ToUpper(),
+                IdPh = sanitizedIdPh,
+                IdVoucher = sanitizedIdVoucher,
                 Trangthai = 1
             };
 
-            var content = new StringContent(JsonConvert.SerializeObject(newVoucherCuaPh), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonConvert.SerializeObject(voucherCuaPh), Encoding.UTF8, "application/json");
 
             // Gọi API để thêm voucher vào bảng VoucherCuaPh
             HttpResponseMessage response = await client.PostAsync(urlPh, content);
@@ -81,10 +82,16 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
             if (response.IsSuccessStatusCode)
             {
                 TempData["SuccessMessage"] = "Thu thập voucher thành công!";
-                return RedirectToAction("Index", new { id = idPh });
+                
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Không thể thu thập voucher.";
+                string responseContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Content: " + responseContent);
             }
 
-            return BadRequest("Không thể thu thập voucher.");
+            return RedirectToAction("Index", new { id = idPh });
         }
 
 
