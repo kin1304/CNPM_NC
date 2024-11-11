@@ -2,9 +2,9 @@
 
 namespace mamNonTuongLaiTuoiSang.Controllers
 {
-    public class QuanLyDanhSachHocSinh : Controller
+    public class OrderDetailController : Controller
     {
-        public IActionResult Index()
+        public IActionResult OrderDetail()
         {
             return View();
         }

@@ -24,17 +24,18 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HoaDonDichVu>>> GetHoaDonDichVus()
         {
-            if (_context.HoaDonDichVus == null)
-            {
-                return BadRequest();
-            }
+
+          if (_context.HoaDonDichVus == null)
+          {
+              return BadRequest();
+          }
             return await _context.HoaDonDichVus.ToListAsync();
         }
 
         // GET: api/HoaDonDichVus/{idHd}/{idDv}
         [HttpGet("{idHd}/{idDv}")]
         public async Task<ActionResult<HoaDonDichVu>> GetHoaDonDichVu(string idHd, string idDv)
-        {
+        {           
             var hoaDonDichVu = await _context.HoaDonDichVus
                 .FirstOrDefaultAsync(hd => hd.IdHd == idHd && hd.IdDv == idDv);
 
@@ -110,16 +111,14 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<HoaDonDichVu>> PostHoaDonDichVu(HoaDonDichVu hoaDonDichVu)
         {
-
             if (HoaDonDichVuExists(hoaDonDichVu.IdHd, hoaDonDichVu.IdDv))
             {
                 return BadRequest("Hóa đơn dịch vụ này đã tồn tại.");
             }
 
-
+           
             _context.HoaDonDichVus.Add(hoaDonDichVu);
             await _context.SaveChangesAsync();
-
 
             return CreatedAtAction("GetHoaDonDichVu", new { idHd = hoaDonDichVu.IdHd, idDv = hoaDonDichVu.IdDv }, hoaDonDichVu);
         }
@@ -127,19 +126,14 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         // DELETE: api/HoaDonDichVu/{idHd}/{idDv}
         [HttpDelete("{idHd}/{idDv}")]
         public async Task<IActionResult> DeleteHoaDonDichVu(string idHd, string idDv)
-        {
-
-
+        { 
+           
             var hoaDonDichVu = await _context.HoaDonDichVus
                 .FirstOrDefaultAsync(hd => hd.IdHd == idHd && hd.IdDv == idDv);
-
-
             if (hoaDonDichVu == null)
             {
                 return BadRequest("Hóa đơn dịch vụ không tồn tại.");
             }
-
-
             _context.HoaDonDichVus.Remove(hoaDonDichVu);
             await _context.SaveChangesAsync();
 

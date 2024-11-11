@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.Voucher>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Index";
+    ViewBag.Title = "Voucher List";
     Layout = "~/Views/Shared/_LayoutPh.cshtml";
 }
-
-<h1>Voucher</h1>
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -20,31 +19,33 @@
         <strong>@TempData["ErrorMessage"]</strong>
     </div>
 }
+@section Styles{
+    <link rel="stylesheet" href="/Content/voucherlist.css">
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Mã Voucher</th>
-            <th>Ngày hết hạn</th>
-            <th>Phần trăm giảm</th>
-            <th>Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var voucher in Model)
-        {
-            <tr>
-                <td>@voucher.IdVoucher</td>
-                <td>@voucher.NgayHetHan?.ToString("dd/MM/yyyy")</td>
-                <td>@voucher.PhanTramGiam</td>
-                <td>
+<div class="voucher-container">
+    @foreach (var voucher in Model)
+    {
+        <div class="coupon">
+            <div class="left">
+                <div>Discount</div>
+            </div>
+            <div class="center">
+                <div>
+                    <h2>@voucher.PhanTramGiam %</h2> 
+                    <h3>@voucher.SoLuong</h3>
+                    <small>Valid until </small> <small>@voucher.NgayHetHan?.ToString("dd/MM/yyyy")</small>
+                </div>
+            </div>
+            <div class="right">
+                <div>
                     <form asp-action="ThuNhapVoucher" method="post">
                         <input type="hidden" name="idVoucher" value="@voucher.IdVoucher" />
                         <input type="hidden" name="idPh" value="@TempData["PhuHuynh"]" />
                         <button type="submit" class="btn btn-primary">Thu nhập</button>
                     </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -2,9 +2,9 @@
 
 namespace mamNonTuongLaiTuoiSang.Controllers
 {
-    public class DanhSachKhoaHocController : Controller
+    public class ChitietngoaikhoaController : Controller
     {
-        public IActionResult danhsachkhoahoc()
+        public IActionResult chitietngoaikhoa()
         {
             return View();
         }

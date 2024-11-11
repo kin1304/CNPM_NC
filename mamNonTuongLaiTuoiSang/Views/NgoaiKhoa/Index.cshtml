@@ -1,0 +1,63 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.NgoaiKhoa>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/Content/Teacher/NgoaiKhoa.css"></link>
+</head>
+<body>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TenNk)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayBatDau)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayKetThu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoTa)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenNk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayBatDau)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayKetThu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTa)
+            </td>
+            <td>
+                        @if (item.NgayBatDau >= DateTime.Now)
+                        {
+                <a href="#" onclick="confirmRegistration('@Url.Action("DangKyNK","NgoaiKhoa", new{ MaSt=ViewData["GiaoVien"], id=item.IdNk })')">Đăng ký ngoại khóa</a>
+                        }
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>
+    <script type="text/javascript">
+        function confirmRegistration(URL) {
+            if (confirm("Bạn có chắc chắn muốn đăng ký ngoại khóa này?")) {
+                window.location.href = URL;
+            }
+        }
+    </script>
+</body>
