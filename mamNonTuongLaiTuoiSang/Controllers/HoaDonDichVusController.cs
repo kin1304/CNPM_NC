@@ -24,18 +24,18 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HoaDonDichVu>>> GetHoaDonDichVus()
         {
-
           if (_context.HoaDonDichVus == null)
           {
               return BadRequest();
           }
+
             return await _context.HoaDonDichVus.ToListAsync();
         }
 
         // GET: api/HoaDonDichVus/{idHd}/{idDv}
         [HttpGet("{idHd}/{idDv}")]
         public async Task<ActionResult<HoaDonDichVu>> GetHoaDonDichVu(string idHd, string idDv)
-        {           
+        {
             var hoaDonDichVu = await _context.HoaDonDichVus
                 .FirstOrDefaultAsync(hd => hd.IdHd == idHd && hd.IdDv == idDv);
 
@@ -115,8 +115,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             {
                 return BadRequest("Hóa đơn dịch vụ này đã tồn tại.");
             }
-
-           
             _context.HoaDonDichVus.Add(hoaDonDichVu);
             await _context.SaveChangesAsync();
 
@@ -130,10 +128,12 @@ namespace mamNonTuongLaiTuoiSang.Controllers
            
             var hoaDonDichVu = await _context.HoaDonDichVus
                 .FirstOrDefaultAsync(hd => hd.IdHd == idHd && hd.IdDv == idDv);
+
             if (hoaDonDichVu == null)
             {
                 return BadRequest("Hóa đơn dịch vụ không tồn tại.");
             }
+
             _context.HoaDonDichVus.Remove(hoaDonDichVu);
             await _context.SaveChangesAsync();
 
