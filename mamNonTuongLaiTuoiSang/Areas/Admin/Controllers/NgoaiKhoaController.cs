@@ -11,7 +11,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class NgoaiKhoaController : Controller
     {
-        private string url = "https://localhost:5005/api/ngoaikhoas/";
+        private string url = "http://localhost:5005/api/ngoaikhoas/";
         private HttpClient client = new HttpClient();
         private readonly QLMamNonContext _context;
         private readonly IHttpClientFactory _httpClientFactory;

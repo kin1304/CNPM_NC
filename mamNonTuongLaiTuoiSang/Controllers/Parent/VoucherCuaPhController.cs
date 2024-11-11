@@ -6,14 +6,15 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
 {
     public class VoucherCuaPhController : Controller
     {
-        private readonly string url = "https://localhost:5005/api/VoucherCuaPhs/ByPhuHuynh/";
-        private readonly string url1 = "https://localhost:5005/api/VoucherCuaPhs/";
+        private readonly string url = "http://localhost:5005/api/VoucherCuaPhs/ByPhuHuynh/";
+        private readonly string url1 = "http://localhost:5005/api/VoucherCuaPhs/";
 
         private HttpClient client = new HttpClient();
 
         [HttpGet]
         public IActionResult Index(string id)
         {
+            ViewData["Nofi"] = HttpContext.Session.GetString("Nofi");
             ViewData["PhuHuynh"] = id;
             TempData["PhuHuynh"] = id;
             List<VoucherCuaPh> vouchers = new List<VoucherCuaPh>();
@@ -36,25 +37,28 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Parent
             return View(vouchers);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteVoucher(string idPh, string idVoucher)
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string idPh, string idVoucher)
         {
             ViewData["PhuHuynh"] = idPh;
             TempData["PhuHuynh"] = idPh;
 
             // Đường dẫn đến API Delete
-            string url = $"https://localhost:5005/api/VoucherCuaPhs/{idPh}/{idVoucher}";
+            string urlt = url1 + $"{idPh}/{idVoucher}";
 
             // Gửi yêu cầu xóa đến API
-            HttpResponseMessage response = await client.DeleteAsync(url);
+            HttpResponseMessage response = await client.DeleteAsync(urlt);
 
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Xóa voucher thành công.";
+                TempData["SuccessMessage"] = "Xóa voucher thành công.";
             }
             else
             {
-                TempData["Message"] = "Không thể xóa voucher.";
+                string responeContent = response.Content.ReadAsStringAsync().Result;
+                Console.WriteLine("Content: " + responeContent);
+                TempData["ErrorMessage"] = "Không thể xóa voucher.";
             }
 
             return RedirectToAction("Index", new { id = idPh });

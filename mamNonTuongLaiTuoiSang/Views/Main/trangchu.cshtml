@@ -1,4 +1,5 @@
 ﻿@model mamNonTuongLaiTuoiSang.Models.PhuHuynh
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     ViewBag.Title = "Trang chủ";
@@ -8,5 +9,14 @@
 <div id="loader" class="loader">
     Qúa trình này có thể mất vài phút
 </div>
-<h1>Bổ sung sau</h1>
+<div>say something</div>
+
+<script>
+    function removeDisplay() {
+        var element = document.getElementById("myElement");
+        element.style.removeProperty("display"); // Xóa thuộc tính display
+    }
+</script>
+
+
     

@@ -42,13 +42,16 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual DbSet<VoucherCuaPh> VoucherCuaPhs { get; set; } = null!;
         public virtual DbSet<XeBu> XeBus { get; set; } = null!;
         public virtual DbSet<NgoaiKhoaGiaoVien> NgoaiKhoaGiaoViens { get; set; } = null!;
+        public virtual DbSet<SucKhoe> SucKhoes { get; set; } = null!;
+        public virtual DbSet<ThongBao> ThongBaos { get; set; } = null!;
+        public virtual DbSet<ThongBao_PhuHuynh> ThongBao_PhuHuynhs { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-NB8CABT\\SQLEXPRESS;Initial Catalog=QLMamNon;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+                optionsBuilder.UseSqlServer("Data Source=NHA\\SQLEXPRESS;Initial Catalog=QLMamNon;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             }
         }
 
@@ -735,23 +738,119 @@ namespace mamNonTuongLaiTuoiSang.Models
                     .HasConstraintName("FK__XeBus__MaST__3C69FB99");
 
             });
+
+           
             // Định nghĩa mối quan hệ giữa NgoaiKhoa và GiaoVien thông qua bảng trung gian
             modelBuilder.Entity<NgoaiKhoaGiaoVien>(entity =>
             {
-                entity.HasKey(nk => new { nk.IdNk, nk.MaSt }); // Đặt khóa chính cho bảng trung gian
+                entity.HasKey(nk => new { nk.IdNk, nk.MaSt }); 
             entity.ToTable("NgoaiKhoa_GiaoVien");
 
             modelBuilder.Entity<NgoaiKhoaGiaoVien>()
                 .HasOne(nk => nk.IdNKNavigation)
-                .WithMany(nk => nk.NgoaiKhoaGiaoViens) // Giả định rằng NgoaiKhoa có ICollection<NgoaiKhoaGiaoVien>
+                .WithMany(nk => nk.NgoaiKhoaGiaoViens) 
                 .HasForeignKey(nk => nk.IdNk);
 
             modelBuilder.Entity<NgoaiKhoaGiaoVien>()
                 .HasOne(nk => nk.MaStNavigation)
-                .WithMany(gv => gv.NgoaiKhoaGiaoViens) // Giả định rằng GiaoVien có ICollection<NgoaiKhoaGiaoVien>
+                .WithMany(gv => gv.NgoaiKhoaGiaoViens) 
                 .HasForeignKey(nk => nk.MaSt);
         });
 
+            modelBuilder.Entity<SucKhoe>(entity =>
+            {
+                entity.HasKey(e => e.IdSK); // Thiết lập IdSK làm khóa chính
+
+                entity.ToTable("SucKhoe");
+
+                entity.Property(e => e.IdSK)
+                    .ValueGeneratedOnAdd() // Đặt IDENTITY cho IdSK
+                    .HasColumnName("IdSK");
+
+                entity.Property(e => e.IdHS)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("IdHS")
+                    .IsFixedLength();
+
+                entity.Property(e => e.ChieuCao)
+                    .HasColumnType("decimal(5, 2)");
+
+                entity.Property(e => e.CanNang)
+                    .HasColumnType("decimal(5, 2)");
+
+                entity.Property(e => e.NgayNhap)
+                    .HasColumnType("date");
+
+                entity.HasOne(d => d.HocSinh)
+                    .WithMany(p => p.SucKhoes)
+                    .HasForeignKey(d => d.IdHS)
+                    .HasConstraintName("FK__SucKhoe__IdHS__5EBF139D");
+            });
+            modelBuilder.Entity<ThongBao>(entity =>
+            {
+                
+                entity.HasKey(e => e.IdTitle);
+                entity.ToTable("ThongBao");
+
+                entity.Property(e => e.IdTitle)
+                    .IsRequired();
+
+                
+                entity.Property(e => e.Title)
+                    .HasMaxLength(255);
+
+                
+                entity.Property(e => e.NoiDung)
+                    .HasMaxLength(1000)
+                    .IsRequired(); 
+
+                
+                entity.Property(e => e.TepDinhKem)
+                    .HasMaxLength(255);
+
+               
+                entity.Property(e => e.NgayTao)
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
+            modelBuilder.Entity<ThongBao_PhuHuynh>(entity =>
+            {
+               
+                entity.HasKey(e => new { e.IdTitle, e.IdPH })
+                    .HasName("PK__ThongBao_PhuHuynh");
+
+               
+                entity.ToTable("ThongBao_PhuHuynh");
+
+                
+                entity.Property(e => e.IdTitle)
+                    .HasColumnName("IdTitle");
+
+                
+                entity.Property(e => e.IdPH)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("IdPH")
+                    .IsFixedLength();
+
+                
+                entity.Property(e => e.IsRead)
+                    .HasColumnName("IsRead")
+                    .HasDefaultValue(false); 
+
+               
+                entity.HasOne(d => d.IdTitleNavigation)
+                    .WithMany(p => p.ThongBaoPhuHuynhs)
+                    .HasForeignKey(d => d.IdTitle)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ThongBao_PhuHuynh__IdTitle");
+
+                entity.HasOne(d => d.IdPhNavigation)
+                    .WithMany(p => p.ThongBaoPhuHuynhs)
+                    .HasForeignKey(d => d.IdPH)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ThongBao_PhuHuynh__IdPH");
+            });
             OnModelCreatingPartial(modelBuilder);
         }
 
