@@ -44,6 +44,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-area="Admin" asp-controller="HoaDonDichVu" asp-action="Edit" asp-route-idHd="@Model.IdHd" asp-route-idDv="@Model.IdDv">Edit</a>
     <a asp-action="Index">Back to List</a>
 </div>
