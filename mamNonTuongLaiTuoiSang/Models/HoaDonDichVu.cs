@@ -11,7 +11,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public DateTime? NgayDk { get; set; }
         public DateTime? NgayHetHan { get; set; }
 
-        public virtual DichVu IdDvNavigation { get; set; } = null!;
-        public virtual HoaDon IdHdNavigation { get; set; } = null!;
+        public virtual DichVu? IdDvNavigation { get; set; } = null!;
+        public virtual HoaDon? IdHdNavigation { get; set; } = null!;
     }
 }

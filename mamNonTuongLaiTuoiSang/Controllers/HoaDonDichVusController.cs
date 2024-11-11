@@ -24,6 +24,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HoaDonDichVu>>> GetHoaDonDichVus()
         {
+
           if (_context.HoaDonDichVus == null)
           {
               return BadRequest();
@@ -86,11 +87,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPut("{idHd}/{idDv}")]
         public async Task<IActionResult> PutHoaDonDichVu(string idHd, string idDv, HoaDonDichVu hoaDonDichVu)
         {
-            if (idHd != hoaDonDichVu.IdHd || idDv != hoaDonDichVu.IdDv)
-            {
-                return BadRequest("Mã hóa đơn hoặc mã dịch vụ không khớp.");
-            }
-
             _context.Entry(hoaDonDichVu).State = EntityState.Modified;
 
             try
@@ -115,7 +111,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpPost]
         public async Task<ActionResult<HoaDonDichVu>> PostHoaDonDichVu(HoaDonDichVu hoaDonDichVu)
         {
-            
             if (HoaDonDichVuExists(hoaDonDichVu.IdHd, hoaDonDichVu.IdDv))
             {
                 return BadRequest("Hóa đơn dịch vụ này đã tồn tại.");
@@ -125,26 +120,20 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             _context.HoaDonDichVus.Add(hoaDonDichVu);
             await _context.SaveChangesAsync();
 
-           
             return CreatedAtAction("GetHoaDonDichVu", new { idHd = hoaDonDichVu.IdHd, idDv = hoaDonDichVu.IdDv }, hoaDonDichVu);
         }
 
         // DELETE: api/HoaDonDichVu/{idHd}/{idDv}
         [HttpDelete("{idHd}/{idDv}")]
         public async Task<IActionResult> DeleteHoaDonDichVu(string idHd, string idDv)
-        {
-           
+        { 
            
             var hoaDonDichVu = await _context.HoaDonDichVus
                 .FirstOrDefaultAsync(hd => hd.IdHd == idHd && hd.IdDv == idDv);
-
-            
             if (hoaDonDichVu == null)
             {
                 return BadRequest("Hóa đơn dịch vụ không tồn tại.");
             }
-
-            
             _context.HoaDonDichVus.Remove(hoaDonDichVu);
             await _context.SaveChangesAsync();
 

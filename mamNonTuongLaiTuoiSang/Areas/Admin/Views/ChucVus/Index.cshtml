@@ -1,0 +1,54 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.ChucVu>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên chức vụ
+            </th>
+            <th>
+                Vị trí
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LuongCoBan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeSoLuong)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenCv)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ViTri)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LuongCoBan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HeSoLuong)
+            </td>
+            <td>
+                    <a asp-area="Admin" asp-controller="ChucVus" asp-action="Edit" asp-route-tenCv="@item.TenCv" asp-route-viTri="@item.ViTri">Edit</a>
+                    <a asp-area="Admin" asp-controller="ChucVus" asp-action="Details" asp-route-tenCv="@item.TenCv" asp-route-viTri="@item.ViTri">Details</a>
+                    <a asp-area="Admin" asp-controller="ChucVus" asp-action="Delete" asp-route-tenCv="@item.TenCv" asp-route-viTri="@item.ViTri">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
