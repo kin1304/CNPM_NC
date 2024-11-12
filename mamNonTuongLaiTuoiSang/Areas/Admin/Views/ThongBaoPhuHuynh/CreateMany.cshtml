@@ -1,0 +1,39 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.ThongBao_PhuHuynh
+@{
+    ViewData["Title"] = "Create Many Thông Báo Phụ Huynh";
+}
+
+<h1>Create Many</h1>
+
+<form method="post" asp-action="CreateMany" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="IdLop">Tên lớp:</label>
+        <select id="IdLop" name="IdLop" class="form-control">
+            <option value="">--Chọn lớp--</option>
+            @foreach (var lop in ViewData["LopList"] as List<Lop>)
+            {
+                <option value="@lop.IdLop">@lop.TenLop</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="excelFile">Hoặc đính kèm file Excel:</label>
+        <input type="file" id="excelFile" name="excelFile" accept=".xls,.xlsx" class="form-control">
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="IdTitle">Tiêu đề thông báo:</label>
+        <select id="IdTitle" name="IdTitle" class="form-control" required>
+            @foreach (var title in ViewData["TitleList"] as List<ThongBao>)
+            {
+                <option value="@title.IdTitle">@title.Title</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</form>
