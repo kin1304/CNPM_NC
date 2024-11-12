@@ -49,7 +49,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             
 
             List<Lop> lops = new List<Lop>();
-            var client = _httpClientFactory.CreateClient();
+            //var client = _httpClientFactory.CreateClient();
 
             try
             {

@@ -33,8 +33,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
 
         // GET: api/HocSinhLops/
-        [HttpGet("{idHs}")]
-        public async Task<ActionResult<HocSinhLop>> GetHocSinhLop(string idHs)
+        [HttpGet("/ByHocSinh/{idHs}")]
+        public async Task<ActionResult<HocSinhLop>> GetHocSinhLopss(string idHs)
         {
             if (_context.HocSinhLops == null)
             {
@@ -75,7 +75,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
 
         [HttpGet("{IdHs}/{IdLop}")]
-        public async Task<ActionResult<HocSinhLop>> GetHocSinhLopss(string IdHs, string IdLop)
+        public async Task<ActionResult<HocSinhLop>> GetHocSinhLop(string IdHs, string IdLop)
         {
             if (_context.HocSinhLops == null)
             {
@@ -143,7 +143,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                 }
             }
 
-            return CreatedAtAction("GetHocSinhLopss", new { IdHs = hocSinhLop.IdHs, IdLop = hocSinhLop.IdLop }, hocSinhLop);
+            return CreatedAtAction("GetHocSinhLop", new { IdHs = hocSinhLop.IdHs, IdLop = hocSinhLop.IdLop }, hocSinhLop);
         }
 
         // DELETE: api/HocSinhLops/5

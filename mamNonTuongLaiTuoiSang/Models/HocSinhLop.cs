@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace mamNonTuongLaiTuoiSang.Models
 {
@@ -14,8 +15,10 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string IdLop { get; set; } = null!;
         public decimal? DiemChuyenCan { get; set; }
 
-        public virtual HocSinh? IdHsNavigation { get; set; } = null!;
-        public virtual Lop? IdLopNavigation { get; set; } = null!;
+
+        [JsonIgnore]
+        public virtual HocSinh? IdHsNavigation { get; set; }
+        public virtual Lop? IdLopNavigation { get; set; }
         public virtual ICollection<DiemDanh> DiemDanhs { get; set; }
     }
 }
