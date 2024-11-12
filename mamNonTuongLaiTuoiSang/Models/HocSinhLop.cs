@@ -14,8 +14,8 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string IdLop { get; set; } = null!;
         public decimal? DiemChuyenCan { get; set; }
 
-        public virtual HocSinh IdHsNavigation { get; set; } = null!;
-        public virtual Lop IdLopNavigation { get; set; } = null!;
+        public virtual HocSinh? IdHsNavigation { get; set; } = null!;
+        public virtual Lop? IdLopNavigation { get; set; } = null!;
         public virtual ICollection<DiemDanh> DiemDanhs { get; set; }
     }
 }

@@ -1,0 +1,48 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.ThongBao_PhuHuynh
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>ThongBao_PhuHuynh</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdTitle" class="control-label"></label>
+                <input asp-for="IdTitle" class="form-control" readonly />
+                <span asp-validation-for="IdTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPH" class="control-label"></label>
+                <input asp-for="IdPH" class="form-control" readonly />
+                <span asp-validation-for="IdPH" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsRead" class="control-label">Trạng thái:</label>
+                <select asp-for="IsRead" class="form-control">
+                    <option value="">-- Chọn trạng thái --</option>
+                    <option value="True">Đã đọc</option>
+                    <option value="False">Chưa đọc</option>
+                </select>
+                <span asp-validation-for="IsRead" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
