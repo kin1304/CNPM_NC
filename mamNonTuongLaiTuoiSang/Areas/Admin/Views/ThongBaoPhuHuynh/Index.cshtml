@@ -1,0 +1,49 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.ThongBao_PhuHuynh>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="CreateMany" class="btn btn-primary">Create Many</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID phụ huynh
+            </th>
+            <th>
+                Tiêu đề thông báo
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPhNavigation.IdPh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdTitleNavigation.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsRead)
+                </td>
+            <td>
+                    <a asp-area="Admin" asp-controller="ThongBaoPhuHuynh" asp-action="Edit" asp-route-idTitle="@item.IdTitle" asp-route-idPH="@item.IdPH">Edit</a>
+                    <a asp-area="Admin" asp-controller="ThongBaoPhuHuynh" asp-action="Details" asp-route-idTitle="@item.IdTitle" asp-route-idPH="@item.IdPH">Details</a>
+                    <a asp-area="Admin" asp-controller="ThongBaoPhuHuynh" asp-action="Delete" asp-route-idTitle="@item.IdTitle" asp-route-idPH="@item.IdPH">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

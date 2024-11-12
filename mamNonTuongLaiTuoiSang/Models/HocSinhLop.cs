@@ -15,9 +15,9 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string IdLop { get; set; } = null!;
         public decimal? DiemChuyenCan { get; set; }
 
+
         [JsonIgnore]
         public virtual HocSinh? IdHsNavigation { get; set; }
-        
         public virtual Lop? IdLopNavigation { get; set; }
         public virtual ICollection<DiemDanh> DiemDanhs { get; set; }
     }
