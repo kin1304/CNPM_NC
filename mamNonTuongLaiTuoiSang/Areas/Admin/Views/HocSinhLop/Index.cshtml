@@ -58,9 +58,9 @@
                 @Html.DisplayFor(modelItem => item.IdLop)
             </td>
             <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.IdHs }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IdHs }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.IdHs })
+                    @Html.ActionLink("Edit", "Edit", new { IdHs = item.IdHs, IdLop=item.IdLop}) |
+                    @Html.ActionLink("Details", "Details", new { IdHs = item.IdHs, IdLop = item.IdLop }) |
+                    @Html.ActionLink("Delete", "Delete", new { IdHs = item.IdHs, IdLop = item.IdLop })
             </td>
         </tr>
 }

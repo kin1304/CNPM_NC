@@ -9,8 +9,8 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class HoaDonDichVuController : Controller
     {
-        private string baseURL = "https://localhost:5005/api/hoadondichvus";
-        private string urlHd = "https://localhost:5005/api/hoadons";
+        private string baseURL = "http://localhost:5005/api/hoadondichvus";
+        private string urlHd = "http://localhost:5005/api/hoadons";
         private readonly QLMamNonContext _context;
         private HttpClient client = new HttpClient();
 
