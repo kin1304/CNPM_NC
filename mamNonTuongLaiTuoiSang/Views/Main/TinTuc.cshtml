@@ -6,101 +6,92 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="~/Content/tintuc.css" />
+    <link rel="stylesheet" href="/Content/tintuc.css" />
 </head>
 <body class="bg-white text-gray-900">
-    <div class="max-w-4xl mx-auto p-4">
+    <div class="max-w-4xl mx-auto p-4" id="news-list">
 
-        <!-- News Item 1 -->
-        <div class="container">
-            <img src="~/Content/images/baotangchientich.jpg" alt="Image" class="news-image" />
+        <div class="container" data-id="1">
+            <img src="hinh/KHM.jpg" alt="Image of new courses announcement" class="news-image" />
             <div class="news-content">
                 <div class="news-meta">
                     <span class="news-category">TIN TỨC</span>
                     <span class="news-date">01.11.2024</span>
                 </div>
-                <h2 class="news-title">
-                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 1 })" class="news-link">Tin tức về Khóa học mới</a>
-                </h2>
+                <h2 class="news-title">Tin tức về Khóa học mới</h2>
                 <p class="news-description">
-                    Chúng tôi xin thông báo về các khóa học mới sắp khai giảng dành cho trẻ. Các lớp học sẽ tập trung vào phát triển kỹ năng và tư duy sáng tạo cho các bé. Hãy nhanh chóng đăng ký để đảm bảo con bạn có một chỗ trong khóa học phù hợp.
+                    Chúng tôi xin thông báo về các khóa học mới sắp khai giảng dành cho trẻ...
                 </p>
+                <button class="details-button" onclick="location.href='chitiettintuc.html?id=1'">Xem chi tiết</button>
             </div>
         </div>
         <hr class="divider" />
 
-        <!-- News Item 2 -->
-        <div class="container">
-            <img src="~/Content/images/image2.jpg" alt="Image" class="news-image" />
+        <div class="container" data-id="2">
+            <img src="hinh/lhan.jpg" alt="Image of music festival" class="news-image" />
             <div class="news-content">
                 <div class="news-meta">
                     <span class="news-category">TIN TỨC</span>
                     <span class="news-date">01.11.2024</span>
                 </div>
-                <h2 class="news-title">
-                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 2 })" class="news-link">Thông báo Lễ hội Âm nhạc</a>
-                </h2>
+                <h2 class="news-title">Thông báo Lễ hội Âm nhạc</h2>
                 <p class="news-description">
-                    Lễ hội Âm nhạc sẽ diễn ra vào cuối tháng này với nhiều hoạt động thú vị, giúp các bé khám phá âm nhạc và phát triển tài năng. Các gia đình hãy lên lịch và cùng tham gia để tạo nên những kỷ niệm đẹp cùng con!
+                    Lễ hội Âm nhạc sẽ diễn ra vào cuối tháng này với nhiều hoạt động thú vị...
                 </p>
+                <button class="details-button" onclick="location.href='chitiettintuc.html?id=2'">Xem chi tiết</button>
             </div>
         </div>
         <hr class="divider" />
 
-        <!-- News Item 3 -->
-        <div class="container">
-            <img src="~/Content/images/image3.jpg" alt="Image" class="news-image" />
+        <div class="container" data-id="3">
+            <img src="hinh/cncth.jpg" alt="Image of curriculum updates" class="news-image" />
             <div class="news-content">
                 <div class="news-meta">
                     <span class="news-category">TIN TỨC</span>
                     <span class="news-date">01.11.2024</span>
                 </div>
-                <h2 class="news-title">
-                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 3 })" class="news-link">Cập nhật chương trình học</a>
-                </h2>
+                <h2 class="news-title">Cập nhật chương trình học</h2>
                 <p class="news-description">
-                    Chương trình học đã được cập nhật với nhiều hoạt động thú vị và bổ ích, đảm bảo mang lại trải nghiệm học tập đa dạng và hấp dẫn cho các bé. Quý phụ huynh hãy tham khảo để chuẩn bị tốt cho con em mình!
+                    Chương trình học đã được cập nhật với nhiều hoạt động thú vị và bổ ích...
                 </p>
+                <button class="details-button" onclick="location.href='chitiettintuc.html?id=3'">Xem chi tiết</button>
             </div>
         </div>
         <hr class="divider" />
 
-        <!-- News Item 4 -->
-        <div class="container">
-            <img src="~/Content/images/image4.jpg" alt="Image" class="news-image" />
+        <div class="container" data-id="4">
+            <img src="hinh/ks.jpg" alt="Image of satisfaction survey" class="news-image" />
             <div class="news-content">
                 <div class="news-meta">
                     <span class="news-category">TIN TỨC</span>
                     <span class="news-date">01.11.2024</span>
                 </div>
-                <h2 class="news-title">
-                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 4 })" class="news-link">Khảo sát sự hài lòng</a>
-                </h2>
+                <h2 class="news-title">Khảo sát sự hài lòng</h2>
                 <p class="news-description">
-                    Chúng tôi mong muốn nhận được ý kiến từ quý phụ huynh để không ngừng nâng cao chất lượng chương trình giảng dạy và dịch vụ. Hãy dành chút thời gian để hoàn thành khảo sát và đóng góp ý kiến cho sự phát triển của trường.
+                    Chúng tôi mong muốn nhận được ý kiến từ quý phụ huynh để không ngừng nâng cao...
                 </p>
+                <button class="details-button" onclick="location.href='chitiettintuc.html?id=4'">Xem chi tiết</button>
             </div>
         </div>
         <hr class="divider" />
 
-        <!-- News Item 5 -->
-        <div class="container">
-            <img src="~/Content/images/image5.jpg" alt="Image" class="news-image" />
+        <div class="container" data-id="5">
+            <img src="hinh/nk.jpg" alt="Image of extracurricular program" class="news-image" />
             <div class="news-content">
                 <div class="news-meta">
                     <span class="news-category">TIN TỨC</span>
                     <span class="news-date">01.11.2024</span>
                 </div>
-                <h2 class="news-title">
-                    <a href="@Url.Action("ChiTietTinTuc", "Main", new { id = 5 })" class="news-link">Chương trình ngoại khóa sắp tới</a>
-                </h2>
+                <h2 class="news-title">Chương trình ngoại khóa sắp tới</h2>
                 <p class="news-description">
-                    Để giúp các bé phát triển toàn diện, trường sẽ tổ chức chương trình ngoại khóa với nhiều hoạt động phong phú. Đây là cơ hội tuyệt vời để các bé rèn luyện kỹ năng sống và học hỏi từ thực tế. Hãy đăng ký ngay để con có thể tham gia nhé!
+                    Để giúp các bé phát triển toàn diện, trường sẽ tổ chức chương trình ngoại khóa...
                 </p>
+                <button class="details-button" onclick="location.href='chitiettintuc.html?id=5'">Xem chi tiết</button>
             </div>
         </div>
         <hr class="divider" />
 
     </div>
+    <script src="tintuc.js"></script>
 </body>
 </html>
