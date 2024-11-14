@@ -95,47 +95,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
         public ActionResult ChiTietTinTuc(int id)
         {
-            string title = "";
-            string content = "";
-            string image = "";
-            string date = "01.11.2024";
-
-            switch (id)
-            {
-                case 1:
-                    title = "Tin tức về Khóa học mới";
-                    content = "Chúng tôi xin thông báo về các khóa học mới sắp khai giảng dành cho trẻ...";
-                    image = "~/Content/images/baotangchientich.jpg";
-                    break;
-                case 2:
-                    title = "Thông báo Lễ hội Âm nhạc";
-                    content = "Lễ hội Âm nhạc sẽ diễn ra vào cuối tháng này với nhiều hoạt động thú vị...";
-                    image = "link_to_image2.jpg";
-                    break;
-                case 3:
-                    title = "Cập nhật chương trình học";
-                    content = "Chương trình học đã được cập nhật với nhiều hoạt động thú vị và bổ ích...";
-                    image = "link_to_image3.jpg";
-                    break;
-                case 4:
-                    title = "Khảo sát sự hài lòng";
-                    content = "Chúng tôi mong muốn nhận được ý kiến từ quý phụ huynh...";
-                    image = "link_to_image4.jpg";
-                    break;
-                case 5:
-                    title = "Chương trình ngoại khóa sắp tới";
-                    content = "Để giúp các bé phát triển toàn diện, trường sẽ tổ chức chương trình ngoại khóa...";
-                    image = "link_to_image5.jpg";
-                    break;
-                default:
-                    return RedirectToAction("TinTuc");
-            }
-
-            ViewData["Title"] = title;
-            ViewData["Content"] = content;
-            ViewData["Image"] = image;
-            ViewData["Date"] = date;
-
             return View();
         }
     }
