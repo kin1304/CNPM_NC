@@ -1,43 +1,21 @@
-﻿/* HTML: <div class="loader"></div> */
-.loader {
-    display: none;
-    width: 90px;
-    aspect-ratio: 1;
-    transform: rotate(90deg);
-    animation: l4 1s linear infinite;
-    z-index: 9999;
-    position: fixed; /* Đặt vị trí cố định */
-    top: 50%; /* Căn giữa theo chiều dọc */
-    left: 50%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+﻿#loader {
+    display: none; /* Mặc định ẩn loader */
+    position: fixed; /* Vị trí cố định */
+    top: 50%; /* Căn giữa dọc */
+    left: 50%; /* Căn giữa ngang */
+    transform: translate(-50%, -50%); /* Điều chỉnh vị trí để căn giữa chính xác */
+    z-index: 9999; /* Đặt ở trên cùng */
+    text-align: center; /* Căn giữa văn bản */
 }
 
-    .loader:before,
-    .loader:after {
-        content: "  ";
-        grid-area: 1/1;
+    #loader img {
+        width: 90px; /* Kích thước của ảnh GIF */
+        height: auto; /* Tự động điều chỉnh chiều cao theo tỷ lệ */
     }
 
-    .loader:before {
-        clip-path: polygon(100% 50%,90.45% 79.39%,65.45% 97.55%,34.55% 97.55%,9.55% 79.39%,0% 50%,9.55% 20.61%,34.55% 2.45%,65.45% 2.45%,90.45% 20.61%,100% 50%,85.6% 24.14%,63.6% 8.15%,36.4% 8.15%,14.4% 24.14%,6% 50%,14.4% 75.86%,36.4% 91.85%,63.6% 91.85%,85.6% 75.86%,94% 50%,85.6% 24.14%);
-        background: #574951;
+    #loader p {
+        margin-top: 10px; /* Khoảng cách giữa ảnh và văn bản */
+        font-size: 16px; /* Kích thước chữ */
+        /*color: #574951;*/ /* Màu chữ */
+        color: red;
     }
-
-    .loader:after {
-        background: #83988E;
-        clip-path: polygon(100% 50%,65.45% 97.55%,9.55% 79.39%,9.55% 20.61%,65.45% 2.45%);
-        margin: 27%;
-        translate: 46% 0;
-        transform-origin: right;
-        animation: inherit;
-    }
-
-@keyframes l4 {
-    0% {
-        rotate: 18deg
-    }
-
-    to {
-        rotate: -18deg
-    }
-}

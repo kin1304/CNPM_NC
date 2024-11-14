@@ -1,0 +1,45 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.ThongBao_PhuHuynh>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Thông báo";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/Content/danhsachthongbao.css">
+}
+
+
+<div id="phandau">
+    <div>
+        THÔNG BÁO CHUNG
+    </div>
+</div>
+
+<div id="phanthan">
+    <ul>
+        @foreach (var item in Model)
+        {
+            if(item.IsRead == true)
+            {
+                <li>
+                    <a href="@Url.Action("ChiTietThongBao", "PhuHuynh", new{id=item.IdTitle, idPh=item.IdPH})">
+                        <h3><i class="fas fa-bell"></i> @item.IdTitleNavigation.Title</h3>
+                        <p id="dateadd">Ngày đăng: @item.IdTitleNavigation.NgayTao</p>
+                    </a> 
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.Action("ChiTietThongBao", "PhuHuynh", new{id=item.IdTitle, idPh=item.IdPH})">
+                        <h3 style="color:red"><i class="fas fa-bell"></i> @item.IdTitleNavigation.Title</h3>
+                        <p id="dateadd">Ngày đăng: @item.IdTitleNavigation.NgayTao</p>
+                    </a>
+                </li>
+            }
+            
+
+        }
+    </ul>
+</div>

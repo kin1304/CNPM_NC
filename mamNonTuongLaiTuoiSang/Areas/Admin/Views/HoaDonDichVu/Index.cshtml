@@ -1,0 +1,72 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.HoaDonDichVu>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdDv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayDk)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayHetHan)
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.IdDvNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdHdNavigation)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdHd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdDv)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayDk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayHetHan)
+            </td>
+            @* <td>
+                @Html.DisplayFor(modelItem => item.IdDvNavigation.IdDv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdHdNavigation.IdHd)
+            </td> *@
+            <td>
+                    <a asp-area="Admin" asp-controller="HoaDonDichVu" asp-action="Edit" asp-route-idHd="@item.IdHd" asp-route-idDv="@item.IdDv">Edit</a>
+                    <a asp-area="Admin" asp-controller="HoaDonDichVu" asp-action="Details" asp-route-idHd="@item.IdHd" asp-route-idDv="@item.IdDv">Details</a>
+                    <a asp-area="Admin" asp-controller="HoaDonDichVu" asp-action="Delete" asp-route-idHd="@item.IdHd" asp-route-idDv="@item.IdDv">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

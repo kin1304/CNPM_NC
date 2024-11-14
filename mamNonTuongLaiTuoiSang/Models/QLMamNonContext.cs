@@ -791,8 +791,8 @@ namespace mamNonTuongLaiTuoiSang.Models
             {
                 
                 entity.HasKey(e => e.IdTitle);
+                entity.ToTable("ThongBao");
 
-                
                 entity.Property(e => e.IdTitle)
                     .IsRequired();
 

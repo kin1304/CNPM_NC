@@ -2,7 +2,7 @@
 {
     public class ThongBao
     {
-        public string IdTitle { get; set; } = null!;
+        public int IdTitle { get; set; }
         public string? Title { get; set; }
         public DateTime NgayTao { get; set; } = DateTime.Now;
         public string? NoiDung { get; set; }

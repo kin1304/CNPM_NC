@@ -214,6 +214,71 @@ a {
     text-align: center; /* Căn giữa tiêu đề */
 }
 
+#bodytrangchu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f9f9f9; /* Màu nền nhẹ */
+}
+
+h2 {
+    font-size: 24px;
+    color: #1F2B7B; /* Màu tiêu đề */
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 16px;
+    color: #333; /* Màu văn bản */
+    margin-bottom: 20px;
+    text-align: center; /* Canh giữa văn bản */
+}
+
+.cardbodytrangchu {
+    background-color: white; /* Màu nền cho card */
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng cho card */
+    overflow: hidden;
+    transition: transform 0.3s;
+    width: 300px; /* Chiều rộng của card */
+    margin: 15px; /* Khoảng cách giữa các card */
+    text-align: center; /* Canh giữa nội dung trong card */
+}
+
+    .cardbodytrangchu:hover {
+        transform: scale(1.05); /* Hiệu ứng phóng to khi hover */
+    }
+
+.cardbodytrangchu-image {
+    width: 100%;
+    height: auto; /* Đảm bảo hình ảnh tự điều chỉnh theo chiều rộng của card */
+}
+
+.cardbodytrangchu-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1F2B7B; /* Màu tiêu đề trong card */
+    padding: 10px 0; /* Khoảng cách trên và dưới tiêu đề */
+}
+
+.button {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 15px;
+    background-color: #1F2B7B; /* Màu nền cho nút */
+    color: white; /* Màu chữ trên nút */
+    text-decoration: none; /* Bỏ gạch chân */
+    border-radius: 5px; /* Bo tròn góc nút */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+}
+
+    .button:hover {
+        background-color: #f37055; /* Màu nền khi hover trên nút */
+    }
+
 /* Footer */
 footer {
     display: flex;

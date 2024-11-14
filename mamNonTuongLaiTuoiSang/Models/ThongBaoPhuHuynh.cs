@@ -8,8 +8,8 @@
         public bool? IsRead { get; set; }
 
 
-        public virtual PhuHuynh IdPhNavigation { get; set; } = null!;
-        public virtual ThongBao IdTitleNavigation { get; set; } = null!;
+        public virtual PhuHuynh? IdPhNavigation { get; set; }
+        public virtual ThongBao? IdTitleNavigation { get; set; }
 
 
     }
