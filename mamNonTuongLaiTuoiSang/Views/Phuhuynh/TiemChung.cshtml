@@ -1,0 +1,63 @@
+﻿@model PhuHuynh
+
+@{
+    ViewBag.Title = "Thông Tin Tiêm Chủng";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";  
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/Content/tiemchung.css" />
+    <title>Quản lý Vắc xin</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Quản lý Vắc xin</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Vắc xin</th>
+                    <th>Nước sản xuất</th>
+                    <th>Loại Vắc xin</th>
+                    <th>Đã tiêm</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>VX00001</td>
+                    <td>Việt Nam</td>
+                    <td>Sởi</td>
+                    <td><input type="checkbox" /></td>
+                </tr>
+                <tr>
+                    <td>VX00002</td>
+                    <td>Mỹ</td>
+                    <td>Viêm gan B</td>
+                    <td><input type="checkbox" /></td>
+                </tr>
+                <tr>
+                    <td>VX00003</td>
+                    <td>Nhật Bản</td>
+                    <td>Cúm</td>
+                    <td><input type="checkbox" /></td>
+                </tr>
+                <tr>
+                    <td>VX00004</td>
+                    <td>Pháp</td>
+                    <td>Thủy đậu</td>
+                    <td><input type="checkbox" /></td>
+                </tr>
+                <tr>
+                    <td>VX00005</td>
+                    <td>Anh</td>
+                    <td>Bại liệt</td>
+                    <td><input type="checkbox" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
