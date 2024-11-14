@@ -15,7 +15,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class HocSinhLopController : Controller
     {
-        private string baseURL = "https://localhost:5005/api/HocSinhLops";
+        private string baseURL = "http://localhost:5005/api/HocSinhLops";
         private readonly QLMamNonContext _context;
         private HttpClient client = new HttpClient();
 
@@ -90,10 +90,10 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         }
 
         // GET: Admin/HocSinhLop/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string IdHs, string IdLop)
         {
             HocSinhLop hsl = new HocSinhLop();
-            HttpResponseMessage response = client.GetAsync(baseURL + "/" + id).Result;
+            HttpResponseMessage response = client.GetAsync(baseURL + "/" + IdHs+"/"+IdLop).Result;
             if (response.IsSuccessStatusCode)
             {
                 string result = response.Content.ReadAsStringAsync().Result;
@@ -102,6 +102,11 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
                 {
                     hsl = data;
                 }
+            }
+            else
+            {
+                string message = response.Content.ReadAsStringAsync().Result;
+                LogError(message);
             }
             return View(hsl);
         }
@@ -137,14 +142,14 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 
 
         // GET: Admin/HocSinhLop/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string IdHs, string IdLop)
         {
 
-            if (id == null)
+            if (IdHs == null||IdLop==null)
             {
                 return NotFound();
             }
-            HocSinhLop hocSinhLop = await FindHSL(id);
+            HocSinhLop hocSinhLop = await FindHSL(IdHs, IdLop);
             if (hocSinhLop == null)
             {
                 return NotFound();
@@ -159,25 +164,30 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("IdHs,IdLop,DiemChuyenCan")] HocSinhLop hocSinhLop)
+        public async Task<IActionResult> Edit(string IdHs, string IdLop, [Bind("IdHs,IdLop,DiemChuyenCan")] HocSinhLop hocSinhLop)
         {
             string data = JsonConvert.SerializeObject(hocSinhLop);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.PutAsync(baseURL + "/" + hocSinhLop.IdHs, content).Result;
+            HttpResponseMessage response = client.PutAsync(baseURL + "/" + hocSinhLop.IdHs+"/"+hocSinhLop.IdLop, content).Result;
             if (response.IsSuccessStatusCode)
             {
                 TempData["update_message"] = "Edit Success...";
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                string message = response.Content.ReadAsStringAsync().Result;
+                LogError(message);
             }
             return View(hocSinhLop);
         }
 
 
         // GET: Admin/HocSinhLop/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string IdHs, string IdLop)
         {
             HocSinhLop hsl = new HocSinhLop();
-            HttpResponseMessage response = client.GetAsync(baseURL + "/" + id).Result;
+            HttpResponseMessage response = client.GetAsync(baseURL + "/" + IdHs+"/"+IdLop).Result;
             if (response.IsSuccessStatusCode)
             {
                 string result = response.Content.ReadAsStringAsync().Result;
@@ -193,9 +203,9 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         // POST: Admin/HocSinhLop/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string IdHs, string IdLop)
         {
-            HttpResponseMessage response = client.DeleteAsync(baseURL + "/" + id).Result;
+            HttpResponseMessage response = client.DeleteAsync(baseURL + "/" + IdHs+"/"+IdLop).Result;
             if (response.IsSuccessStatusCode)
             {
                     TempData["delete_message"] = "Deleted...";
@@ -203,15 +213,15 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
             }
             return View();
         }
-        public async Task<HocSinhLop> FindHSL(string id)
+        public async Task<HocSinhLop> FindHSL(string IdHs, string IdLop)
         {
-            if (id == null)
+            if (IdHs == null||IdLop==null)
             {
                 return null;
             }
             using (var hocsinhlop = new HttpClient())
             {
-                string path = baseURL + "/" + id;
+                string path = baseURL + "/" + IdHs + "/" + IdLop;
                 hocsinhlop.DefaultRequestHeaders.Accept.Clear();
                 hocsinhlop.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 

@@ -15,9 +15,9 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
     [Area("Admin")]
     public class TkbController : Controller
     {
-        private const string url = "https://localhost:5005/api/Lops/";
-        private const string urlNhanVien = "https://localhost:5005/api/nhanviens/";
-        private string baseURL = "https://localhost:5005/api/Tkbs";
+        private const string url = "http://localhost:5005/api/Lops/";
+        private const string urlNhanVien = "http://localhost:5005/api/nhanviens/";
+        private string baseURL = "http://localhost:5005/api/Tkbs";
         private readonly QLMamNonContext _context;
         private HttpClient client = new HttpClient();
 
@@ -45,15 +45,15 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         }
 
         // GET: Admin/Tkb/Details/5
-        [HttpGet("Admin/Tkb/Details/{Ngay}/{IdLop}")]
-        public async Task<IActionResult> Details(string IdLop, string Ngay)
+        [HttpGet("Admin/Tkb/Details/{Ngay}/{IdLop}/{CaHoc}")]
+        public async Task<IActionResult> Details(string IdLop, string Ngay, string CaHoc)
         {
             if (string.IsNullOrEmpty(IdLop) || string.IsNullOrEmpty(Ngay))
             {
                 return NotFound();
             }
 
-            Tkb tKB = await FindTKB(IdLop, Ngay);
+            Tkb tKB = await FindTKB(IdLop, Ngay, CaHoc);
             if (tKB == null)
             {
                 return NotFound();
@@ -97,11 +97,11 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         }
 
         // GET: Admin/Tkb/Edit/5
-        [HttpGet("Admin/Tkb/Edit/{Ngay}/{IdLop}")]
-        public async Task<IActionResult> Edit(string IdLop, string ngay)
+        [HttpGet("Admin/Tkb/Edit/{Ngay}/{IdLop}/{CaHoc}")]
+        public async Task<IActionResult> Edit(string IdLop, string ngay, string CaHoc)
         {
 
-            Tkb tkb = await FindTKB(IdLop, ngay);
+            Tkb tkb = await FindTKB(IdLop, ngay, CaHoc);
             if (tkb == null)
             {
                 return NotFound();
@@ -114,9 +114,9 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         // POST: Admin/Tkb/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("Admin/Tkb/Edit/{Ngay}/{IdLop}")]
+        [HttpPost("Admin/Tkb/Edit/{Ngay}/{IdLop}/{CaHoc}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string IdLop, string ngay, [Bind("IdLop,Ngay,CaHoc,IdMh")] Tkb tkb)
+        public async Task<IActionResult> Edit(string IdLop, string ngay, string CaHoc, [Bind("IdLop,Ngay,CaHoc,IdMh")] Tkb tkb)
         {
                 tkb.IdLopNavigation = new Lop { IdLop = IdLop };
              
@@ -125,7 +125,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 
                 // Xây dựng URL đúng cách (loại bỏ dấu +)
                 
-                string apiUrl = $"{baseURL}/{ngay}/{IdLop}";
+                string apiUrl = $"{baseURL}/{ngay}/{IdLop}/{CaHoc}";
 
                 // Sử dụng async/await để tránh deadlock
                 HttpResponseMessage response = await client.PutAsync(apiUrl, content);
@@ -154,14 +154,14 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 
         // GET: Admin/Tkb/Delete/5
         [HttpGet("Admin/Tkb/Delete/{Ngay}/{IdLop}")]
-        public async Task<IActionResult> Delete(string IdLop,string Ngay)
+        public async Task<IActionResult> Delete(string IdLop,string Ngay, string CaHoc)
         {
             if (string.IsNullOrEmpty(IdLop) || string.IsNullOrEmpty(Ngay))
             {
                 return NotFound();
             }
 
-            Tkb tKB = await FindTKB(IdLop, Ngay);
+            Tkb tKB = await FindTKB(IdLop, Ngay, CaHoc);
             if (tKB == null)
             {
                 return NotFound();
@@ -172,9 +172,9 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         // POST: Admin/Tkb/Delete/5
         [HttpPost("Admin/Tkb/Delete/{Ngay}/{IdLop}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string IdLop,string Ngay)
+        public async Task<IActionResult> DeleteConfirmed(string IdLop,string Ngay, string CaHoc)
         {
-            string apiUrl = $"{baseURL}/{Ngay}/{IdLop}";
+            string apiUrl = $"{baseURL}/{Ngay}/{IdLop}/{CaHoc}";
 
             // Gửi yêu cầu DELETE đến API
             HttpResponseMessage response = await client.DeleteAsync(apiUrl);
@@ -185,7 +185,7 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
 
             // Nếu có lỗi, thêm thông báo lỗi vào ModelState và trả về View
             ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi xóa chức vụ.");
-            Tkb tKB = await FindTKB(IdLop, Ngay);
+            Tkb tKB = await FindTKB(IdLop, Ngay, CaHoc);
             return View(tKB);
         }
 
@@ -193,11 +193,11 @@ namespace mamNonTuongLaiTuoiSang.Areas.Admin.Controllers
         {
             return (_context.Tkbs?.Any(e => e.IdLop == id)).GetValueOrDefault();
         }
-        public async Task<Tkb> FindTKB(string id, string ngay)
+        public async Task<Tkb> FindTKB(string id, string ngay, string CaHoc)
         {
             using (var tkb = new HttpClient())
             {
-                string path = $"{baseURL}/{ngay}/{id}";
+                string path = $"{baseURL}/{ngay}/{id}/{CaHoc}";
                 tkb.DefaultRequestHeaders.Accept.Clear();
                 tkb.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 

@@ -196,11 +196,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet("filter")]
         public async Task<ActionResult<NhanVien>> GetNhanVienByEmailAndPassword(string email, string matKhau)
         {
-            if (_context.NhanViens == null)
-            {
-                return BadRequest("Dữ liệu không tồn tại.");
-            }
-
+            
             var nhanvien = await _context.NhanViens
                 .FirstOrDefaultAsync(ph => ph.Email == email && ph.MatKhau == matKhau);
 

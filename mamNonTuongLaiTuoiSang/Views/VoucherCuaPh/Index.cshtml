@@ -1,0 +1,51 @@
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.VoucherCuaPh>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutPh.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/Content/voucherlist.css">
+}
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <strong>@TempData["SuccessMessage"]</strong>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <strong>@TempData["ErrorMessage"]</strong>
+    </div>
+}
+<div class="voucher-container">
+    @foreach (var voucher in Model)
+    {
+        <div class="coupon">
+            <div class="left">
+                <div>Discount</div>
+            </div>
+            <div class="center">
+                <div>
+                    <h2>@voucher.IdVoucherNavigation.PhanTramGiam %</h2>
+                    <h3>@voucher.IdVoucherNavigation.SoLuong</h3>
+                    <small>Valid until </small> <small>@voucher.IdVoucherNavigation.NgayHetHan?.ToString("dd/MM/yyyy")</small>
+                </div>
+            </div>
+            <div class="right">
+                <div>
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" name="idPh" value="@voucher.IdPh" />
+                        <input type="hidden" name="idVoucher" value="@voucher.IdVoucher" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa voucher này?')">Xóa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Org.BouncyCastle.Crypto.IO;
+using AngleSharp.Io;
 
 
 namespace mamNonTuongLaiTuoiSang.Controllers
@@ -15,8 +16,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         private readonly ILogger<AccountController> logger;
         private readonly HttpClient httpClient;
 
-        private readonly string urlPh = "https://localhost:5005/api/PhuHuynhs";
-        private readonly string urlNv = "https://localhost:5005/api/NhanViens";
+        private readonly string urlPh = "http://localhost:5005/api/PhuHuynhs";
+        private readonly string urlNv = "http://localhost:5005/api/NhanViens";
 
         public AccountController(IHttpContextAccessor httpContextAccessor, ILogger<AccountController> logger, HttpClient httpClient)
         {
@@ -71,10 +72,16 @@ namespace mamNonTuongLaiTuoiSang.Controllers
                             ViewBag.GiaoVien = user.MaSt;
                             return RedirectToAction("Index", "GiaoVien", new { id = user.MaSt });
                         }
+                        else
+                        {
+
+                        }
                     }
                 }
                 else
                 {
+                    string responseContent = await nhanVienResponse.Content.ReadAsStringAsync();
+                    Console.WriteLine("Content: " + responseContent);
                     ViewBag.ErrorMessage = "Invalid email or password";
                     return View();
                 }

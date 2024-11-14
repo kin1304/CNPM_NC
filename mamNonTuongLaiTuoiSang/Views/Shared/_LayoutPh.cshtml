@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="~/Content/logout.js"></script>
     <script scr="~/Content/Loader.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="~/Content/loader.css" />
@@ -48,6 +47,10 @@
                     <i class="fas fa-user mr-3"></i>
                     <span class="font-semibold">Thông tin người dùng</span>
                 </button>
+                <button id="btnNo8" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/PhuHuynh/ThongBao/@ViewData["PhuHuynh"]')">
+                    <i class="fas fa-icons mr-3"></i>
+                    <span class="font-semibold">Thông báo      </span> <span class="font-semibold" style="color: red">@ViewData["Nofi"]</span>
+                </button>
                 <button id="btnNo2" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/TreEm/Index/@ViewData["PhuHuynh"]')">
                     <i class="fas fa-child mr-3"></i>
                     <span class="font-semibold">Trẻ em của tui</span>
@@ -69,6 +72,14 @@
                 <button id="btnVaccination" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="navigateTo('/PhuHuynh/TiemChung/@ViewData["PhuHuynh"]')">
                     <i class="fas fa-syringe mr-3"></i>
                     <span class="font-semibold">Thông tin tiêm chủng</span>
+
+                <button id="btnNo6" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="window.location.href='@Url.Action("Index", "VoucherCuaPh", new {id = ViewData["PhuHuynh"]})'">
+                    <i class="fas fa-user-plus mr-3"></i>
+                    <span class="font-semibold">Voucher của tôi</span>
+                </button>
+                <button id="btnNo7" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn" onclick="window.location.href='@Url.Action("voucherlist", "PhuHuynh", new {id = ViewData["PhuHuynh"]})'">
+                    <i class="fas fa-user-plus mr-3"></i>
+                    <span class="font-semibold">Voucher</span>
                 </button>
                 <button id="btnLogout" class="flex items-center py-3 px-6 text-gray-700 hover:text-orange-500 rounded-full mt-3 sidebar-item w-full text-left focus:outline-none btn">
                     <i class="fas fa-sign-in-alt mr-3"></i>
@@ -108,7 +119,27 @@
         function navigateTo(url) {
             window.location.href = url; // Điều hướng đến URL được truyền vào
         }
-        
+
+
+
+        const btnLogout = document.getElementById("btnLogout");
+        const logoutModal = document.getElementById("logoutModal");
+        const cancelLogout = document.getElementById("cancelLogout");
+        const confirmLogout = document.getElementById("confirmLogout");
+
+        if (btnLogout) {
+            btnLogout.addEventListener("click", function () {
+                logoutModal.classList.remove("hidden");
+            });
+        }
+
+        cancelLogout.addEventListener("click", function () {
+            logoutModal.classList.add("hidden");
+        });
+
+        confirmLogout.addEventListener("click", function () {
+            window.location.href = "http://localhost:5005";
+        });
 
     </script>
 </body>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace mamNonTuongLaiTuoiSang.Models
 {
@@ -14,6 +15,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string ViTri { get; set; } = null!;
         public int? LuongCoBan { get; set; }
         public decimal? HeSoLuong { get; set; }
+        [JsonIgnore]
         public virtual ICollection<NhanVien> NhanViens { get; set; }
 
 
@@ -24,6 +26,20 @@ namespace mamNonTuongLaiTuoiSang.Models
                 return null;
             }
             return LuongCoBan * (decimal)HeSoLuong;
+        }
+
+        public decimal? TongLuong(int soLopDay, int soNgoaiKhoaDangKy)
+        {
+            decimal? luong = TinhLuong();
+
+            if (soLopDay >= 3 && soNgoaiKhoaDangKy >= 5)
+            {
+                return luong;
+            }
+            else
+            {
+                return luong * 0.9m;
+            }
         }
     }
 }

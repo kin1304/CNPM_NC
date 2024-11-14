@@ -10,40 +10,60 @@
 <body class="bg-gray-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-1/6 bg-white shadow-xl rounded-lg p-4 h-full">
-            <div class="flex items-center justify-center py-6 space-x-2">
-                <img src="~/content/images/logo_truong_phung_gui.jpg" class="w-16 h-16 rounded-full shadow-md" alt="Logo" />
-                <div class="text-2xl font-semibold text-gray-700">Trang giáo viên</div>
-            </div>
-            <nav class="mt-8 space-y-2">
-                <a id="btnProfile" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn"
-                   href="@Url.Action("Index", "GiaoVien", new {id = ViewData["GiaoVien"]})">
-                    <i class="fas fa-user mr-3"></i> Thông tin cá nhân
-                </a>
-                <button id="btnNo1" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn"
-                        onclick="navigateTo('/DiemDanh/Index')">
-                    <i class="fas fa-tachometer-alt mr-3"></i> Điểm danh
-                </button>
-                <a id="btnNo2" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn"
-                   href="@Url.Action("Index", "LopHoc", new {id = ViewData["GiaoVien"]})">
-                    <i class="fas fa-icons mr-3"></i> Các lớp của tui
-                </a>
-
-                <a id="btnNo3" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn"
-                   href="@Url.Action("Thunhap", "GiaoVien", new { id = ViewData["GiaoVien"] })">
-                    <i class="fas fa-table mr-3"></i> Thu nhập
-                </a>
-
-                <button id="btnNo4" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn">
-                    <i class="fas fa-table mr-3"></i> No4
-                </button>
-                <button id="btnNo5" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn">
-                    <i class="fas fa-user-plus mr-3"></i> No5
-                </button>
-                <button id="btnLogout" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded sidebar-item btn">
-                    <i class="fas fa-sign-in-alt mr-3"></i> Đăng xuất
-                </button>
-            </nav>
+        <div class="w-1/6 sidebar-bg h-screen p-4 border border-gray-300 rounded-lg shadow-2xl">
+            <div class="text-gray-500 text-lg mb-4">Trang giáo viên</div>
+            <ul class="space-y-2">
+                <li>
+                    <a id="btnProfile" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                       href="@Url.Action("Index", "GiaoVien", new {id = ViewData["GiaoVien"]})">
+                        <i class="fas fa-user mr-2"></i> Thông tin người dùng
+                    </a>
+                </li>
+                <li>
+                    <button id="btnDiemDanh" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                            onclick="navigateTo('/DiemDanh/Index')">
+                        <i class="fas fa-tachometer-alt mr-2"></i> Điểm danh
+                    </button>
+                </li>
+                <li>
+                    <a id="btnNK" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                       href="@Url.Action("Index", "NgoaiKhoa", new {id = ViewData["GiaoVien"]})">
+                        <i class="fas fa-user mr-2"></i> Ngoại Khóa
+                    </a>
+                </li>
+                <li>
+                    <a id="btnNKGV" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                       href="@Url.Action("Index", "NgoaiKhoaGiaoVien", new {id = ViewData["GiaoVien"]})">
+                        <i class="fas fa-user mr-2"></i> Ngoại khóa đã đăng ký
+                    </a>
+                </li>
+                <li>
+                    <a id="btnLopHoc" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                            href="@Url.Action("Index", "LopHoc", new {id = ViewData["GiaoVien"]})">
+                        <i class="fas fa-icons mr-2"></i> Các lớp của tui
+                    </a>
+                </li>
+                <li>
+                    <button id="btnNo3" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
+                        <i class="fas fa-map-marker-alt mr-2"></i> No3
+                    </button>
+                </li>
+                <li>
+                    <button id="btnNo4" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
+                        <i class="fas fa-table mr-2"></i> No4
+                    </button>
+                </li>
+                <li>
+                    <button id="btnNo5" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
+                        <i class="fas fa-user-plus mr-2"></i> No5
+                    </button>
+                </li>
+                <li>
+                    <button id="btnLogout" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Đăng xuất
+                    </button>
+                </li>
+            </ul>
         </div>
 
         <!-- Main Content -->

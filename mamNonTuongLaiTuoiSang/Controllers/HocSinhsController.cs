@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mamNonTuongLaiTuoiSang.Models;
+using System.Data;
 
 namespace mamNonTuongLaiTuoiSang.Controllers
 {
@@ -69,26 +70,33 @@ namespace mamNonTuongLaiTuoiSang.Controllers
 
             return hocSinhs;
         }
+
         [HttpGet("ChieuCao/CanNang/{id}")]
-        public async Task<ActionResult<HocSinh>> GetHocSinhChieuCaoCanNang(string id)
+        public async Task<IActionResult> GetChieuCaoCanNangHocSinh(string id)
         {
             if (_context.HocSinhs == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-            var hocSinh = await _context.HocSinhs
-          .Where(hs => hs.IdHs == id)
-          .Select(hs => new { hs.IdHs, hs.TenHs, hs.ChieuCao, hs.CanNang })
-          .FirstOrDefaultAsync();
-            if (hocSinh == null)
+            var hocSinhs = await _context.SucKhoes
+                .Where(hs => hs.IdHS == id)
+                .ToListAsync();
+            if (hocSinhs == null)
             {
                 return BadRequest("Dữ liệu không tồn tại.");
             }
-
-
-            return Ok(hocSinh);
+            var hs = _context.HocSinhs.Where(hs => hs.IdHs == id).FirstOrDefault();
+            var age = DateTime.Now.Year - hs.NamSinh;
+            var sortedHocSinhs = hocSinhs.OrderByDescending(hs => hs.NgayNhap).FirstOrDefault();
+            var chieuCaoCanNang = new
+            {
+                chieuCao = sortedHocSinhs.ChieuCao,
+                canNang = sortedHocSinhs.CanNang,
+                Tuoi = age,
+                GioiTinh = hs.GioiTinh
+            };
+            return Ok(chieuCaoCanNang);
         }
-
         // PUT: api/HocSinhs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

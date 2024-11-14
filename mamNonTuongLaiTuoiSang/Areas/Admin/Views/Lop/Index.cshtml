@@ -23,18 +23,27 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdLop)
+                IdLop
             </th>
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["TenLopSortParm"]">
-                    @Html.DisplayNameFor(model => model.TenLop)
+                    Tên Lớp
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SiSo)
+                Sĩ Số
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaStNavigation.MaSt)
+               Trạng Thái
+            </th>
+            <th>
+                Ngày Bắt Đầu 
+            </th>
+            <th>
+                Ngày Kết Thúc
+            </th>
+            <th>
+                Nhân Viên đảm nhiệm
             </th>
             <th></th>
         </tr>
@@ -51,6 +60,15 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SiSo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrangThai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayBK)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayKT)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MaStNavigation.MaSt)
