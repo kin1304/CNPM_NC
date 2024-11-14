@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\nguyennha\\Nam3\\HK1\\CNPM_NC\\mamNonTuongLaiTuoiSang\\mamNonTuongLaiTuoiSang.csproj": {}
+    "D:\\CNPM_NC\\CNPM_NC\\mamNonTuongLaiTuoiSang\\mamNonTuongLaiTuoiSang.csproj": {}
   },
   "projects": {
-    "D:\\nguyennha\\Nam3\\HK1\\CNPM_NC\\mamNonTuongLaiTuoiSang\\mamNonTuongLaiTuoiSang.csproj": {
+    "D:\\CNPM_NC\\CNPM_NC\\mamNonTuongLaiTuoiSang\\mamNonTuongLaiTuoiSang.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\nguyennha\\Nam3\\HK1\\CNPM_NC\\mamNonTuongLaiTuoiSang\\mamNonTuongLaiTuoiSang.csproj",
+        "projectUniqueName": "D:\\CNPM_NC\\CNPM_NC\\mamNonTuongLaiTuoiSang\\mamNonTuongLaiTuoiSang.csproj",
         "projectName": "mamNonTuongLaiTuoiSang",
-        "projectPath": "D:\\nguyennha\\Nam3\\HK1\\CNPM_NC\\mamNonTuongLaiTuoiSang\\mamNonTuongLaiTuoiSang.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\nguyennha\\Nam3\\HK1\\CNPM_NC\\mamNonTuongLaiTuoiSang\\obj\\",
+        "projectPath": "D:\\CNPM_NC\\CNPM_NC\\mamNonTuongLaiTuoiSang\\mamNonTuongLaiTuoiSang.csproj",
+        "packagesPath": "C:\\Users\\VITUS\\.nuget\\packages\\",
+        "outputPath": "D:\\CNPM_NC\\CNPM_NC\\mamNonTuongLaiTuoiSang\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\VITUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -27,7 +27,8 @@
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://packagesource": {}
         },
         "frameworks": {
           "net6.0": {
@@ -39,17 +40,20 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "HtmlSanitizer": {
+              "target": "Package",
+              "version": "[6.0.437, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.8.0, )"
+            },
             "Microsoft.AspNetCore.Mvc.ViewFeatures": {
               "target": "Package",
               "version": "[2.2.0, )"
@@ -71,6 +75,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[6.0.17, )"
+            },
+            "MimeKit": {
+              "target": "Package",
+              "version": "[4.8.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -96,7 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
