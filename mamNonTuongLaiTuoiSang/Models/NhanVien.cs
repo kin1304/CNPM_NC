@@ -31,6 +31,7 @@ namespace mamNonTuongLaiTuoiSang.Models
         [JsonIgnore]
         public virtual GiaoVien? GiaoVien { get; set; }
         public virtual ICollection<HoaDon> HoaDons { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Lop> Lops { get; set; }
         public virtual ICollection<TinTuc> TinTucs { get; set; }
         public virtual ICollection<Voucher> Vouchers { get; set; }

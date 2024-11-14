@@ -88,5 +88,14 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             return View(kh);
         }
+        public ActionResult TinTuc()
+        {
+            return View();
+        }
+
+        public ActionResult ChiTietTinTuc(int id)
+        {
+            return View();
+        }
     }
 }

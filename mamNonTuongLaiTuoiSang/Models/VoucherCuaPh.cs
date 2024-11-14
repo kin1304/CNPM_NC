@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace mamNonTuongLaiTuoiSang.Models
@@ -13,3 +13,4 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual Voucher? IdVoucherNavigation { get; set; }
     }
 }
+

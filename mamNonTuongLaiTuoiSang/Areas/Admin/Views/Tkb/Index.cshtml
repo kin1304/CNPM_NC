@@ -47,13 +47,16 @@
             <td>
                     <a asp-action="Edit"
                        asp-route-Ngay="@item.Ngay"
-                       asp-route-IdLop="@item.IdLop">Edit</a> |
+                       asp-route-IdLop="@item.IdLop"
+                        asp-route-CaHoc="@item.CaHoc">Edit</a> |
                     <a asp-action="Details"
                        asp-route-Ngay="@item.Ngay"
-                       asp-route-IdLop="@item.IdLop">Details</a> |
+                       asp-route-IdLop="@item.IdLop"
+                       asp-route-CaHoc="@item.CaHoc">Details</a> |
                     <a asp-action="Delete"
                        asp-route-Ngay="@item.Ngay"
-                       asp-route-IdLop="@item.IdLop">Delete</a>
+                       asp-route-IdLop="@item.IdLop"
+                       asp-route-CaHoc="@item.CaHoc">Delete</a>
             </td>
         </tr>
 }

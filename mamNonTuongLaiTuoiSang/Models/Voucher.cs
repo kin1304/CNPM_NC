@@ -24,3 +24,4 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual ICollection<VoucherCuaPh> VoucherCuaPhs { get; set; }
     }
 }
+

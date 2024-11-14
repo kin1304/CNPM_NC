@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = ViewData["Title"];
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="chitiettintuc.css" />
+</head>
+<body class="bg-white text-gray-900">
+    <div class="container" id="news-detail">
+        <button onclick="location.href='tintuc.html'">Quay lại</button>
+        <img id="detail-image" class="news-image" alt="Detail image" />
+        <h2 id="detail-title"></h2>
+        <p id="detail-description"></p>
+    </div>
+
+    <script>
+        // Dữ liệu chi tiết cho từng tin tức
+        const newsDetails = {
+            1: {
+                title: "Tin tức về Khóa học mới",
+                description: "Khóa học này sẽ tập trung vào phát triển kỹ năng giao tiếp, tư duy sáng tạo, và khả năng tự lập cho các bé. Các buổi học sẽ bao gồm các hoạt động đa dạng như hội thảo kỹ năng mềm, các trò chơi tư duy và các bài học ngoại khóa.",
+                image: "hinh/KHM.jpg" // Đường dẫn đến hình ảnh
+            },
+            2: {
+                title: "Thông báo Lễ hội Âm nhạc",
+                description: "Lễ hội Âm nhạc sẽ diễn ra vào cuối tháng này tại sân trường, với sự tham gia của các nghệ sĩ khách mời. Đây là dịp để các bé khám phá âm nhạc và phát triển tài năng nghệ thuật.",
+                image: "hinh/lhan.jpg"
+            },
+            3: {
+                title: "Cập nhật chương trình học",
+                description: "Chương trình học đã được cập nhật với nhiều hoạt động thú vị và bổ ích.",
+                image: "hinh/cncth.jpg"
+            },
+            4: {
+                title: "Khảo sát sự hài lòng",
+                description: "Chúng tôi mong muốn nhận được ý kiến từ quý phụ huynh để nâng cao chất lượng chương trình giảng dạy.",
+                image: "hinh/ks.jpg"
+            },
+            5: {
+                title: "Chương trình ngoại khóa sắp tới",
+                description: "Nhằm giúp các bé phát triển toàn diện, trường sẽ tổ chức một chương trình ngoại khóa vào cuối tháng này.",
+                image: "hinh/nk.jpg"
+            }
+        };
+
+        // Lấy ID từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        // Hiển thị chi tiết tin tức
+        if (newsDetails[id]) {
+            document.getElementById('detail-title').innerText = newsDetails[id].title;
+            document.getElementById('detail-description').innerText = newsDetails[id].description;
+            document.getElementById('detail-image').src = newsDetails[id].image; // Cập nhật hình ảnh
+        } else {
+            document.getElementById('detail-title').innerText = "Tin tức không tồn tại";
+            document.getElementById('detail-description').innerText = "Xin vui lòng quay lại trang tin tức.";
+        }
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace mamNonTuongLaiTuoiSang.Models
 {
@@ -20,7 +21,9 @@ namespace mamNonTuongLaiTuoiSang.Models
         public string? MaSt { get; set; }
 
         public virtual NhanVien? MaStNavigation { get; set; }
+        [JsonIgnore]
         public virtual ICollection<HocSinhLop> HocSinhLops { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Tkb> Tkbs { get; set; }
 
         // Phương thức đếm số lớp của một giáo viên

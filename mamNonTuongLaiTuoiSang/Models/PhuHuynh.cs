@@ -25,6 +25,8 @@ namespace mamNonTuongLaiTuoiSang.Models
         public virtual ICollection<HocSinh> HocSinhs { get; set; }
         [JsonIgnore]
         public virtual ICollection<VoucherCuaPh> VoucherCuaPhs { get; set; }
-        public virtual ICollection<ThongBao_PhuHuynh> ThongBaoPhuHuynhs { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<ThongBao_PhuHuynh>? ThongBaoPhuHuynhs { get; set; }
     }
 }
+
