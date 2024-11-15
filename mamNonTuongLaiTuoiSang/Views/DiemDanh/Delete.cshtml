@@ -51,6 +51,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdDd" />
         <input type="submit" value="Xóa" class="btn btn-danger" /> |
-        <a asp-action="Index">Trở lại</a>
+        @Html.ActionLink("Trở lại", "Index", new { id = ViewData["GiaoVien"] })
     </form>
 </div>

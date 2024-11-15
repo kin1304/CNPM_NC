@@ -25,8 +25,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         
         public async Task<IActionResult> Index(string id)
         {
-            TempData["GiaoVien"] = id;
-            ViewData["GiaoVien"] = id;
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             List<NgoaiKhoaGiaoVien> ngoaikhoagiaoviens = new List<NgoaiKhoaGiaoVien>();
             HttpResponseMessage response = await client.GetAsync(urlByGV+id);
             if (response.IsSuccessStatusCode)
@@ -38,10 +37,16 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
                     ngoaikhoagiaoviens = data;
                 }
             }
+            else
+            {
+                string responseResult = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(responseResult);
+            }
             return View(ngoaikhoagiaoviens);
         }
         public async Task<IActionResult> Delete(string MaSt, string IdNk)
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             if (string.IsNullOrEmpty(MaSt) || string.IsNullOrEmpty(IdNk))
             {
                 return NotFound();
@@ -60,6 +65,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string MaSt, string IdNk)
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             string apiUrl = $"{url}{MaSt}/{IdNk}";
             HttpResponseMessage response = await client.DeleteAsync(apiUrl);
             if (response.IsSuccessStatusCode)

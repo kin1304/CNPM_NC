@@ -25,73 +25,77 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string sortOrder, string searchQuery)
+        public async Task<IActionResult> Index(string id,string sortOrder, string searchQuery)
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             // Cài đặt thông số cho việc sắp xếp
             ViewBag.IdDdSortParm = string.IsNullOrEmpty(sortOrder) ? "idd_desc" : "";
             ViewBag.IdHsSortParm = sortOrder == "idh_asc" ? "idh_desc" : "idh_asc";
             ViewBag.IdLopSortParm = sortOrder == "il_asc" ? "il_desc" : "il_asc";
             ViewBag.ThangSortParm = sortOrder == "thang_asc" ? "thang_desc" : "thang_asc";
 
-            List<DiemDanh> diemdanhs = new List<DiemDanh>();
-            var client = _httpClientFactory.CreateClient();
+            List<DiemDanh> diemDanhs = new List<DiemDanh>();
+            List<Lop> lops = new List<Lop>();
 
             try
             {
-                // Gửi yêu cầu lấy dữ liệu
-                HttpResponseMessage response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
+                // Lấy danh sách lớp theo MaSt
+                var lopResponse = await client.GetAsync(urlLop);
+                if (lopResponse.IsSuccessStatusCode)
                 {
-                    string result = await response.Content.ReadAsStringAsync();
-                    diemdanhs = JsonConvert.DeserializeObject<List<DiemDanh>>(result) ?? new List<DiemDanh>();
+                    var lopResult = await lopResponse.Content.ReadAsStringAsync();
+                    lops = JsonConvert.DeserializeObject<List<Lop>>(lopResult) ?? new List<Lop>();
+                    lops = lops.Where(l => l.MaSt == id).ToList(); // Lọc lớp có MaSt = id
+                }
 
-                    // Tìm kiếm theo IdDd
-                    if (!string.IsNullOrEmpty(searchQuery))
+                // Lấy danh sách điểm danh theo IdLop
+                var diemDanhResponse = await client.GetAsync(url);
+                if (diemDanhResponse.IsSuccessStatusCode)
+                {
+                    var diemDanhResult = await diemDanhResponse.Content.ReadAsStringAsync();
+                    diemDanhs = JsonConvert.DeserializeObject<List<DiemDanh>>(diemDanhResult) ?? new List<DiemDanh>();
+                    var validIdLop = lops.Select(l => l.IdLop).ToList();
+                    diemDanhs = diemDanhs.Where(dd => validIdLop.Contains(dd.IdLop)).ToList();
+                }
+
+                // Tìm kiếm theo IdDD hoặc các thuộc tính khác
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    HttpResponseMessage responseById = await client.GetAsync(url + Uri.EscapeDataString(searchQuery));
+                    if (responseById.IsSuccessStatusCode)
                     {
-                        // Tìm kiếm theo IdDd
-                        if (int.TryParse(searchQuery, out int idDd))
+                        string resultById = await responseById.Content.ReadAsStringAsync();
+                        var diemDanhFound = JsonConvert.DeserializeObject<DiemDanh>(resultById);
+                        if (diemDanhFound != null)
                         {
-                            HttpResponseMessage responseById = await client.GetAsync($"{url}/{idDd}");
-                            if (responseById.IsSuccessStatusCode)
-                            {
-                                string resultById = await responseById.Content.ReadAsStringAsync();
-                                var diemDanhFound = JsonConvert.DeserializeObject<DiemDanh>(resultById);
-                                if (diemDanhFound != null)
-                                {
-                                    return RedirectToAction("Details", new { id = diemDanhFound.IdDd });
-                                }
-                                else
-                                {
-                                    ModelState.AddModelError(string.Empty, "IdDd không tồn tại.");
-                                }
-                            }
+                            return RedirectToAction("Details", new { id = diemDanhFound.IdDd });
                         }
-                        // Tìm kiếm theo các thuộc tính khác
-                        diemdanhs = diemdanhs
-                            .Where(dd => dd.IdHs.ToString().Contains(searchQuery) ||
-                                         dd.IdLop.ToString().Contains(searchQuery))
-                            .ToList();
-
-                        if (!diemdanhs.Any())
+                        else
                         {
-                            ModelState.AddModelError(string.Empty, "Không tìm thấy kết quả nào.");
+                            ModelState.AddModelError(string.Empty, "IdDd không tồn tại.");
                         }
                     }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Không thể tải dữ liệu từ máy chủ.");
+                    diemDanhs = diemDanhs
+                        .Where(dd => dd.IdDd.Contains(searchQuery) ||
+                                     dd.IdHs.Contains(searchQuery) ||
+                                     dd.IdLop.Contains(searchQuery))
+                        .ToList();
+
+                    if (!diemDanhs.Any())
+                    {
+                        ModelState.AddModelError(string.Empty, "Không tìm thấy kết quả nào.");
+                    }
                 }
 
-                // Sắp xếp theo sortOrder
-                diemdanhs = sortOrder switch
+                // Sắp xếp dữ liệu theo sortOrder
+                diemDanhs = sortOrder switch
                 {
-                    "idd_desc" => diemdanhs.OrderByDescending(dd => dd.IdDd).ToList(),
-                    "idh_asc" => diemdanhs.OrderBy(dd => dd.IdHs).ToList(),
-                    "idh_desc" => diemdanhs.OrderByDescending(dd => dd.IdHs).ToList(),
-                    "il_asc" => diemdanhs.OrderBy(dd => dd.IdLop).ToList(),
-                    "il_desc" => diemdanhs.OrderByDescending(dd => dd.IdLop).ToList(),
-                    _ => diemdanhs.OrderBy(dd => dd.IdDd).ToList(),
+                    "idd_desc" => diemDanhs.OrderByDescending(dd => dd.IdDd).ToList(),
+                    "idh_asc" => diemDanhs.OrderBy(dd => dd.IdHs).ToList(),
+                    "idh_desc" => diemDanhs.OrderByDescending(dd => dd.IdHs).ToList(),
+                    "il_asc" => diemDanhs.OrderBy(dd => dd.IdLop).ToList(),
+                    "il_desc" => diemDanhs.OrderByDescending(dd => dd.IdLop).ToList(),
+                    _ => diemDanhs.OrderBy(dd => dd.IdDd).ToList(),
                 };
             }
             catch (Exception ex)
@@ -99,7 +103,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
                 ModelState.AddModelError(string.Empty, "Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.");
             }
 
-            return View(diemdanhs);
+            return View(diemDanhs);
         }
 
 
@@ -107,6 +111,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             ViewBag.IdHs = await GetIdHsSelectListAsync();
             ViewBag.IdLop = await GetIdLopSelectListAsync();
             return View();
@@ -116,6 +121,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DiemDanh dd)
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             if (ModelState.IsValid)
             {
                 string data = JsonConvert.SerializeObject(dd);
@@ -123,7 +129,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
                 HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { id = ViewData["GiaoVien"] });
                 }
                 else
                 {
@@ -140,6 +146,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             DiemDanh dd = new DiemDanh();
             HttpResponseMessage response = client.GetAsync(url+id).Result;
             if (response.IsSuccessStatusCode) 
@@ -158,8 +165,9 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(DiemDanh dd)
+        public async Task<IActionResult> Edit(string id, DiemDanh dd)
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             if (ModelState.IsValid)
             {
                 try
@@ -169,7 +177,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
                     HttpResponseMessage response = await client.PutAsync($"{url}{dd.IdDd}", content);
                     if (response.IsSuccessStatusCode)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Index", new { id = ViewData["GiaoVien"] });
                     }
                     else
                     {
@@ -193,6 +201,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             DiemDanh dd = new DiemDanh();
             HttpResponseMessage response = client.GetAsync(url + id).Result;
             if (response.IsSuccessStatusCode)
@@ -210,6 +219,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             DiemDanh dd = new DiemDanh();
             HttpResponseMessage response = client.GetAsync(url + id).Result;
             if (response.IsSuccessStatusCode)
@@ -227,10 +237,11 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             HttpResponseMessage response = client.DeleteAsync(url + id).Result;
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = ViewData["GiaoVien"] });
             }
             return View();
         }
