@@ -60,7 +60,7 @@
                          cursor: pointer;" href="@Url.Action("KhoaHoc","Main")">KHÓA HỌC</a>
                     </li>
                     <li>
-                        <a style="margin-right: 20px;
+                        <a style="margin-right: 20px; 
                          font-size: 15px;
                           font-family: Arial, Helvetica, sans-serif;
                           color: #1F2B7B;
@@ -68,7 +68,14 @@
                          cursor: pointer;" href="@Url.Action("NgoaiKhoa","Main")">HOẠT ĐỘNG NGOẠI KHÓA    </a>
                     </li>
                     <li onclick="showContent('tuyen-dung')">TUYỂN DỤNG</li>
-                    <li onclick="showContent('tin-tuc')">TIN TỨC</li>
+                    <li>
+                        <a style="margin-right: 20px;
+                        font-size: 15px;
+                        font-family: Arial, Helvetica, sans-serif;
+                        color: #1F2B7B;
+                        font-weight: bold;
+                        cursor: pointer;" href=" @Url.Action("TinTuc", "Main")">TIN TỨC </a>
+                    </li>
                     <li onclick="showContent('lien-he')">LIÊN HỆ</li>
                     @if (ViewData["PhuHuynh"] != null)
                     {
