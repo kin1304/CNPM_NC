@@ -12,7 +12,10 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         private string urlPH = "http://localhost:5005/api/phuhuynhs/";
         private string urlLop = "http://localhost:5005/api/lops/getLopByMaSt/";
         private string urldslop = "http://localhost:5005/api/HocSinhLops/lop/";
+        private string urlSk = "http://localhost:5005/api/suckhoes/";
         private HttpClient client = new HttpClient();
+
+        private readonly QLMamNonContext _context = new QLMamNonContext();
 
         public IActionResult Index(string id)
         {
@@ -27,8 +30,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
                     lops = data;
                 }
             }
-            ViewData["GiaoVien"] = id;
-            TempData["GiaoVien"] = id;
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
+            ViewData["Lop"] = HttpContext.Session.GetString("Lop");
             return View(lops);
         }
         //public IActionResult Index()
@@ -48,54 +51,36 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         //}
 
         [HttpGet]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Create(string id)
         {
-            ViewData["GiaoVien"] = TempData["GiaoVien"] as string;
-            ViewData["Lop"] = TempData["Lop"] as string;
-            HocSinh dd = new HocSinh();
-            HttpResponseMessage response = client.GetAsync(url + id).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                string result = response.Content.ReadAsStringAsync().Result;
-                var data = JsonConvert.DeserializeObject<HocSinh>(result);
-                if (data != null)
-                {
-                    dd = data;
-                }
-            }
-            ViewBag.IdPh = await GetIdPhSelectListAsync();
-            TempData["GiaoVien"] = ViewData["GiaoVien"] as string;
-            TempData["Lop"] = ViewData["Lop"] as string;
-            return View(dd);
+            ViewData["Lop"] = HttpContext.Session.GetString("Lop");
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
+            ViewData["HocSinh"] = id;
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("IdHs,TenHs,GioiTinh,NamSinh,IdPh,QuanHe,ChieuCao,CanNang")] HocSinh dd)
+        public async Task<IActionResult> Create(SucKhoe dd)
         {
-            ViewData["GiaoVien"] = TempData["GiaoVien"] as string;
-            ViewData["Lop"] = TempData["Lop"] as string;
-            string data = JsonConvert.SerializeObject(dd);
-            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PutAsync(url + dd.IdHs, content);
-            if (response.IsSuccessStatusCode)
+            ViewData["Lop"] = HttpContext.Session.GetString("Lop");
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
+            if (ModelState.IsValid)
             {
-                TempData["GiaoVien"] = ViewData["GiaoVien"] as string;
-                TempData["Lop"] = ViewData["Lop"] as string;
-                return RedirectToAction("DanhSachLop", "LopHoc", new { id = TempData["Lop"].ToString() });
-
+                dd.NgayNhap= DateTime.Now;
+                string data = JsonConvert.SerializeObject(dd);
+                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(urlSk, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("DanhSachLop", new { id = ViewData["Lop"] });
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi tạo điểm danh.");
+                }
             }
-            else
-            {
-                TempData["GiaoVien"] = ViewData["GiaoVien"] as string;
-                TempData["Lop"] = ViewData["Lop"] as string;
-                ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi tạo điểm danh.");
-            }
-
-
-            // Nếu ModelState không hợp lệ hoặc API trả về lỗi, tái định nghĩa lại ViewBag
-            ViewBag.IdHs = await GetIdPhSelectListAsync();
-            return View(dd);
+            return View();
         }
 
         private async Task<IEnumerable<SelectListItem>> GetIdPhSelectListAsync()
@@ -116,7 +101,6 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
         }
         public IActionResult DanhSachLop(string id)
         {
-            ViewData["GiaoVien"] = TempData["GiaoVien"] as string;
             List<HocSinhLop> hsl = new List<HocSinhLop>();
             HttpResponseMessage response = client.GetAsync(urldslop + id).Result;
             if (response.IsSuccessStatusCode)
@@ -128,7 +112,7 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
                     hsl = data;
                 }
             }
-            List<HocSinh> hs = new List<HocSinh>();
+            List<SucKhoe> hs = new List<SucKhoe>();
             for (int i = 0; i < hsl.Count; i++)
             {
                 HttpResponseMessage response1 = client.GetAsync(url + hsl[i].IdHs).Result;
@@ -138,12 +122,18 @@ namespace mamNonTuongLaiTuoiSang.Controllers.Teacher
                     var data = JsonConvert.DeserializeObject<HocSinh>(result);
                     if (data != null)
                     {
-                        hs.Add(data);
+                        SucKhoe sk = _context.SucKhoes.Where(s => s.IdHS == hsl[i].IdHs).FirstOrDefault();
+                        sk.HocSinh = data;
+                        hs.Add(sk);
                     }
                 }
             }
-            TempData["GiaoVien"] = ViewData["GiaoVien"];
-            TempData["Lop"] = id;
+            if (HttpContext.Session.GetString("Lop") == null)
+            {
+                HttpContext.Session.SetString("Lop", id);
+            }
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
+            ViewData["Lop"] = HttpContext.Session.GetString("Lop");
             return View(hs);
         }
     }

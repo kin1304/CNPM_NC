@@ -16,8 +16,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         [HttpGet]
         public IActionResult Index(string id)
         {
-            TempData["GiaoVien"] = id;
-            ViewData["GiaoVien"] = id;
+            HttpContext.Session.SetString("GiaoVien",id);
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             GiaoVien gv = new GiaoVien();
             HttpResponseMessage response = client.GetAsync(url + id).Result;
             if (response.IsSuccessStatusCode)
@@ -39,8 +39,8 @@ namespace mamNonTuongLaiTuoiSang.Controllers
         }
         public IActionResult Thunhap(string id)
         {
-            TempData["GiaoVien"] = id;
-            ViewData["GiaoVien"] = id;
+            HttpContext.Session.SetString("GiaoVien", id);
+            ViewData["GiaoVien"] = HttpContext.Session.GetString("GiaoVien");
             if (id == null)
             {
                 return NotFound();

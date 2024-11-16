@@ -20,10 +20,10 @@
                     </a>
                 </li>
                 <li>
-                    <button id="btnDiemDanh" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
-                            onclick="navigateTo('/DiemDanh/Index')">
+                    <a id="btnDiemDanh" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"
+                            href="@Url.Action("Index", "DiemDanh", new {id = ViewData["GiaoVien"]})">
                         <i class="fas fa-tachometer-alt mr-2"></i> Điểm danh
-                    </button>
+                    </a>
                 </li>
                 <li>
                     <a id="btnNK" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded"

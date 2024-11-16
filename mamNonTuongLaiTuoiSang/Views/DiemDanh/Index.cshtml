@@ -8,8 +8,7 @@
 <h1>Điểm danh</h1>
 
 <p>
-    <a asp-controller="DiemDanh" asp-action="Create">Thêm mới</a>
-
+    <a asp-action="Create">Thêm</a>
     <!-- Form tìm kiếm -->
     <form method="get" asp-action="Index" class="d-inline-block ml-3">
         <div class="form-group mb-0">
@@ -39,11 +38,6 @@
             </th>
             <th>
                     Ngày
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewBag.ThangSortParm">
-                    Tháng
-                </a>
             </th>
             <th>
                     Trạng thái vắng

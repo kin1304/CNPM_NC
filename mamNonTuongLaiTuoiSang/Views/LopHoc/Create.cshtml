@@ -1,0 +1,43 @@
+﻿@model mamNonTuongLaiTuoiSang.Models.SucKhoe
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>SucKhoe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdHS" class="control-label"></label>
+                <input asp-for="IdHS" class="form-control" readonly value=@ViewData["HocSinh"] />
+                <span asp-validation-for="IdHS" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ChieuCao" class="control-label"></label>
+                <input asp-for="ChieuCao" class="form-control" />
+                <span asp-validation-for="ChieuCao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CanNang" class="control-label"></label>
+                <input asp-for="CanNang" class="form-control" />
+                <span asp-validation-for="CanNang" class="text-danger"></span>
+            </div>
+            <input asp-for="NgayNhap" type="hidden" />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Trở lại", "DanhSachLop", new { id = ViewData["Lop"] })
+</div>
+

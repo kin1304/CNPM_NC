@@ -1,4 +1,4 @@
-﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.HocSinh>
+﻿@model IEnumerable<mamNonTuongLaiTuoiSang.Models.SucKhoe>
 
 @{
     ViewData["Title"] = "Danh sách lớp";
@@ -21,12 +21,6 @@
             <th>
                 Năm Sinh
             </th>
-            <th>
-                Cân Nặng
-            </th>
-            <th>
-                Chiều Cao
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,19 +28,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdHs)
+                @Html.DisplayFor(modelItem => item.HocSinh.IdHs)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TenHs)
+                    @Html.DisplayFor(modelItem => item.HocSinh.TenHs)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GioiTinh)
+                    @Html.DisplayFor(modelItem => item.HocSinh.GioiTinh)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NamSinh)
+                    @Html.DisplayFor(modelItem => item.HocSinh.NamSinh)
             </td>
             <td>
-                <a href="@Url.Action("Edit", "LopHoc", new{id = item.IdHs})">Chỉnh chiều cao cân nặng</a>
+                    <a href="@Url.Action("Create", "LopHoc", new{id = item.HocSinh.IdHs})">Nhập chiều cao cân nặng</a>
             </td>
         </tr>
 }

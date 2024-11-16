@@ -49,6 +49,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdDd">Sửa</a> |
-    <a asp-action="Index">Trở lại</a>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.IdDd }) |
+    @Html.ActionLink("Trở lại", "Index", new { id = ViewData["GiaoVien"] })
 </div>
