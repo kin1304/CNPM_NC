@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script scr="~/Content/Loader.js"></script>
+    <script src="~/Content/Loader.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="~/Content/loader.css" />
+    <link rel="stylesheet" href="/content/loader.css">
     <style>
         .bg-gradient {
             background-image: linear-gradient(to right, #ffaf47, #ffa539, #ff9b2a, #ff9019, #ff8400);
@@ -32,11 +32,11 @@
             }
     </style>
 </head>
+
 <body class="bg-gray-100">
     <div id="loader" class="loader">
-        <img src="/Content/images/loadergif.gif" alt="Loading..."> <!-- Ảnh GIF -->
+        <img style="margin-left:45%" src="/Content/images/loadergif.gif" alt="Loading..."> <!-- Ảnh GIF -->
         <p>quá trình này có thể mất vài phút</p> <!-- Dòng chữ -->
-
     </div>
     <div class="flex h-screen">
         <!-- Sidebar -->
@@ -99,6 +99,7 @@
                 </div>
             </header>
             <main class="flex-1 bg-white p-8 rounded-t-3xl shadow-lg mt-4 overflow-y-auto">
+                
                 <!-- Nội dung động sẽ hiển thị ở đây -->
                 @RenderBody()
                 @RenderSection("Scripts", required: false)

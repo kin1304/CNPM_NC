@@ -1,19 +1,26 @@
-﻿#loader {
-    display: none; /* Mặc định ẩn loader */
-    position: fixed; /* Vị trí cố định */
-    top: 50%; /* Căn giữa dọc */
-    left: 50%; /* Căn giữa ngang */
-    transform: translate(-50%, -50%); /* Điều chỉnh vị trí để căn giữa chính xác */
-    z-index: 9999; /* Đặt ở trên cùng */
-    text-align: center; /* Căn giữa văn bản */
+﻿
+#loader {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width:100%;
+    height: 100%;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Nền mờ */
 }
 
     #loader img {
+        margin-top:20%;
         width: 90px; /* Kích thước của ảnh GIF */
         height: auto; /* Tự động điều chỉnh chiều cao theo tỷ lệ */
     }
 
     #loader p {
+        margin-left:40%;
+        width:fit-content;
         margin-top: 10px; /* Khoảng cách giữa ảnh và văn bản */
         font-size: 16px; /* Kích thước chữ */
         /*color: #574951;*/ /* Màu chữ */
