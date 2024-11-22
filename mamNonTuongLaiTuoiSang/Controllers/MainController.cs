@@ -88,5 +88,36 @@ namespace mamNonTuongLaiTuoiSang.Controllers
             }
             return View(kh);
         }
+        public ActionResult TinTuc()
+        {
+            return View();
+        }
+
+        public ActionResult ChiTietTinTuc(int id)
+        {
+            var newsDetails = new Dictionary<int, dynamic>
+            {
+                 { 1, new { title = "Tin tức về Khóa học mới", description = "Khóa học này sẽ tập trung vào phát triển kỹ năng giao tiếp," +
+                 " tư duy sáng tạo, và khả năng tự lập cho các bé. Các buổi học sẽ bao gồm các hoạt động đa dạng như hội thảo kỹ năng mềm," +
+                 " các trò chơi tư duy và các bài học ngoại khóa.",
+                     image = "~/Content/images/KHM.jpg" } },
+                 { 2, new { title = "Thông báo Lễ hội Âm nhạc", description = "Lễ hội Âm nhạc sẽ diễn ra vào cuối tháng này tại sân trường, " +
+                 "với sự tham gia của các nghệ sĩ khách mời." +
+                 " Đây là dịp để các bé khám phá âm nhạc và phát triển tài năng nghệ thuật.", 
+                     image = "~/Content/images/lhan.jpg" } },
+                 { 3, new { title = "Cập nhật chương trình học", description = "Chương trình học đã được cập nhật với nhiều hoạt động thú vị và bổ ích.", image = "~/Content/images/cncth.jpg" } },
+                 { 4, new { title = "Khảo sát sự hài lòng", description = "Chúng tôi mong muốn nhận được ý kiến từ quý phụ huynh để nâng cao chất lượng chương trình giảng dạy.", image = "~/Content/images/ks.jpg" } },
+                 { 5, new { title = "Chương trình ngoại khóa sắp tới", description = "Nhằm giúp các bé phát triển toàn diện, trường sẽ tổ chức một chương trình ngoại khóa vào cuối tháng này.", image = "~/Content/images/nk.jpg" } }
+            };
+
+            // Kiểm tra xem ID có tồn tại trong từ điển hay không
+            if (newsDetails.TryGetValue(id, out var news))
+            {
+                return View(news); // Trả về view với dữ liệu chi tiết
+            }
+
+            // Nếu không tìm thấy ID, trả về trang 404 Not Found
+            return NotFound();
+        }
     }
 }

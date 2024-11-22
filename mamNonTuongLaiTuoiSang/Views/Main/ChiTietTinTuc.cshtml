@@ -1,0 +1,23 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = Model?.title ?? "Chi tiết tin tức";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/Content/ChiTietTinTuc.css" />
+</head>
+<body>
+    <div class="container" id="news-detail">
+        <button onclick="location.href='@Url.Action("TinTuc", "Main")'">Quay lại</button>
+
+        <img src="@Url.Content(Model.image)" class="news-image" alt="Detail image" />
+        <h2>@Model.title</h2>
+        <p>@Model.description</p>
+    </div>
+</body>
+</html>
