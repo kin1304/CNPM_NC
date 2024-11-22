@@ -1,0 +1,63 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.slideshow-container {
+    position: relative;
+    max-width: 600px; /* Chiều rộng tối đa của slideshow */
+    margin: auto;
+    overflow: hidden; /* Ẩn các phần tử ngoài khu vực hiển thị */
+}
+
+.mySlides {
+    display: none; /* Ẩn tất cả các slide theo mặc định */
+}
+
+img {
+    width: 100%; /* Đặt chiều rộng hình ảnh 100% để phù hợp với khung */
+    height: auto; /* Tự động điều chỉnh chiều cao theo tỷ lệ */
+}
+
+.fade {
+    animation: fade 1.5s; /* Thêm hiệu ứng chuyển động */
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Các nút điều khiển (nếu cần) */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: black;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+    .prev:hover, .next:hover {
+        background-color: rgba(75, 68, 68, 0.8);
+    }

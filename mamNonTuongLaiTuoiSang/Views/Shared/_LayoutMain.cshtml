@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Chủ</title>
     <link rel="stylesheet" href="/Content/trangchu.css">
-    <link rel="stylesheet" href="/Content/Loader.css">
+    <link rel="stylesheet" href="/content/loader.css">
+    <link rel="stylesheet" href="/Content/slide.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
+    <div id="loader" class="loader">
+        <img src="/Content/images/loadergif.gif" alt="Loading..."> <!-- Ảnh GIF -->
+        <p>quá trình này có thể mất vài phút</p> <!-- Dòng chữ -->
+
+    </div>
     <header>
         <div id="top-header">
             <ul>
@@ -68,7 +74,16 @@
                          cursor: pointer;" href="@Url.Action("NgoaiKhoa","Main")">HOẠT ĐỘNG NGOẠI KHÓA    </a>
                     </li>
                     <li onclick="showContent('tuyen-dung')">TUYỂN DỤNG</li>
-                    <li onclick="showContent('tin-tuc')">TIN TỨC</li>
+                    <li onclick="showContent('tin-tuc')">
+                        <a style="margin-right: 20px;
+                            font-size: 15px;
+                            font-family: Arial, Helvetica, sans-serif;
+                            color: #1F2B7B;
+                            font-weight: bold;
+                            cursor: pointer;"
+                         href="@Url.Action("TinTuc", "Main")">TIN TỨC</a>
+                    </li>
+
                     <li onclick="showContent('lien-he')">LIÊN HỆ</li>
                     @if (ViewData["PhuHuynh"] != null)
                     {
@@ -121,7 +136,8 @@
     </footer>
     <!-- Nhúng file JavaScript -->
     <script src="~/Content/trangchu.js"></script>
-    <script src="~/Content/Loader.js"></script>
+    <script src="~/Content/loader.js"></script>
+    <script src="~/Content/slide.js"></script>
 
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">

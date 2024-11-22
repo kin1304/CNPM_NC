@@ -6,10 +6,52 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<div id="loader" class="loader">
-    Qúa trình này có thể mất vài phút
+<div class="slideshow-container">
+
+    <div class="mySlides fade">
+        <img src="/Content/images/color.jpg" alt="Hình ảnh 1">
+    </div>
+
+    <div class="mySlides fade">
+        <img src="/Content/images/window.jpg" alt="Hình ảnh 2">
+    </div>
+
+    <div class="mySlides fade">
+        <img src="/Content/images/dog.jpg" alt="Hình ảnh 3">
+    </div>
+
+    <!-- Nút điều khiển -->
+    <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+    <button class="next" onclick="plusSlides(1)">&#10095;</button>
+
 </div>
-<div>say something</div>
+
+<div id="bodytrangchu">
+    <h2>Chào mừng đến với Trường Phùng</h2>
+    <p>Chúng tôi tự hào là một trong những trường học hàng đầu với chất lượng giáo dục tốt nhất.</p>
+
+    <div class="cardbodytrangchu">
+        <img src="/Content/images/cach-de-hoc-sinh-tu-tin-gio-tay-phat-bieu-8.jpg" alt="Học sinh" class="cardbodytrangchu-image">
+        <div class="cardbodytrangchu-title">Chương trình học</div>
+        <p>Khám phá các chương trình học đa dạng mà chúng tôi cung cấp cho học sinh.</p>
+        <a href="#" class="button">Tìm hiểu thêm</a>
+    </div>
+
+    <div class="cardbodytrangchu">
+        <img src="/Content/images/hoatdongngoaikhoa.jpg" alt="Hoạt động" class="cardbodytrangchu-image">
+        <div class="cardbodytrangchu-title">Hoạt động ngoại khóa</div>
+        <p>Tham gia vào các hoạt động ngoại khóa thú vị để phát triển kỹ năng.</p>
+        <a href="#" class="button">Tìm hiểu thêm</a>
+    </div>
+
+    <div class="cardbodytrangchu">
+        <img src="/Content/images/tuyensinh.jpg" alt="Tuyển sinh" class="cardbodytrangchu-image">
+        <div class="cardbodytrangchu-title">Thông tin tuyển sinh</div>
+        <p>Các thông tin mới nhất về tuyển sinh cho năm học tới.</p>
+        <a href="#" class="button">Tìm hiểu thêm</a>
+    </div>
+</div>
+
 
 <script>
     function removeDisplay() {
@@ -18,5 +60,3 @@
     }
 </script>
 
-
-    
