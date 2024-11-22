@@ -8,6 +8,11 @@
     <link href="~/Content/giaovien.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-100">
+    <div id="loader" class="loader">
+        <img src="/Content/images/loadergif.gif" alt="Loading..."> <!-- Ảnh GIF -->
+        <p>quá trình này có thể mất vài phút</p> <!-- Dòng chữ -->
+
+    </div>
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="w-1/6 sidebar-bg h-screen p-4 border border-gray-300 rounded-lg shadow-2xl">
@@ -42,21 +47,6 @@
                             href="@Url.Action("Index", "LopHoc", new {id = ViewData["GiaoVien"]})">
                         <i class="fas fa-icons mr-2"></i> Các lớp của tui
                     </a>
-                </li>
-                <li>
-                    <button id="btnNo3" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
-                        <i class="fas fa-map-marker-alt mr-2"></i> No3
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo4" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
-                        <i class="fas fa-table mr-2"></i> No4
-                    </button>
-                </li>
-                <li>
-                    <button id="btnNo5" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
-                        <i class="fas fa-user-plus mr-2"></i> No5
-                    </button>
                 </li>
                 <li>
                     <button id="btnLogout" class="flex items-center text-gray-700 w-full text-left focus:outline-none hover:bg-gray-200 p-2 rounded">
